@@ -81,7 +81,7 @@ class Evaluator:
     #Binarize-method in order for data to be applicable in ROC-curve methods.
     def binarize_input(self):
         #Check whether input is already binarized:
-        if len(binary_real_annotation) == 0:
+        if len(self.binary_real_annotation) == 0:
             #Binarize real annotation and predicted annotation.
             self.binary_real_annotation = preprocessing.binarize(self.real_annotation)
             self.binary_pred_annotation = preprocessing.binarize(self.pred_annotation)
