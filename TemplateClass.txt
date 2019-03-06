@@ -1,0 +1,37 @@
+class Predictor:
+    
+    set_trainingdata(self, filename):
+        this.traindata = READORINDEX_TRAINDATA
+        
+    set_testdata(self, filename):
+        this.testdata = READORINDEX_TESTDATA
+        
+    set_prepared_data(self, path):
+        this.prepdata = READORINDEX_PRE_PREPARED_DATA
+        
+    predict_sequence(self, sequence):
+        return PREDICTION
+           
+    _prepare_data(self):
+        this.prepdata = TRAINING OR BLASTING
+           
+    get_prediction(self, seqid):
+        prediction = predict_sequence(sequence)
+        return prediction
+        
+    get_all_predictions(self, ):
+        for seq in range(len()):
+            
+        return predictions
+    
+     
+    __init__(self, trainingdata = None, testdata = None, 
+             prepared_data = None):
+        this.trainingdata = trainingdata
+        this.testdata = testdata
+        this.prepdata = prepared_data
+        if this.prepdata == None:
+            _prepare_data()
+        
+        
+        
