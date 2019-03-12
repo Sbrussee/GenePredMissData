@@ -8,22 +8,19 @@ import numpy as np
 class Evaluator:
     #Iniatior function,sets metrics to empty string in order to be able to
     #check if these metrics are already calculated.
-    def __init__(self, true_annotation, pred_annotation, train_annotation, desired_metrics):
+    def __init__(self, true_annotation, pred_annotation, termICs, desired_metrics):
         #Set input files/lists
-        #True (Y_true), Pred (Y_pred) > Need to be in np array format.
+        #True (Y_true), Pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
         self.pred_annotation = pred_annotation
-        #Set train annotation for calculating ic-scores per term.
-        self.train_annotation = train_annotation
+        #Set given vector of term IC-scores.
+        self.ic = termICs
         #Variable that should define the desired metric(s)
         self.desired_metrics = desired_metrics
         #Determine number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = np.shape(self.pred_annotation)
         (self.num_of_true_proteins, self.num_of_true_go_terms) = np.shape(self.true_annotation)
-        (self.num_of_train_proteins, self.num_of_train_go_terms) = np.shape(self.train_annotation)
         #Set empty variables which should be determined by the class methods.
-        #Inconsistency scores
-        self.ic = ''
         #Remaining Uncertainty
         self.ru = ''
         #Missing information
@@ -31,45 +28,11 @@ class Evaluator:
         #Semantic Distance
         self.sd = ''
 
-    #Function to calculate the inconsistency scores.
-    def get_ic(self):
-        #check if the ic-scores exist already
-        if len(self.ic) > 0:
-            return self.ic
-        #Make array for the inconsistency scores.
-        ic_scores = np.zeros((self.num_of_train_go_terms,), float)
-        for term_index in range(self.num_of_train_go_terms):
-            #Get list of protein scores for the term
-            proteins = self.pred_annotation[:,term_index]
-            #Make list of 1-values with the length of total amount of proteins to use as denominator.
-            min_list = np.ones(self.num_of_train_proteins,)
-            #Loop through parents of term (parents are already in list for the protein)
-            #Not entirely sure if necessary for our approach?
-            for parent in self.pred_annotation[:,term_index]:
-                #Set scores to divide to the lowest p-score.
-                min_list = np.minimum(min_list, parent)
-            #Check whether the protein scores and the division scores are higher than 0:
-            if np.sum(proteins) > 0 and np.sum(min_list) > 0:
-                #calculate p-values
-                p_value = float(np.sum(proteins)) / float(np.sum(min_list))
-                #Check whether p-values are possible.
-                if p_value < 0.0 or p_value > 1.0:
-                    print("Ain't working correctly")
-                #Set inconsistency scores for each term
-                ic_scores[term_index] = -1.0 * np.log2(p_value)
-            #If any of the scores are 0, set the ic-score for the term to 0.
-            else:
-                ic_scores[term_index] = 0.0
-        self.ic = ic_scores
-
     #Function for calculating remaining uncertainty
     def get_ru(self):
         #check if ru-scores already exist
         if len(self.ru) > 0:
             return self.ru
-        #Make sure ic-scores have been calculated.
-        if len(self.ic) == 0:
-            self.ic = self.get_ic()
         #Make array for ru-values
         ru_scores = np.zeros((self.num_of_true_proteins), float)
         #loop through proteins in y-true.
@@ -97,9 +60,6 @@ class Evaluator:
         #check if mi-scores already exist
         if len(self.mi) > 0:
             return self.mi
-        #Make sure ic-scores have been calculated.
-        if len(self.ic) == 0:
-            self.ic = self.get_ic()
         #Make array for ru-values
         mi_scores = np.zeros((self.num_of_true_proteins), float)
         #loop through proteins in y-true.
