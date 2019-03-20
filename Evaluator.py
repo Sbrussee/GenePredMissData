@@ -1,4 +1,5 @@
 import numpy as np
+import sklearn.metrics as metrics
 
 #Preferable input for the evaluator:
 #The proteins should be rows and the GO-terms should be columns.
@@ -11,23 +12,42 @@ import numpy as np
 class Evaluator:
     #Iniatior function,sets metrics to empty string in order to be able to
     #check if these metrics are already calculated.
-    def __init__(self, true_annotation, pred_annotation, termICs):
+    def __init__(self, true_annotation, pred_annotation):
         #Set input files/lists
         #True (Y_true), Pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
         self.pred_annotation = pred_annotation
         #Set given vector of term IC-scores.
-        self.ic = termICs
+        #self.ic = termICs
         #Determine number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = np.shape(self.pred_annotation)
         (self.num_of_true_proteins, self.num_of_true_go_terms) = np.shape(self.true_annotation)
         #Set empty variables which should be determined by the class methods.
+        self.f1 = ''
         #Remaining Uncertainty
         self.ru = ''
         #Missing information
         self.mi = ''
         #Semantic Distance
         self.sd = ''
+
+    #Function for calculating the f1-score.
+    def get_f1(self):
+        #check if f1-scores already exist:
+        if len(self.f1) > 0:
+            return self.f1
+        #Make empty array for the f1-scores for each protein.
+        f1_scores = np.zeros((self.num_of_true_proteins, float))
+        #Loop through the proteins in pred and true and get the go terms for each.
+        for prot_index in range(self.num_of_true_proteins):
+            go_pred = self.pred_annotation[prot_index,:]
+            go_true = self.true_annotation[prot_index,:]
+            #Calculate the average f1_score for the protein
+            prot_f1 = metrics.f1_score(go_true, go_pred, average='samples')
+            #Add the average f1_score to the f1_scores array.
+            f1_scores[prot_index] = prot_f1
+        self.f1 = f1_scores
+        return self.f1
 
     #Function for calculating remaining uncertainty
     def get_ru(self):
