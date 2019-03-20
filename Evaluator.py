@@ -4,19 +4,20 @@ import numpy as np
 #The proteins should be rows and the GO-terms should be columns.
 #If input differs, functions in the evaluator will need to correct this.
 
+#Arrays with perfomance metrics can be retrieved from the class, these should be put in
+#arrays and then be given to the plotter class.
+
 #Evaluator class:
 class Evaluator:
     #Iniatior function,sets metrics to empty string in order to be able to
     #check if these metrics are already calculated.
-    def __init__(self, true_annotation, pred_annotation, termICs, desired_metrics):
+    def __init__(self, true_annotation, pred_annotation, termICs):
         #Set input files/lists
         #True (Y_true), Pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
         self.pred_annotation = pred_annotation
         #Set given vector of term IC-scores.
         self.ic = termICs
-        #Variable that should define the desired metric(s)
-        self.desired_metrics = desired_metrics
         #Determine number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = np.shape(self.pred_annotation)
         (self.num_of_true_proteins, self.num_of_true_go_terms) = np.shape(self.true_annotation)
@@ -46,11 +47,13 @@ class Evaluator:
                 #Add the false negative term ic-scores to the ru-score for the protein.
                 ru_scores[prot_index] += self.ic[fn_term_index]
         self.ru = ru_scores
+        return self.ru
 
     def get_average_ru(self):
         #check whether ru-scores have been calculated.
         if len(self.ru) == 0:
             self.ru = self.get_ru()
+            return np.mean(self.ru)
         #if ru exists, return the mean of the scores.
         else:
             return np.mean(self.ru)
@@ -73,11 +76,13 @@ class Evaluator:
                 #Add the false positive term ic-scores to the mi-score for the protein.
                 mi_scores[prot_index] += self.ic[fp_term_index]
         self.mi = mi_scores
+        return self.mi
 
     def get_average_mi(self):
         #check whether mi-scores have been calculated.
         if len(self.mi) == 0:
             self.mi = self.get_mi()
+            return np.mean(self.mi)
         #if mi exists, return the mean of the scores.
         else:
             return np.mean(self.mi)
@@ -90,8 +95,9 @@ class Evaluator:
         #Check whether ru and mi have been calculated.
         if len(self.ru) == 0:
             self.ru = self.get_ru()
-        if len(self.get_mi) == 0:
+        if len(self.mi) == 0:
             self.mi = self.get_mi()
         #Calculate semantic distance.
-        self.sd = np.sqrt(self.ru ** 2 + self.get_mi ** 2)
+        self.sd = np.sqrt(self.ru ** 2 + self.mi ** 2)
+        return self.sd
 
