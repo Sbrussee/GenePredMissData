@@ -91,7 +91,7 @@ if __name__ == "__main__":
     # Step 3: After fix_go loop is finished, get np.array with right size filled with zeros.
     converter.set_np()
 
-    # Step 4: Create test and training vectorizes, wherby the zero in the array change to a 1 for each term.
+    # Step 4: Create test and training vectorizes, whereby the zero in the array change to a 1 for each term.
     test_array = converter.set_test_np()
     training_array = converter.set_training_np()
 
