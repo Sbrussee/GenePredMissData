@@ -20,39 +20,39 @@ class Evaluator:
         #Set given vector of term IC-scores.
         #self.ic = termICs
         #Determine number of terms and proteins.
-        (self.num_of_pred_proteins, self.num_of_pred_go_terms) = np.shape(self.pred_annotation)
-        (self.num_of_true_proteins, self.num_of_true_go_terms) = np.shape(self.true_annotation)
-        #Set empty variables which should be determined by the class methods.
-        self.f1 = ''
+        (self.num_of_pred_proteins, self.num_of_pred_go_terms) = self.pred_annotation.shape
+        (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
+        print(type(self.num_of_true_proteins), type(self.num_of_true_go_terms))
+        #Set empty np-arrays which should be determined by the class methods.
+        empty_array = np.zeros((self.num_of_true_proteins))
+        #F1-scores
+        self.f1 = empty_array
         #Remaining Uncertainty
-        self.ru = ''
+        self.ru = empty_array
         #Missing information
-        self.mi = ''
+        self.mi = empty_array
         #Semantic Distance
-        self.sd = ''
+        self.sd = empty_array
 
     #Function for calculating the f1-score.
     def get_f1(self):
         #check if f1-scores already exist:
-        if len(self.f1) > 0:
+        if np.count_nonzero(self.f1) > 0:
             return self.f1
-        #Make empty array for the f1-scores for each protein.
-        f1_scores = np.zeros((self.num_of_true_proteins, float))
         #Loop through the proteins in pred and true and get the go terms for each.
         for prot_index in range(self.num_of_true_proteins):
             go_pred = self.pred_annotation[prot_index,:]
             go_true = self.true_annotation[prot_index,:]
             #Calculate the average f1_score for the protein
-            prot_f1 = metrics.f1_score(go_true, go_pred, average='samples')
+            prot_f1 = metrics.f1_score(go_true, go_pred)
             #Add the average f1_score to the f1_scores array.
-            f1_scores[prot_index] = prot_f1
-        self.f1 = f1_scores
+            self.f1[prot_index] = prot_f1
         return self.f1
 
     #Function for calculating remaining uncertainty
     def get_ru(self):
         #check if ru-scores already exist
-        if len(self.ru) > 0:
+        if np.count_nonzero(self.ru) > 0:
             return self.ru
         #Make array for ru-values
         ru_scores = np.zeros((self.num_of_true_proteins), float)
@@ -71,7 +71,7 @@ class Evaluator:
 
     def get_average_ru(self):
         #check whether ru-scores have been calculated.
-        if len(self.ru) == 0:
+        if np.count_nonzero(self.ru) > 0:
             self.ru = self.get_ru()
             return np.mean(self.ru)
         #if ru exists, return the mean of the scores.
@@ -81,7 +81,7 @@ class Evaluator:
     #Function to calculate Missing Information scores for the proteins.
     def get_mi(self):
         #check if mi-scores already exist
-        if len(self.mi) > 0:
+        if np.count_nonzero(self.mi) > 0:
             return self.mi
         #Make array for ru-values
         mi_scores = np.zeros((self.num_of_true_proteins), float)
@@ -100,7 +100,7 @@ class Evaluator:
 
     def get_average_mi(self):
         #check whether mi-scores have been calculated.
-        if len(self.mi) == 0:
+        if np.count_nonzero(self.mi) > 0:
             self.mi = self.get_mi()
             return np.mean(self.mi)
         #if mi exists, return the mean of the scores.
@@ -110,7 +110,7 @@ class Evaluator:
     #Function to calculate the Semantic Distance.
     def get_sd(self):
         #Check whether sd has already been calculated.
-        if len(self.sd) > 0:
+        if np.count_nonzero(self.sd) > 0:
             return self.sd
         #Check whether ru and mi have been calculated.
         if len(self.ru) == 0:

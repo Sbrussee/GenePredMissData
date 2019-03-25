@@ -41,7 +41,12 @@ class Converter:
 
     def set_training_np(self):
         for id, terms in self.training_id.items():
-            getal = self.test_volgorde.index(id)
+            #Added expectation for whenever training id is not in the test data.
+            try:
+                getal = self.test_volgorde.index(id)
+            except:
+                self.test_volgorde.append(id)
+                getal = self.test_volgorde.index(id)
             for term in terms:
                 index = self.terms_unique.index(term)
                 self.array_training[getal, index] = 1

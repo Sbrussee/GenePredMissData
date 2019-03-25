@@ -9,6 +9,7 @@ import matplotlib as mpl
 
 from fix_go import fix_go
 from fix_go import read_go_tree
+from true_ann_parser import parse_true_annotation
 from Evaluator import Evaluator
 from Plotter import Plotter
 from klasse_avaluator import Converter
@@ -48,6 +49,14 @@ def slice_gaf(infile, outfile, dex, percent):
     
 
 def main():
+    #READ THE INPUT FILES
+    mouse_gaf = open("mouse.gaf", "r")
+    rat_gaf = open("rat.gaf", "r")
+    mouse_annotation = mouse_gaf.readlines()
+    rat_annotation = rat_gaf.readlines()
+
+    print("Loaded input files.")
+
     #GET THE ARGUMENTS:
 
     #argstore = get_args()
@@ -57,20 +66,24 @@ def main():
 
     #splice the data in 5 files with different fractions missing:
     #Using the indexing method:
+    """
     dex = index_gaf("mouse.gaf", ["ND", "ISO", "IMP", "IDA", "EXP"])
     for frac in fractions:
         print(frac)
         slice_gaf("mouse.gaf", "mouse_" + str(frac) + ".gaf", dex, frac)
         print("done")
-
+    """
     #Using the original splicing method:
     #Get line count for mouse file:
-    file_length = sum(1 for line in open('mouse.gaf'))
+    file_length = sum(1 for line in mouse_gaf)
     for frac in fractions:
         print(frac)
         split = Splitter(frac, file_length, 'mouse.gaf', "mouse_" + str(frac) + ".gaf")
         split.splitter()
-        print("done")
+        print("Done")
+
+    print("Fractionized data")
+
     #SAMPLE CODE PREDICTOR:
     #example: We want to predict 10 times for each fraction
     num_of_pred_per_frac = 10
@@ -79,50 +92,69 @@ def main():
     #        pred = Predictor(method)
     #        results = Predictor.predict()
 
+    print("Retrieved prediction")
 
     #BECAUSE THERE IS NO PREDICTOR YET:
-    # The set with for each term the right assignment.
-    true_assignment = {
-        "gen1": ["go1", "go22", "go13", "go10", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go13"],
-        "gen3": ["go14", "go15", "go136", "go17", "go22", "go33", "go11", "go8", "go9", "go112", "go119", "go159", "go13"],
-        "gen4": ["go1", "go2", "go35", "go4", "go45", "go56", "go755", "go11", "go99", "go10", "go11", "go12", "go133"],
-        "gen5": ["go1", "go12", "go3", "go44", "go454", "go20", "go17", "go98", "go93", "go10", "go11", "go12", "go13"],
-        "gen2": ["go1", "go2", "g4o3", "go4", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go1344"]}
+    #Make dictionary of sample prediction file
+    #test_predictions = open("UniprotKBandGOID.txt", 'r')
+    #prediction_dict = dict()
+    #for line in test_predictions:
+    #    line_items = line.split(" ")
+    #    if line_items[0] not in prediction_dict.keys():
+    #        prediction_dict[line_items[0]] = []
+    #    prediction_dict[line_items[0]].append(line_items[1].rstrip("\n"))
 
-    # The set which will be made from the predictor and fix_go classe.
-    training_assignment = {
-        "gen3": ["go11", "go2", "go1", "go10", "go51", "go62", "go37", "go8", "go94", "go10", "go11", "go12", "go13"],
-        "gen4": ["go14", "go15", "go136", "go1", "go222", "go332", "go131", "go84", "go91", "go112", "go11", "go15", "go13"],
-        "gen1": ["go1", "go2", "go35", "go4", "go45", "go56", "go11", "go99", "go10", "go11", "go12", "go133"],
-        "gen5": ["go1", "go12", "go3", "go44", "go454", "go20", "go17", "go12", "go13"],
-        "gen2": ["go1", "go23", "go43", "go25", "go16", "go17", "go8", "go9", "go10", "go11", "go12", "go1344"]}
+    #Or, in order to get a more vast test set, use the parse_true_annotation function
+    #to provide a 'prediction'-set based on the mouse.gaf file.
+    mouse_dict = parse_true_annotation(mouse_annotation)
+
+    #GET PARSED TRUE ANNOTATION:
+    rat_dict = parse_true_annotation(rat_annotation)
+    print("Parsed input data.")
+
+    #CLOSE THE INPUT FILES
+    mouse_gaf.close()
+    rat_gaf.close()
+
+    print("Closed input files.")
 
     #FIX THE TEST FILE:
     #doesnt work yet because there are no actual go-terms in the test data...
     go_tree = read_go_tree("go-basic.obo")
-    for gene in true_assignment:
-        true_assignment[gene] = fix_go(true_assignment[gene], go_tree)
+    for prot_key in rat_dict.keys():
+        rat_dict[prot_key] = fix_go(rat_dict[prot_key], go_tree)
+
+    print("Fixed tree of true annotation.")
 
     #FIX THE PREDICTOR OUTPUT:
-    for gene in training_assignment:
-        training_assignment[gene] = fix_go(training_assignment[gene], go_tree)
+    for prot_key in mouse_dict.keys():
+        mouse_dict[prot_key] = fix_go(mouse_dict[prot_key], go_tree)
+
+    print("Fixed tree of predicted annotation")
 
     #VECTORIZE THE TEST AND PREDICTION FILES
+    # Call class
+    converter = Converter()
+    # Step 1: All test/training unique terms. Training terms will be called in the fixx_go loop:
+    converter.get_terms_unique(rat_dict)
+    converter.get_test_terms(rat_dict)
 
+    converter.get_terms_unique(mouse_dict)
+    converter.get_training_terms(mouse_dict)
+    # Step 3: After fix_go loop is finished, get np.array with right size filled with zeros.
+    converter.set_np()
+    # Step 4: Create test and training vectorizes, whereby the zero in the array change to a 1 for each term.
+    true_array = converter.set_test_np()
+    prediction_array = converter.set_training_np()
 
+    print("Vectorized true- and predicted annotation.")
 
+    #EVALUATE THE PREDICTIONS
+    evalutation = Evaluator(true_array, prediction_array)
+    f1_scores = evalutation.get_f1()
+    print("Average f1:", f1_scores.mean())
+    print("Evaluated prediction method.")
 
-    #start = time.time()
-    #slice_gaf("mouse.gaf", "mouse_percent.gaf", dex, 90)
-    #print("took:",  time.time() - start, "seconds")
-    #start = time.time()
-    #slice_gaf("mouse.gaf", "mouse_percent.gaf", dex, 90)
-    #print("took:",  time.time() - start, "seconds")
-    #start = time.time()
-    #slice_gaf("mouse.gaf", "mouse_percent.gaf", dex, 90)
-    #print("took:",  time.time() - start, "seconds")
-    #start = time.time()
-    #slice_gaf("mouse.gaf", "mouse_percent.gaf", dex, 90)
-    #print("took:",  time.time() - start, "seconds")
-    #print("done")
+    #PLOT THE EVALUATIONS
+
 main()
