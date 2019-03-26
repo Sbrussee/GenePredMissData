@@ -33,7 +33,6 @@ class Splitter:
         random_choice = random.sample(lines, test_split)
         with open(self.output_file, "w") as new:
             new.write("".join(random_choice))
-        print("Done")
 
     
 

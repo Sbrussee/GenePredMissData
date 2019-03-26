@@ -94,21 +94,20 @@ def main():
 
     print("Fixed tree of true annotation.")
 
+    # Call class
+    converter = Converter()
     #FIX THE PREDICTOR OUTPUT:
-    for prot_key in mouse_dict.keys():
+    for prot_key, terms in mouse_dict.items():
         mouse_dict[prot_key] = fix_go(mouse_dict[prot_key], go_tree)
+        converter.get_terms_unique({prot_key : terms})
+        converter.get_training_terms({prot_key: terms})
 
     print("Fixed tree of predicted annotation")
 
     #VECTORIZE THE TEST AND PREDICTION FILES
-    # Call class
-    converter = Converter()
     # Step 1: All test/training unique terms. Training terms will be called in the fixx_go loop:
     converter.get_terms_unique(rat_dict)
     converter.get_test_terms(rat_dict)
-
-    converter.get_terms_unique(mouse_dict)
-    converter.get_training_terms(mouse_dict)
     # Step 3: After fix_go loop is finished, get np.array with right size filled with zeros.
     converter.set_np()
     # Step 4: Create test and training vectorizes, whereby the zero in the array change to a 1 for each term.
