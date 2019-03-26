@@ -12,14 +12,14 @@ def checker(newlist):
                      if xs == strs[1]:
                          if 'GO:' in strs[3]:
                              if xs in dictionaryforwrite:
-                                 dictionaryforwrite[xs] += ('|' + strs[3])
+                                 dictionaryforwrite[xs].append(strs[3])
                              else:
-                                 dictionaryforwrite[xs] = strs[3]                            
+                                 dictionaryforwrite[xs] = [strs[3]]                           
                          elif 'GO:' in strs[4]:
                              if xs in dictionaryforwrite:
-                                 dictionaryforwrite[xs] += ('|' + strs[4])
+                                 dictionaryforwrite[xs].append(strs[4])
                              else:
-                                 dictionaryforwrite[xs] = strs[4] 
+                                 dictionaryforwrite[xs] = [strs[4]]
     writeout.write(json.dumps(dictionaryforwrite))
     writeout.close()
 
