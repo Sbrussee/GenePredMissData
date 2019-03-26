@@ -13,7 +13,7 @@ from true_ann_parser import parse_true_annotation
 from Evaluator import Evaluator
 from Plotter import Plotter
 from klasse_avaluator import Converter
-from klasse_splitter import Splitter
+from class_splitter import Splitter
 
 def index_gaf(filename, evidence):
     dex = []
@@ -73,6 +73,7 @@ def main():
         slice_gaf("mouse.gaf", "mouse_" + str(frac) + ".gaf", dex, frac)
         print("done")
     """
+
     #Using the original splicing method:
     #Get line count for mouse file:
     file_length = sum(1 for line in mouse_gaf)
