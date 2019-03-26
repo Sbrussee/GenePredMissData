@@ -1,9 +1,11 @@
 import random
 
 class Splitter:
-    def __init__(self, percentage, count):
+    def __init__(self, percentage, count, input_file, output_file):
         self.percentage = percentage
         self.count = count
+        self.input_file = input_file
+        self.output_file = output_file
 
     def set_percentage(self, percentage):
         self.percentage = percentage
@@ -26,11 +28,11 @@ class Splitter:
         self.count
         test_data = self.count * self.percentage // 100
         test_split = 100 - test_data
-        with open("mgi.gaf", "r") as source:
+        with open(self.input_file, "r") as source:
             lines = [line for line in source]
         random_choice = random.sample(lines, test_split)
-        with open("test_file.txt", "w") as new:
-            new.write("\n".join(random_choice))
+        with open(self.output_file, "w") as new:
+            new.write("".join(random_choice))
         print("Done")
 
     
