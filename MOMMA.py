@@ -15,39 +15,6 @@ from Plotter import Plotter
 from klasse_avaluator import Converter
 from class_splitter import Splitter
 
-def index_gaf(filename, evidence):
-    dex = []
-    with open(filename) as file:
-        pos = file.tell()
-        line = file.readline()
-        while line:
-            if evidence != "*":
-                if line[0] != "#" and line[0] != "!":
-                    line = line.split("\t")
-                    if line[6] in evidence:
-                        dex.append(pos)
-            else:
-                dex.append(pos)
-            pos = file.tell()
-            line = file.readline()
-    file.close()
-    return dex
-
-def slice_gaf(infile, outfile, dex, percent):
-    size = len(dex)
-    with open(infile, "r") as infile:
-        with open(outfile, "w") as outfile:
-            for i in range(int((percent / 100) * len(dex))):
-                choice = random.randint(0, size - 1)
-                infile.seek(dex[choice])
-                del dex[choice]
-                size -= 1
-                outfile.write(infile.readline())
-    outfile.close()
-    infile.close()
-
-    
-
 def main():
     #READ THE INPUT FILES
     mouse_gaf = open("mouse.gaf", "r")
