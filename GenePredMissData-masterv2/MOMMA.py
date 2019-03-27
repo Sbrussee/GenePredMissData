@@ -18,8 +18,6 @@ from Predictorfile import Predictor
 
 
 def main():
-
-
     #READ THE INPUT FILES
     mouse_gaf = open("goa_mouse.gaf", "r")
     rat_gaf = open("goa_rat.gaf", "r")
@@ -37,10 +35,12 @@ def main():
 
     # Mouse or rat
     nameanimal = rat_annotation
+    actualname = 'rat_'
     while True:
         whichanimal = input('Mouse or Rat:')
         if whichanimal.lower() == 'mouse':
             nameanimal = mouse_annotation
+            actualname = 'mouse_'
             break
         elif whichanimal.lower() == 'rat':
             break
@@ -56,15 +56,9 @@ def main():
     # Call class
     predictor = Predictor()
 
-    #GET THE ARGUMENTS:
-    predictor.makelist(newlist)
-
-    #argstore = get_args()
-    go_iddictionary = predictor.get_dictionary(nameanimal)
-    print(go_iddictionary)
 
     #example: check missing data on 5 points (100%, 80%, 60%, 40%, 20%)
-    fractions = [0, 20, 40, 60, 80, 100]
+    fractions = [20, 40, 60, 80, 100]
 
     #splice the data in 5 files with different fractions missing:
     #Using the indexing method:
@@ -75,33 +69,35 @@ def main():
         slice_gaf("mouse.gaf", "mouse_" + str(frac) + ".gaf", dex, frac)
         print("done")
     """
+    # GET PARSED TRUE ANNOTATION:
+    rat_dict = parse_true_annotation(rat_annotation)
+    print("Parsed input data.")
+
+    go_tree = read_go_tree("go-basic.obo")
 
     #Using the original splicing method:
     #Get line count for mouse file:
-    file_length = sum(1 for line in mouse_gaf)
+    #    for prot_key in rat_dict.keys():
+    #    rat_dict[prot_key] = fix_go(rat_dict[prot_key], go_tree)
+    # GET THE ARGUMENTS:
+    predictor.makelist(newlist)
+    file_length = sum(1 for line in nameanimal)
     for frac in fractions:
-        split = Splitter(frac, file_length, 'mouse.gaf', "mouse_" + str(frac) + ".gaf")
-        split.splitter()
+        Splitter(frac, file_length, nameanimal, actualname + str(frac) + ".gaf").splitter()
+        nameforpredictor = str(actualname) + str(frac) + ".gaf"
+        go_iddictionary = predictor.blastgo(nameforpredictor)
+        print(go_iddictionary)
+        #print(go_iddictionary)
+        #for key in pred:
+        #    pred[key] = fix_go(rat_dict[prot_key], go_tree)
+
 
     print("Fractionized data")
-
-    #SAMPLE CODE PREDICTOR:
-    #example: We want to predict 10 times for each fraction
-    num_of_pred_per_frac = 10
-    #for frac in fractions:
-    #    for times in range(0, num_of_pred_per_frac):
-    #        pred = Predictor(method)
-    #        results = Predictor.predict()
-
-    print("Retrieved prediction")
 
     #Or, in order to get a more vast test set, use the parse_true_annotation function
     #to provide a 'prediction'-set based on the mouse.gaf file.
     mouse_dict = parse_true_annotation(mouse_annotation)
 
-    #GET PARSED TRUE ANNOTATION:
-    rat_dict = parse_true_annotation(rat_annotation)
-    print("Parsed input data.")
 
     #CLOSE THE INPUT FILES
     mouse_gaf.close()
@@ -111,11 +107,21 @@ def main():
 
     #FIX THE TEST FILE:
     #doesnt work yet because there are no actual go-terms in the test data...
+    perf_scores = []
     go_tree = read_go_tree("go-basic.obo")
     for prot_key in rat_dict.keys():
         rat_dict[prot_key] = fix_go(rat_dict[prot_key], go_tree)
+        #true_vec, pred_vec = Vectorize true set and pred set.
+        #perf_score = Evaluate true vec, pred_vec
+        #append perf score to perf_scores.
+
 
     print("Fixed tree of true annotation.")
+
+
+    #Vectorizer: Als een true eiwit of term niet wordt gevonden in de test set, voeg hier alleen zeros toe.
+    #Dictionary van pred bij eiwit zonder terms: eiwit_id : []
+
 
     # Call class
     converter = Converter()
@@ -146,5 +152,6 @@ def main():
     print("Evaluated prediction method.")
 
     #PLOT THE EVALUATIONS
+    #Plot list of miss data fracs vs list of perf. scores.
 
 main()

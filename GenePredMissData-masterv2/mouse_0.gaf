@@ -1,100 +1,100 @@
-MGI	MGI:3618754	Mir219a-2		GO:0031641	MGI:MGI:4439416|PMID:20223197	IDA		P	microRNA 219a-2	mir 219-2|Mirn219-2|mmu-mir-219-2|mmu-mir-219a-2	gene	taxon:10090	20120412	MGI		
-MGI	MGI:4413949	n-TKctt2		GO:0005575	GO_REF:0000015|MGI:MGI:2156816	ND		C	nuclear encoded tRNA lysine 2 (anticodon CTT)		gene	taxon:10090	20100202	MGI		
-MGI	MGI:1206581	Pik3ca		GO:0097009	MGI:MGI:5582991|PMID:24691033	IMP	MGI:MGI:4845856	P	phosphatidylinositol-4,5-bisphosphate 3-kinase catalytic subunit alpha	6330412C24Rik|caPI3K|p110alpha	protein	taxon:10090	20150316	MGI		
-MGI	MGI:1349428	Foxl2		GO:0007338	MGI:MGI:5604269|PMID:24739304	IGI	MGI:MGI:894293	P	forkhead box L2	Pfrk	protein	taxon:10090	20151202	MGI		
-MGI	MGI:1915342	Ncbp2		GO:0017069	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P52298	F	nuclear cap binding protein subunit 2	20kDa	protein	taxon:10090	20151029	MGI		
-MGI	MGI:1891751	Gps2		GO:0045944	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q13227	P	G protein pathway suppressor 2		protein	taxon:10090	20180320	MGI		
-MGI	MGI:1915505	Tmem86b		GO:0047409	PMID:21873635	IBA	PANTHER:PTN002070883|RGD:1593455|UniProtKB:Q8N661	F	transmembrane protein 86B	C330014O21Rik	protein	taxon:10090	20170413	GO_Central		
-MGI	MGI:1913664	Ndufa12		GO:0070469	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0679	C	NADH:ubiquinone oxidoreductase subunit A12	2410011G03Rik	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:109608	Fap		GO:1903054	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q12884	P	fibroblast activation protein		protein	taxon:10090	20140804	MGI		
-MGI	MGI:1921256	Dnm1l		GO:0005794	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:O00429	C	dynamin 1-like	6330417M19Rik|Dnmlp1|Drp1|python	protein	taxon:10090	20110811	MGI		
-MGI	MGI:1920421	Trmt10a		GO:0008168	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR016653	F	tRNA methyltransferase 10A	3110023L08Rik|Rg9mtd2	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:106590	Has1		GO:0045226	MGI:MGI:5508296|PMID:10455188	IDA		P	hyaluronan synthase 1		protein	taxon:10090	20130911	UniProt		
-MGI	MGI:1913063	Myoz2		GO:0045214	MGI:MGI:3513659|PMID:15543153	IDA		P	myozenin 2	1110012I24Rik|calsarcin-1|Fatz-2	protein	taxon:10090	20181012	BHF-UCL	occurs_in(EMAPA:16105)	
-MGI	MGI:104774	Adra1b		GO:0004935	PMID:21873635	IBA	MGI:MGI:87934|MGI:MGI:87935|PANTHER:PTN000664502	F	adrenergic receptor, alpha 1b	alpha1B-adrenergic receptor	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:1933107	Cptp		GO:0005829	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q5TA50	C	ceramide-1-phosphate transfer protein	Gltpd1	protein	taxon:10090	20151016	MGI		
-MGI	MGI:97347	Nkx2-2		GO:0005634	MGI:MGI:2679388|PMID:14573534	IDA		C	NK2 homeobox 2	Nkx-2.2|Nkx2.2|tinman	protein	taxon:10090	20040205	MGI		
-MGI	MGI:2158505	Otud7a		GO:0005737	PMID:21873635	IBA	MGI:MGI:1196377|MGI:MGI:2654703|PANTHER:PTN001001090|UniProtKB:Q6GQQ9|UniProtKB:Q9UGI0	C	OTU domain containing 7A	Cezanne 2 protein|Otud7	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:97588	Pou1f1		GO:0045944	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P28069	P	POU domain, class 1, transcription factor 1	GHF-1|Hmp1|Pit1|Pit-1|Pit1-rs1	protein	taxon:10090	20160122	MGI		
-MGI	MGI:1915392	Ino80		GO:0005886	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q9ULG1	C	INO80 complex subunit	2310079N15Rik|4632409L19Rik|INO80|Inoc1	protein	taxon:10090	20161204	MGI		
-MGI	MGI:1920942	Cplane1		GO:0030030	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0970	P	ciliogenesis and planar polarity effector 1	2410089E03Rik|b2b012Clo|Hug|Jbts17	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:2155987	Caln1		GO:0008150	GO_REF:0000015|MGI:MGI:2156816	ND		P	calneuron 1	9630012C17Rik|Cabp8	protein	taxon:10090	20101028	MGI		
-MGI	MGI:1096551	Morf4l1		GO:0043967	PMID:21873635	IBA	PANTHER:PTN000093964|UniProtKB:Q9UBU8	P	mortality factor 4 like 1	MORFRG15|MRG15|TEG-189|Tex189	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:2442087	Ppm1h		GO:0045202	MGI:MGI:5550310|PMID:24413018	EXP		C	protein phosphatase 1H (PP2C domain containing)	A430075L18Rik|ARHCL1|C030002B11Rik	protein	taxon:10090	20180711	MGI	part_of(EMAPA:16895),part_of(GO:0098978)	
-MGI	MGI:1922022	Atp13a2		GO:0071287	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q9NQ11	P	ATPase type 13A2	1110012E06Rik	protein	taxon:10090	20160411	MGI		
-MGI	MGI:1921626	Myo18b		GO:0001570	MGI:MGI:3821523|PMID:18761673	IMP	MGI:MGI:3829997	P	myosin XVIIIb	4932408L24Rik|4933411E19Rik	protein	taxon:10090	20090213	MGI	occurs_in(EMAPA:16105)	
-MGI	MGI:97774	Prph		GO:0030424	MGI:MGI:2447001|PMID:12107488	IDA		C	peripherin	Prph1	protein	taxon:10090	20050921	MGI	part_of(CL:0000111),part_of(EMAPA:17356)|part_of(CL:0000111),part_of(EMAPA:17637)|part_of(CL:0000111),part_of(EMAPA:17917)|part_of(CL:0000111),part_of(EMAPA:17938)	
-MGI	MGI:95819	Grin1		GO:0009986	MGI:MGI:3765383|PMID:17229826	IMP		C	glutamate receptor, ionotropic, NMDA1 (zeta 1)	GluRzeta1|M100174|Nmdar|NMDAR1|NR1|Rgsc174	protein	taxon:10090	20111022	CACAO		
-MGI	MGI:3031330	Olfr1496		GO:0007186	MGI:MGI:3029684|PMID:14611657	ISA	RefSeq:NP_036492	P	olfactory receptor 1496	GA_x6K02T2RE5P-4112771-4113718|MOR127-1	protein	taxon:10090	20050926	MGI		
-MGI	MGI:1095414	Cdh17		GO:0006857	MGI:MGI:80933|PMID:8153632	IDA		P	cadherin 17	BILL-cadherin|HPT-1|LI-cadherin	protein	taxon:10090	20010314	MGI		
-MGI	MGI:1914618	Saxo2		GO:0036064	PMID:21873635	IBA	PANTHER:PTN001267477|UniProtKB:Q8IYX7	C	stabilizer of axonemal microtubules 2	1700129I04Rik|Fam154b	protein	taxon:10090	20170502	GO_Central		
-MGI	MGI:1194504	Kcnj10		GO:0006811	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0406	P	potassium inwardly-rectifying channel, subfamily J, member 10	BIR10|BIRK-1|Kir1.2|Kir4.1	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:2685483	Gsg1l		GO:0003674	GO_REF:0000015|MGI:MGI:2156816	ND		F	GSG1-like	C230098I05Rik|G630023A01Rik	protein	taxon:10090	20100202	MGI		
-MGI	MGI:96604	Itga5		GO:0009986	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P08648	C	integrin alpha 5 (fibronectin receptor alpha)	Cd49e|Fnra	protein	taxon:10090	20160710	MGI		
-MGI	MGI:96646	Jun		GO:0001525	MGI:MGI:3654789|PMID:16847049	IMP		P	jun proto-oncogene	c-jun|Junc	protein	taxon:10090	20110321	MGI		
-MGI	MGI:1321402	Lcp2		GO:0005515	MGI:MGI:3513714|PMID:15599401	IPI	UniProtKB:Q62077	F	lymphocyte cytosolic protein 2	m1Khoe|SLP76|SLP-76|twm	protein	taxon:10090	20150729	MGI		
-MGI	MGI:103035	Stat5b		GO:0005515	MGI:MGI:5050399|PMID:20639532	IPI	UniProtKB:Q8NE35	F	signal transducer and activator of transcription 5B		protein	taxon:10090	20131108	UniProt		
-MGI	MGI:109635	Wrn		GO:0005654	GO_REF:0000008|MGI:MGI:2154458	ISO	UniProtKB:Q14191	C	Werner syndrome RecQ like helicase		protein	taxon:10090	20140714	MGI		
-MGI	MGI:1922460	Prr3		GO:0046872	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR000571|InterPro:IPR036855	F	proline-rich polypeptide 3	4930540G07Rik|CAT56	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:99431	Arf1		GO:0005525	MGI:MGI:3693393|PMID:12679809	IMP		F	ADP-ribosylation factor 1		protein	taxon:10090	20161215	CAFA		
-MGI	MGI:2443554	Hook3		GO:0005874	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0493	C	hook microtubule tethering protein 3	5830454D03Rik|E330005F07Rik	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1923856	Llcfc1		GO:0005575	GO_REF:0000015|MGI:MGI:2156816	ND		C	LLLL and CFNLAS motif containing 1	1700034O15Rik	protein	taxon:10090	20100202	MGI		
-MGI	MGI:109238	Sem1		GO:0000724	MGI:MGI:3525800|PMID:15359272	IMP		P	SEM1, 26S proteasome complex subunit	DSS1|Shfdg1|Shfg|Shfm1	protein	taxon:10090	20070809	MGI		
-MGI	MGI:1890508	Zmpste24		GO:0051276	MGI:MGI:3583382|PMID:15980864	IMP	MGI:MGI:2180033	P	zinc metallopeptidase, STE24	A530043O15Rik	protein	taxon:10090	20180823	MGI		
-MGI	MGI:1891698	Pnkp		GO:0006974	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0227	P	polynucleotide kinase 3'- phosphatase	1810009G08Rik|PNK	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1929470	Tyk2		GO:0004715	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR016251	F	tyrosine kinase 2	JTK1	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:104876	Hes5		GO:0045944	MGI:MGI:3830797|PMID:19050759	IGI	MGI:MGI:104853|MGI:MGI:104877	P	hes family bHLH transcription factor 5	bHLHb38	protein	taxon:10090	20101227	MGI	has_regulation_target(MGI:MGI:109619)|has_regulation_target(MGI:MGI:1917923)|has_regulation_target(MGI:MGI:1924880)	
-MGI	MGI:2183158	Ash1l		GO:0003682	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR001025	F	ASH1 like histone lysine methyltransferase	8030453L17Rik|chromatin remodeling factor|E430018P19Rik|KMT2H	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1314842	Kcnj16		GO:0034765	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0851	P	potassium inwardly-rectifying channel, subfamily J, member 16	6430410F18Rik|Kir5.1	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:95300	Eif2b4	contributes_to	GO:0005085	GO_REF:0000008|MGI:MGI:2154458	ISO	UniProtKB:Q63186	F	eukaryotic translation initiation factor 2B, subunit 4 delta	Eif2b	protein	taxon:10090	20060922	MGI		
-MGI	MGI:1860188	Snx3		GO:0070676	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:O60493	P	sorting nexin 3	SDP3	protein	taxon:10090	20140814	MGI		
-MGI	MGI:1321133	Hint1		GO:0005886	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P49773	C	histidine triad nucleotide binding protein 1	Ipk1|PKCI-1|PKC inhibitor/ interacting protein|PRKCNH1|protein kinase C inhibitor 1	protein	taxon:10090	20111111	MGI		
-MGI	MGI:106206	Nrp1		GO:0043542	MGI:MGI:5588737|PMID:24863063	IMP		P	neuropilin 1	Neuropilin-1|NP-1|Npn1|NPN-1	protein	taxon:10090	20170726	BHF-UCL	part_of(GO:0007229),part_of(GO:0038189)|causally_upstream_of(GO:0001525),occurs_in(EMAPA:17168),part_of(GO:0007229),part_of(GO:0038189)	
-MGI	MGI:1351646	Abca7		GO:0016021	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0812	C	ATP-binding cassette, sub-family A (ABC1), member 7	Abc51	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1194498	Haspin		GO:0005634	MGI:MGI:1338645|PMID:10358056	IDA		C	histone H3 associated protein kinase	Gsg2	protein	taxon:10090	20090608	MGI	part_of(CL:0000018),part_of(EMAPA:17972)	
-MGI	MGI:96213	Hpd		GO:0003868	PMID:21873635	IBA	PANTHER:PTN000238554|RGD:61974|UniProtKB:C8VKK0|UniProtKB:P32754|UniProtKB:P93836	F	4-hydroxyphenylpyruvic acid dioxygenase	Fla|Flp|Hppd|Laf	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:3647362	Gm4775		GO:0003735	PMID:21873635	IBA	PANTHER:PTN000222938|RGD:62026|SGD:S000005320|UniProtKB:C0H5C2	F	Uncharacterized protein	UniProtKB:F7ANJ3|PTN000934130	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:2384914	Appl2		GO:0007179	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q8NEU8	P	adaptor protein, phosphotyrosine interaction, PH domain and leucine zipper containing 2	Dip3b	protein	taxon:10090	20181127	MGI		
-MGI	MGI:97359	Nodal		GO:0045766	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q96S42	P	nodal	Tg.413d	protein	taxon:10090	20120521	MGI		
-MGI	MGI:105384	Hspa8		GO:0051082	MGI:MGI:2652284|PMID:12588994	IPI	UniProtKB:P25322|UniProtKB:P30285	F	heat shock protein 8	2410008N15Rik|Hsc70|Hsc71|Hsc73|Hsp73	protein	taxon:10090	20041029	MGI		
-MGI	MGI:107471	Notch4		GO:0016021	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR008297|InterPro:IPR010660|InterPro:IPR011656	C	notch 4	Int3|Int-3|N4	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:99923	Kcnma1		GO:0015269	MGI:MGI:3611743|PMID:16306267	IDA		F	potassium large conductance calcium-activated channel, subfamily M, alpha member 1	5730414M22Rik|BKCa|BK channel alpha subunit|MaxiK|mSlo1|Slo|Slo1	protein	taxon:10090	20070313	MGI		
-MGI	MGI:1923070	Wdr64		GO:0003674	GO_REF:0000015|MGI:MGI:2156816	ND		F	WD repeat domain 64	4930415O10Rik|4930511H01Rik	protein	taxon:10090	20100202	MGI		
-MGI	MGI:95523	Fgfr2		GO:0070307	MGI:MGI:5447585|PMID:23136392	IMP	MGI:MGI:3044679|MGI:MGI:3045749	P	fibroblast growth factor receptor 2	Bek|Fgfr-2|Fgfr7|Fgfr-7|KGFRTr|svs	protein	taxon:10090	20130918	MGI	occurs_in(EMAPA:16799)	
-MGI	MGI:1925666	Rnase6		GO:0050829	MGI:MGI:5902674|PMID:25075772	IDA		P	ribonuclease, RNase A family, 6	9530043P15Rik	protein	taxon:10090	20170510	UniProt		
-MGI	MGI:96231	Hspa1l		GO:0034620	PMID:21873635	IBA	EcoGene:EG10241|PANTHER:PTN002321897|UniProtKB:P0DMV8	P	heat shock protein 1-like	70kDa|Hsc70t|Msh5	protein	taxon:10090	20170831	GO_Central		
-MGI	MGI:1929668	Rnf14		GO:0005737	PMID:21873635	IBA	FB:FBgn0017418|FB:FBgn0041100|MGI:MGI:1355296|PANTHER:PTN000188395|RGD:61797|UniProtKB:O60260|UniProtKB:O95376|UniProtKB:Q7Z419|UniProtKB:Q9UBS8|UniProtKB:Q9Y4X5|WB:WBGene00003967|WB:WBGene00016158	C	ring finger protein 14	2310075C09Rik|2610005D23Rik|D18Ertd188e|D7Bwg0165e|Triad2	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:1926039	Vsig1		GO:0016323	PMID:21873635	IBA	MGI:MGI:1926039|PANTHER:PTN000955430	C	V-set and immunoglobulin domain containing 1	1700062D20Rik|4930405J24Rik	protein	taxon:10090	20180202	GO_Central		
-MGI	MGI:1352757	Iqgap1	colocalizes_with	GO:0015629	GO_REF:0000096|MGI:MGI:4417868	ISO	RGD:1311884	C	IQ motif containing GTPase activating protein 1	D7Ertd237e|D7Ertd257e	protein	taxon:10090	20140905	MGI		
-MGI	MGI:107465	Plcb2		GO:0005794	GO_REF:0000096|MGI:MGI:4417868	ISO	RGD:621004	C	phospholipase C, beta 2	B230205M18Rik	protein	taxon:10090	20070221	MGI		
-MGI	MGI:102956	Cdk7		GO:0004674	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0723	F	cyclin-dependent kinase 7	Cdkn7|Crk4|CRK4 PK (CDC2-related-kinase-4 protein kinase)	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:3030445	Olfr611		GO:0007186	MGI:MGI:3029684|PMID:14611657	ISA	RefSeq:NP_038644	P	olfactory receptor 611	GA_x6K02T2PBJ9-6236637-6235666|MOR15-1|MOR15-4	protein	taxon:10090	20050926	MGI		
-MGI	MGI:109271	Zhx1		GO:0006355	GO_REF:0000096|MGI:MGI:4417868	ISO	RGD:620010	P	zinc fingers and homeoboxes 1		protein	taxon:10090	20050217	MGI		
-MGI	MGI:102670	Ddx4		GO:0005524	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR011545	F	DEAD (Asp-Glu-Ala-Asp) box polypeptide 4	Mvh|mvh / m'vasa|VASA	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:99523	Prdx1		GO:0006979	MGI:MGI:3578073|PMID:15858817	IMP		P	peroxiredoxin 1	macrophage 23kDa stress protein|macrophase stress protein 22kDa|MSP23|OSF-3|osteoblast specific factor 3|PAG|Paga|prx1|PrxI|Prx I|Tdpx2|TDX2|thioredoxin dependent peroxide reductase 2|Trx dependent peroxide reductase 2	protein	taxon:10090	20050607	MGI	has_participant(CL:0000134),has_participant(EMAPA:17478)	
-MGI	MGI:1918478	Dlg5		GO:0045202	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0770	C	discs large MAGUK scaffold protein 5	4933429D20Rik	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1927244	Ralb		GO:0009267	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P11234	P	v-ral simian leukemia viral oncogene B	5730472O18Rik	protein	taxon:10090	20141204	MGI		
-MGI	MGI:1098641	Wasf2		GO:0030048	MGI:MGI:2668778|PMID:12853475	IMP	MGI:MGI:2670143	P	WAS protein family, member 2	D4Ertd13e|WAVE2	protein	taxon:10090	20031023	MGI		
-MGI	MGI:1930016	Shank3		GO:0008270	GO_REF:0000096|MGI:MGI:4417868	ISO	RGD:69264	F	SH3 and multiple ankyrin repeat domains 3	ProSAP2	protein	taxon:10090	20070213	MGI		
-MGI	MGI:98743	Thrb		GO:0000122	PMID:21873635	IBA	MGI:MGI:101884|MGI:MGI:2449205|MGI:MGI:97747|MGI:MGI:97856|MGI:MGI:97857|MGI:MGI:97858|MGI:MGI:98743|PANTHER:PTN001941333|UniProtKB:P20393|UniProtKB:P37231|UniProtKB:Q07869|WB:WBGene00004786	P	thyroid hormone receptor beta	c-erbAbeta|Nr1a2|T3R[b]|T3Rbeta|Thrb1|Thrb2|TR beta	protein	taxon:10090	20170620	GO_Central		
-MGI	MGI:1096381	Arntl		GO:0008134	MGI:MGI:2153999|PMID:11707566	ISA	EMBL:AJ318060	F	aryl hydrocarbon receptor nuclear translocator-like	Arnt3|bHLHe5|Bmal1|MOP3	protein	taxon:10090	20080130	MGI		
-MGI	MGI:1276575	Ptdss1		GO:0006659	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR004277	P	phosphatidylserine synthase 1	PSS-1|PtdSer Synthase-1	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:105100	Ctnnd1		GO:0045296	PMID:21873635	IBA	PANTHER:PTN000822184|UniProtKB:O60716|WB:WBGene00002175	F	catenin (cadherin associated protein), delta 1	Catns|Ctnnd|P120|p120-catenin	protein	taxon:10090	20171103	GO_Central		
-MGI	MGI:108064	Siah1a		GO:0030877	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q8IUQ4	C	siah E3 ubiquitin protein ligase 1A	Sinh1a	protein	taxon:10090	20091119	MGI		
-MGI	MGI:1890621	Donson		GO:0007095	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:Q9NYP3	P	downstream neighbor of SON	1110025J21Rik|Donson|ORF60	protein	taxon:10090	20171006	MGI		
-MGI	MGI:3030535	Olfr701		GO:0007608	MGI:MGI:3029684|PMID:14611657	ISA	protein_id:AAG45195	P	olfactory receptor 701	4932441H21Rik|4933433E02Rik|GA_x6K02T2PBJ9-9195805-9196755|MOR283-1	protein	taxon:10090	20041013	MGI		
-MGI	MGI:1920722	Spata18		GO:0005739	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0496	C	spermatogenesis associated 18	1700067I02Rik	protein	taxon:10090	20190127	UniProt		
-MGI	MGI:1100500	Flot1		GO:0044291	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:O75955	C	flotillin 1	reggie-2	protein	taxon:10090	20150413	MGI		
-MGI	MGI:1919019	Bbs10		GO:0001103	GO_REF:0000008|MGI:MGI:2154458	ISO	UniProtKB:Q8TAM1	F	Bardet-Biedl syndrome 10 (human)	1300007O09Rik	protein	taxon:10090	20131009	MGI		
-MGI	MGI:105086	Pou2af1		GO:0005515	MGI:MGI:5532919|PMID:11483518	IPI	UniProtKB:Q8IUQ4	F	POU domain, class 2, associating factor 1	Bob1|Bob-1|BOB.1|OBF-1|OBF.1|OCAB|OCA-B	protein	taxon:10090	20190113	IntAct		
-MGI	MGI:1343098	Aif1		GO:0001934	GO_REF:0000096|MGI:MGI:4417868	ISO	RGD:61924	P	allograft inflammatory factor 1	D17H6S50E|G1|Iba1	protein	taxon:10090	20090908	MGI		
-MGI	MGI:97528	Pdgfb		GO:1904707	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P01127	P	platelet derived growth factor, B polypeptide	PDGF-B|Sis	protein	taxon:10090	20171116	MGI		
-MGI	MGI:97356	Nme2		GO:0009142	GO_REF:0000096|MGI:MGI:4834177	ISO	UniProtKB:P22392	P	NME/NM23 nucleoside diphosphate kinase 2	NM23-H2|nm23-M2|non-metastatic cells 2, protein (NM23B) expressed in	protein	taxon:10090	20100514	MGI		
-MGI	MGI:1859852	Hes6		GO:0001756	PMID:21873635	IBA	MGI:MGI:2135679|PANTHER:PTN000105429|ZFIN:ZDB-GENE-030707-2|ZFIN:ZDB-GENE-040824-5|ZFIN:ZDB-GENE-980526-125	P	hairy and enhancer of split 6	bHLHb41	protein	taxon:10090	20180308	GO_Central		
-MGI	MGI:95621	Gabrb3		GO:0098982	MGI:MGI:3608285|PMID:12522165	IDA		C	gamma-aminobutyric acid (GABA) A receptor, subunit beta 3	A230092K12Rik|beta3|Gabrb-3	protein	taxon:10090	20180711	MGI	part_of(EMAPA:17544)	
-MGI	MGI:2677271	Slc24a5		GO:0008273	PMID:21873635	IBA	FB:FBgn0028704|MGI:MGI:2137513|PANTHER:PTN000090975|RGD:1305926|RGD:620080|RGD:628650|RGD:69256|UniProtKB:Q71RS6|UniProtKB:Q9UI40	F	solute carrier family 24, member 5	F630045L20Rik|NCKX5|NCX5|Oca6	protein	taxon:10090	20170228	GO_Central		
-MGI	MGI:1919293	Sulf2		GO:0009986	PMID:21873635	IBA	PANTHER:PTN000038172|RGD:708554|UniProtKB:Q8IWU5|UniProtKB:Q8IWU6	C	sulfatase 2	2010004N24Rik	protein	taxon:10090	20180503	GO_Central		
-MGI	MGI:3694898	Zxdb		GO:0003676	GO_REF:0000002|MGI:MGI:2152098	IEA	InterPro:IPR013087	F	zinc finger, X-linked, duplicated B		protein	taxon:10090	20190127	UniProt		
-MGI	MGI:3619437	Mir7-2		GO:1904322	MGI:MGI:5305371|PMID:21993888	IEP		P	microRNA 7-2	mir 7-2|mir-7a2|Mir7a2|Mirn7-2|mmu-mir-7-2|mmu-mir-7a2|mmu-mir-7a-2	gene	taxon:10090	20170802	MGI		
-MGI	MGI:2665170	P2rx2		GO:0007605	MGI:MGI:5473448|PMID:23345450	IMP		P	purinergic receptor P2X, ligand-gated ion channel, 2	P2x2|P2X2a	protein	taxon:10090	20140307	UniProt		
-MGI	MGI:1913786	Nipsnap3b		GO:0005737	GO_REF:0000004|MGI:MGI:1354194	IEA	UniProtKB-KW:KW-0963	C	nipsnap homolog 3B	2700063N13Rik	protein	taxon:10090	20190127	UniProt		
+UniProtKB	P04177	Th		GO:0004511	PMID:21873635	IBA	PANTHER:PTN000158532|RGD:3853|UniProtKB:P07101|UniProtKB:Q9PU40|WB:WBGene00000296|ZFIN:ZDB-GENE-990621-5	F	Tyrosine 3-monooxygenase	Th	protein	taxon:10116	20180918	GO_Central		
+UniProtKB	P0DP29	Calm1		GO:0005829	Reactome:R-RNO-9618839	TAS		C	Calmodulin-1	Calm1|CaMI|Calm|Cam|Cam1	protein	taxon:10116	20180827	Reactome		
+UniProtKB	P20789	Ntsr1		GO:0071545	PMID:15707678	IMP		P	Neurotensin receptor type 1	Ntsr1|Ntsr	protein	taxon:10116	20150219	RGD		
+UniProtKB	F1LVV4	Rcc2		GO:1990023	GO_REF:0000107	IEA	UniProtKB:Q9P258|ensembl:ENSP00000364585	C	Regulator of chromosome condensation 2	Rcc2	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	D3ZU34	Olr726		GO:0005886	GO_REF:0000040	IEA	UniProtKB-SubCell:SL-0039	C	Olfactory receptor	Olr726	protein	taxon:10116	20190211	UniProt		
+UniProtKB	P97887	Psen1		GO:0005515	PMID:15456764	IPI	RGD:631418	F	Presenilin-1	Psen1|Psnl1	protein	taxon:10116	20050629	RGD		
+UniProtKB	D4A2E9	Tbx1		GO:0042693	GO_REF:0000024	ISS	UniProtKB:P70323	P	T-box 1	Tbx1|Tbx1_predicted|rCG_36806	protein	taxon:10116	20110815	UniProt		
+UniProtKB	Q4QQV0	Tubb6		GO:0005737	PMID:21873635	IBA	FB:FBgn0010097|FB:FBgn0260639|MGI:MGI:101834|MGI:MGI:107813|MGI:MGI:107848|MGI:MGI:1891826|PANTHER:PTN000172598|PomBase:SPBC32F12.04|TAIR:locus:2076750|TAIR:locus:2166469|UniProtKB:P07437|UniProtKB:P23258|UniProtKB:Q9H4B7|WB:WBGene00006540	C	Tubulin beta chain	Tubb6|rCG_46689	protein	taxon:10116	20170512	GO_Central		
+UniProtKB	P00388	Por		GO:0005829	PMID:21873635	IBA	PANTHER:PTN000453765|RGD:3184|RGD:3185|RGD:3186|UniProtKB:P35228	C	NADPH--cytochrome P450 reductase	Por	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	Q5GH54	Xkr9		GO:0043652	PMID:21873635	IBA	PANTHER:PTN000411029|UniProtKB:Q9H6D3|WB:WBGene00000422	P	XK-related protein	Xkr9|XRG9	protein	taxon:10116	20181004	GO_Central		
+UniProtKB	P97887	Psen1		GO:0097060	PMID:20126630	IDA		C	Presenilin-1	Psen1|Psnl1	protein	taxon:10116	20181101	RGD		
+UniProtKB	Q99J82	Ilk		GO:0005925	PMID:11304546	IDA		C	Integrin-linked protein kinase	Ilk	protein	taxon:10116	20011217	MGI		
+UniProtKB	F1MAS4	Celsr1		GO:0090251	GO_REF:0000107	IEA	UniProtKB:O35161|ensembl:ENSMUSP00000016172	P	Cadherin, EGF LAG seven-pass G-type receptor 1	Celsr1	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	P81128	Arhgap35		GO:0005096	GO_REF:0000024	ISS	UniProtKB:Q9NRY4	F	Rho GTPase-activating protein 35	Arhgap35|Grlf1|P190A|p190ARHOGAP	protein	taxon:10116	20160722	UniProt		
+UniProtKB	A0A0G2JUH4	Pnkp		GO:0042769	GO_REF:0000107	IEA	UniProtKB:Q96T60|ensembl:ENSP00000323511	P	Polynucleotide kinase 3'-phosphatase	Pnkp	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	F1LYL9	Sox9		GO:0030858	GO_REF:0000024	ISS	UniProtKB:Q04887	P	RCG33659	Sox9|LOC100361122|rCG_33659	protein	taxon:10116	20110707	UniProt		
+UniProtKB	Q05754	Dbh		GO:0042420	PMID:21873635	IBA	MGI:MGI:94864|PANTHER:PTN000806665|UniProtKB:P09172|UniProtKB:P15101	P	Dopamine beta-hydroxylase	Dbh	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	P01244	Gh1		GO:0050731	PMID:21873635	IBA	PANTHER:PTN000151954|UniProtKB:P01241|UniProtKB:P01246	P	Somatotropin	Gh1|Gh	protein	taxon:10116	20170616	GO_Central		
+UniProtKB	P09759	Ephb1		GO:0008046	GO_REF:0000107	IEA	UniProtKB:Q8CBF3|ensembl:ENSMUSP00000035129	F	Ephrin type-B receptor 1	Ephb1|Elk|Epth2	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q62844	Fyn		GO:1903202	PMID:27525436	IMP		P	Tyrosine-protein kinase Fyn	Fyn	protein	taxon:10116	20180509	ARUK-UCL	has_regulation_target(UniProtKB:Q924V1),regulates_o_occurs_in(CL:0000746),occurs_in(CL:0000746)	
+UniProtKB	D4A778	Zfp644		GO:0003676	GO_REF:0000002	IEA	InterPro:IPR013087	F	Zinc finger protein 644	Zfp644|Zfp644_predicted|rCG_57210	protein	taxon:10116	20190211	InterPro		
+UniProtKB	D4A7R3	Nup205		GO:0015288	GO_REF:0000038	IEA	UniProtKB-KW:KW-0626	F	Nucleoporin 205	Nup205|Nup205_predicted|rCG_28146	protein	taxon:10116	20190212	UniProt		
+UniProtKB	B5DEI6	C1d		GO:0003674	GO_REF:0000015	ND		F	C1D nuclear receptor corepressor	C1d|RGD1560600_predicted|rCG_23328	protein	taxon:10116	20160125	RGD		
+UniProtKB	P06494	Erbb2		GO:0009925	PMID:15499570	IDA		C	Receptor tyrosine-protein kinase erbB-2	Erbb2|Neu	protein	taxon:10116	20061101	RGD		
+UniProtKB	Q497B8	Kdm8		GO:0003674	GO_REF:0000015	ND		F	Bifunctional peptidase and arginyl-hydroxylase JMJD5	Kdm8|Jmjd5	protein	taxon:10116	20090630	UniProt		
+UniProtKB	D3ZQV3	Mbnl3		GO:0000381	PMID:21873635	IBA	FB:FBgn0265487|MGI:MGI:1928482|MGI:MGI:2145597|PANTHER:PTN001398042	P	Muscleblind-like 3 (Drosophila) (Predicted)	Mbnl3|Mbnl3_predicted|rCG_53183	protein	taxon:10116	20170428	GO_Central		
+UniProtKB	Q63369	Nfkb1		GO:1904630	PMID:19765580	IDA		P	Nuclear factor NF-kappa-B p105 subunit	Nfkb1	protein	taxon:10116	20151007	RGD		
+UniProtKB	P60669	Plekha4		GO:0032266	GO_REF:0000107	IEA	UniProtKB:Q9H4M7|ensembl:ENSP00000263265	F	Pleckstrin homology domain-containing family A member 4	Plekha4|Pepp1	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	A0A0G2K5I7	Kdm4a		GO:0033169	GO_REF:0000107	IEA	UniProtKB:O75164|ensembl:ENSP00000361473	P	Lysine demethylase 4A	Kdm4a	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q63014	Akap8		GO:0001939	GO_REF:0000107	IEA	UniProtKB:Q9DBR0|ensembl:ENSMUSP00000002699	C	A-kinase anchor protein 8	Akap8|Akap95	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q62944	Olr1641		GO:0050911	GO_REF:0000108	IEA	GO:0004984	P	Olfactory receptor 1641	Olr1641|TB 641|rCG_61292	protein	taxon:10116	20190212	GOC		
+UniProtKB	P14659	Hspa2		GO:0051085	PMID:21873635	IBA	EcoGene:EG10241|MGI:MGI:105384|PANTHER:PTN002321897	P	Heat shock-related 70 kDa protein 2	Hspa2|Hst70	protein	taxon:10116	20170831	GO_Central		
+UniProtKB	D4ACL1	Olr1096		GO:0004930	GO_REF:0000038	IEA	UniProtKB-KW:KW-0297	F	Olfactory receptor	Olr1096	protein	taxon:10116	20190212	UniProt		
+UniProtKB	Q810W9	Whrn		GO:0060088	PMID:21873635	IBA	MGI:MGI:2682003|PANTHER:PTN000563362	P	Whirlin	Whrn|Cip98|Dfnb31	protein	taxon:10116	20170502	GO_Central		
+UniProtKB	Q9Z2V2	Cd40lg		GO:0010469	GO_REF:0000108	IEA	GO:0005125	P	CD40 ligand	Cd40lg|Cd40l|Tnfsf5	protein	taxon:10116	20190212	GOC		
+UniProtKB	P09416	Myc		GO:0045787	PMID:22210745	IMP		P	Myc proto-oncogene protein	Myc	protein	taxon:10116	20130218	RGD		
+UniProtKB	B0BNJ0	Sin3b	contributes_to	GO:0004407	PMID:21873635	IBA	PANTHER:PTN000269659|WB:WBGene00004117	F	RCG38713, isoform CRA_b	Sin3b|rCG_38713	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	P14408	Fh		GO:0045239	GO_REF:0000002	IEA	InterPro:IPR005677	C	Fumarate hydratase, mitochondrial	Fh|Fh1	protein	taxon:10116	20190211	InterPro		
+UniProtKB	F1LRZ0	Alk		GO:0030534	GO_REF:0000107	IEA	UniProtKB:P97793|ensembl:ENSMUSP00000083840	P	Tyrosine-protein kinase receptor	Alk	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	D3ZP44	Slitrk6		GO:0002088	GO_REF:0000107	IEA	UniProtKB:Q8C110|ensembl:ENSMUSP00000077492	P	SLIT and NTRK-like family, member 6	Slitrk6|Slitrk6_predicted|rCG_37075	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	P0DP30	Calm2		GO:1901841	PMID:18322004	IMP		P	Calmodulin-2	Calm2|CaMII|Cam2|Camb	protein	taxon:10116	20130208	RGD		
+UniProtKB	P19490	Gria1		GO:0008022	PMID:20395454	IPI	UniProtKB:P10608	F	Glutamate receptor 1	Gria1|Glur1	protein	taxon:10116	20170525	ARUK-UCL	occurs_in(UBERON:0000451)	
+UniProtKB	D3ZIM5	Fcho1		GO:0030136	PMID:21873635	IBA	MGI:MGI:1920344|MGI:MGI:3505790|PANTHER:PTN001128825|UniProtKB:O14526|UniProtKB:Q0JRZ9	C	FCH domain only 1	Fcho1|Fcho1_predicted|rCG_38730	protein	taxon:10116	20180411	GO_Central		
+UniProtKB	P50617	Ddn		GO:0045944	PMID:21873635	IBA	PANTHER:PTN001445298|RGD:2497	P	Dendrin	Ddn|Den	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	D3ZZX4	Cyp2ab1		GO:0006082	PMID:21873635	IBA	PANTHER:PTN000670347|UniProtKB:P10632	P	Cytochrome P450, family 2, subfamily ab, polypeptide 1	Cyp2ab1	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	Q499Q7	Cldn8		GO:0016327	GO_REF:0000107	IEA	UniProtKB:Q9Z260|ensembl:ENSMUSP00000051887	C	Claudin	Cldn8|rCG_58765	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q5BK76	Cyhr1		GO:0048471	GO_REF:0000039	IEA	UniProtKB-SubCell:SL-0198	C	Cysteine and histidine-rich protein 1	Cyhr1	protein	taxon:10116	20190211	UniProt		
+UniProtKB	Q5M7W1	Txnip		GO:0048008	GO_REF:0000107	IEA	UniProtKB:Q8BG60|ensembl:ENSMUSP00000102710	P	Thioredoxin-interacting protein	Txnip|Vdup1	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	G3V9R1	Olr1307		GO:0005886	GO_REF:0000040	IEA	UniProtKB-SubCell:SL-0039	C	Olfactory receptor 1307	Olr1307|rCG_57933	protein	taxon:10116	20190211	UniProt		
+UniProtKB	Q4KLY8	Stpg1		GO:0005634	GO_REF:0000039	IEA	UniProtKB-SubCell:SL-0191	C	O(6)-methylguanine-induced apoptosis 2	Stpg1	protein	taxon:10116	20190211	UniProt		
+UniProtKB	Q6MG61	Clic1		GO:0006821	PMID:15190104	TAS		P	Chloride intracellular channel protein 1	Clic1	protein	taxon:10116	20060127	RGD		
+UniProtKB	P06761	Hspa5		GO:0044183	PMID:21873635	IBA	EcoGene:EG10241|PANTHER:PTN002321897|UniProtKB:P0DMV8|UniProtKB:P0DMV9	F	Endoplasmic reticulum chaperone BiP	Hspa5|Grp78	protein	taxon:10116	20170831	GO_Central		
+UniProtKB	P14600	Tacr1		GO:0035106	PMID:17324063	IMP		P	Substance-P receptor	Tacr1|Tac1r	protein	taxon:10116	20090313	RGD		
+UniProtKB	D3ZEE9	Fads6		GO:0006629	GO_REF:0000002	IEA	InterPro:IPR005804	P	Fatty acid desaturase 6	Fads6|Fads6_predicted|rCG_33493	protein	taxon:10116	20190211	InterPro		
+UniProtKB	P97536	Cand1		GO:0005794	GO_REF:0000107	IEA	UniProtKB:Q86VP6|ensembl:ENSP00000442318	C	Cullin-associated NEDD8-dissociated protein 1	Cand1|Tip120|Tip120a	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	A0A0G2JVC2	Scyl2		GO:0004672	GO_REF:0000002	IEA	InterPro:IPR000719	F	SCY1-like pseudokinase 2	Scyl2	protein	taxon:10116	20190211	InterPro		
+UniProtKB	D3ZQ50	Olr420		GO:0007186	PMID:21873635	IBA	PANTHER:PTN001239295|UniProtKB:P34982	P	Olfactory receptor	Olr420|Olr420_predicted|rCG_45845	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	Q10743	Adam10		GO:0006509	GO_REF:0000024	ISS	UniProtKB:O14672	P	Disintegrin and metalloproteinase domain-containing protein 10	Adam10|Madm	protein	taxon:10116	20041006	UniProt		
+UniProtKB	D4A7E8	Mthfr		GO:0046500	PMID:1201245	IEP		P	Methylenetetrahydrofolate reductase	Mthfr|Mthfr_predicted|rCG_30599	protein	taxon:10116	20120918	RGD		
+UniProtKB	B2RZB0	Polr3h		GO:0005575	GO_REF:0000015	ND		C	Polr3h protein	Polr3h|Polr3h_predicted|rCG_59935	protein	taxon:10116	20150205	RGD		
+UniProtKB	Q9QYK2	Ppargc1a		GO:0045944	GO_REF:0000024	ISS	UniProtKB:O70343	P	Peroxisome proliferator-activated receptor gamma coactivator 1-alpha	Ppargc1a|Pgc1|Pgc1a|Ppargc1	protein	taxon:10116	20130201	UniProt		
+UniProtKB	Q10739	Mmp14		GO:0006979	PMID:15642321	IEP		P	Matrix metalloproteinase-14	Mmp14|Mtmmp	protein	taxon:10116	20061114	RGD		
+UniProtKB	P41565	Idh3g		GO:0005739	PMID:8240232	TAS		C	Isocitrate dehydrogenase [NAD] subunit gamma 1, mitochondrial	Idh3g	protein	taxon:10116	20060330	RGD		
+UniProtKB	D3ZWE3	Pof1b		GO:0005923	GO_REF:0000107	IEA	UniProtKB:Q8WVV4|ensembl:ENSP00000362238	C	POF1B, actin-binding protein	Pof1b|Pof1b_predicted|rCG_38047	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	D3ZMR0	Olfml2a		GO:0050840	GO_REF:0000107	IEA	UniProtKB:Q8BHP7|ensembl:ENSMUSP00000058761	F	Olfactomedin-like 2A	Olfml2a	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q6DTM3	Ahi1		GO:0060271	GO_REF:0000024	ISS	UniProtKB:Q8K3E5	P	Jouberin	Ahi1	protein	taxon:10116	20111130	UniProt		
+UniProtKB	Q62714	Np4		GO:0050832	GO_REF:0000037	IEA	UniProtKB-KW:KW-0295	P	Neutrophil antibiotic peptide NP-4	Np4	protein	taxon:10116	20190212	UniProt		
+UniProtKB	Q5U2V2	Serinc3		GO:0051607	GO_REF:0000107	IEA	UniProtKB:Q13530|ensembl:ENSP00000340243	P	Serine incorporator 3	Serinc3|rCG_32080	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	P70550	Rab8b		GO:0034332	PMID:12639940	IDA		P	Ras-related protein Rab-8B	Rab8b	protein	taxon:10116	20120126	UniProt		
+UniProtKB	Q66HR2	Mapre1		GO:0051301	GO_REF:0000037	IEA	UniProtKB-KW:KW-0132	P	Microtubule-associated protein RP/EB family member 1	Mapre1	protein	taxon:10116	20190212	UniProt		
+UniProtKB	D3ZBM7	Hace1		GO:0061025	PMID:21873635	IBA	PANTHER:PTN001343779|UniProtKB:Q8IYU2	P	E3 ubiquitin-protein ligase HACE1	Hace1	protein	taxon:10116	20170928	GO_Central		
+UniProtKB	P97519	Hmgcl		GO:0046951	PMID:21873635	IBA	PANTHER:PTN000031222|RGD:620554|UniProtKB:P35914|UniProtKB:P35915|UniProtKB:Q8TB92	P	Hydroxymethylglutaryl-CoA lyase, mitochondrial	Hmgcl	protein	taxon:10116	20170828	GO_Central		
+UniProtKB	P04157	Ptprc		GO:0042100	GO_REF:0000024	ISS	UniProtKB:P06800	P	Receptor-type tyrosine-protein phosphatase C	Ptprc	protein	taxon:10116	20060106	UniProt		
+UniProtKB	D3ZU00	Prox1		GO:0060298	GO_REF:0000107	IEA	UniProtKB:P48437|ensembl:ENSMUSP00000135703	P	Prospero homeobox 1	Prox1	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	G3V8L1	Pycard		GO:0005515	PMID:19416975	IPI	RGD:1310963	F	PYD and CARD domain-containing	Pycard|rCG_39389	protein	taxon:10116	20110927	RGD		
+UniProtKB	D3ZNS5	Scrt2		GO:0000122	GO_REF:0000107	IEA	UniProtKB:Q8BTH6|ensembl:ENSMUSP00000066280	P	Scratch family transcriptional repressor 2	Scrt2	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	P00684	Rnase1		GO:0005576	GO_REF:0000039	IEA	UniProtKB-SubCell:SL-0243	C	Ribonuclease pancreatic beta-type	Rnase1|Rib-1|Rib1|Rns1	protein	taxon:10116	20190211	UniProt		
+UniProtKB	F1LVX1	Dnajc1		GO:0005634	GO_REF:0000040	IEA	UniProtKB-SubCell:SL-0191	C	DnaJ heat shock protein family (Hsp40) member C1	Dnajc1|rCG_55742	protein	taxon:10116	20190211	UniProt		
+UniProtKB	D3ZQN8	Nuak1		GO:2000772	GO_REF:0000107	IEA	UniProtKB:O60285|ensembl:ENSP00000261402	P	NUAK family kinase 1	Nuak1|rCG_49052	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	O88806	Padi1		GO:0005737	PMID:21873635	IBA	MGI:MGI:2655198|PANTHER:PTN000851400|UniProtKB:Q6TGC4|UniProtKB:Q9ULW8|UniProtKB:Q9Y2J8	C	Protein-arginine deiminase type-1	Padi1|Pad1|Pdi1	protein	taxon:10116	20170228	GO_Central		
+UniProtKB	Q6DTM3	Ahi1		GO:0035844	GO_REF:0000024	ISS	UniProtKB:Q8K3E5	P	Jouberin	Ahi1	protein	taxon:10116	20170221	UniProt		
+UniProtKB	D3Z9P1	Kdsr		GO:0005789	PMID:21873635	IBA	PANTHER:PTN000673031|TAIR:locus:2080379|TAIR:locus:2182192	C	3-ketodihydrosphingosine reductase	Kdsr|Fvt1_predicted|rCG_24069	protein	taxon:10116	20170601	GO_Central		
+UniProtKB	Q6IMK0	Dppa3		GO:1901536	GO_REF:0000024	ISS	UniProtKB:Q8QZY3	P	Developmental pluripotency-associated protein 3	Dppa3|Stella	protein	taxon:10116	20121101	UniProt		
+UniProtKB	Q5J3G8	Vom1r3		GO:0016021	GO_REF:0000038	IEA	UniProtKB-KW:KW-0812	C	Vomeronasal type-1 receptor	Vom1r3	protein	taxon:10116	20190212	UniProt		
+UniProtKB	P15389	Scn5a		GO:0010460	PMID:17259145	IMP		P	Sodium channel protein type 5 subunit alpha	Scn5a	protein	taxon:10116	20120615	RGD		
+UniProtKB	P53767	Flt1		GO:0005021	PMID:21873635	IBA	MGI:MGI:95558|MGI:MGI:95561|MGI:MGI:96683|PANTHER:PTN001974926|RGD:2621|RGD:2965|RGD:621737|UniProtKB:P17948|UniProtKB:P35916|UniProtKB:P35968	F	Vascular endothelial growth factor receptor 1	Flt1|Flt-1|Vegfr1	protein	taxon:10116	20181016	GO_Central		
+UniProtKB	D4A986	Mbd2		GO:0000122	PMID:25135974	IMP		P	Methyl-CpG-binding domain protein 2	Mbd2	protein	taxon:10116	20141107	RGD		
+UniProtKB	D4AE79	Chmp1a		GO:0007076	GO_REF:0000107	IEA	UniProtKB:Q9HD42|ensembl:ENSP00000380998	P	Charged multivesicular body protein 1A	Chmp1a	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	Q6AY86	Vps26a		GO:0005764	GO_REF:0000107	IEA	UniProtKB:O75436|ensembl:ENSP00000362480	C	Vacuolar protein sorting-associated protein 26A	Vps26a|Vps26	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	P19490	Gria1		GO:0010226	PMID:15269270	IEP		P	Glutamate receptor 1	Gria1|Glur1	protein	taxon:10116	20060330	UniProt		
+UniProtKB	P29476	Nos1		GO:0012506	PMID:21873635	IBA	PANTHER:PTN001066032|RGD:3184|RGD:3185|RGD:3186	C	Nitric oxide synthase, brain	Nos1|Bnos	protein	taxon:10116	20170928	GO_Central		
+UniProtKB	Q497B7	Nkx3-1		GO:0032880	GO_REF:0000107	IEA	UniProtKB:Q99801|ensembl:ENSP00000370253	P	NK-3 transcription factor, locus 1 (Drosophila)	Nkx3-1|rCG_36969	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	A0A0G2KAA5	Zfp772		GO:0045892	PMID:21873635	IBA	PANTHER:PTN000694458|UniProtKB:Q05516|UniProtKB:Q7Z4V0	P	Zinc finger protein 772	Zfp772	protein	taxon:10116	20170428	GO_Central		
+UniProtKB	P56745	Cldn1		GO:0008065	PMID:22733753	IMP		P	Claudin-1	Cldn1	protein	taxon:10116	20160706	RGD		
+UniProtKB	B2RYM5	Brcc3		GO:0070536	PMID:21873635	IBA	PANTHER:PTN000045567|UniProtKB:P46736	P	Lys-63-specific deubiquitinase BRCC36	Brcc3|Brcc36	protein	taxon:10116	20180309	GO_Central		
+UniProtKB	Q810H6	Disc1		GO:0044297	PMID:17202468	IDA		C	Disrupted in schizophrenia 1 homolog	Disc1	protein	taxon:10116	20100709	RGD		
+UniProtKB	Q5M883	Clic2		GO:0060315	GO_REF:0000107	IEA	UniProtKB:O15247|ensembl:ENSP00000358460	P	Chloride intracellular channel protein 2	Clic2	protein	taxon:10116	20190211	Ensembl		
+UniProtKB	A0A0G2K7E1	Mfrp		GO:0008150	GO_REF:0000015	ND		P	Membrane frizzled-related protein	Mfrp	protein	taxon:10116	20161018	RGD		
+UniProtKB	P22449	Hnf4a		GO:0008134	PMID:16800817	IPI	RGD:620400	F	Hepatocyte nuclear factor 4-alpha	Hnf4a|Hnf-4|Hnf4|Nr2a1|Tcf14	protein	taxon:10116	20070516	RGD		
+UniProtKB	P15387	Kcnb1		GO:0009986	PMID:21943417	IDA		C	Potassium voltage-gated channel subfamily B member 1	Kcnb1	protein	taxon:10116	20170621	RGD		

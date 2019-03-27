@@ -27,10 +27,8 @@ class Splitter:
         self.percentage
         self.count
         test_data = self.count * self.percentage // 100
-        test_split = 100 - test_data
-        with open(self.input_file, "r") as source:
-            lines = [line for line in source]
-        random_choice = random.sample(lines, test_split)
+        lines = [line for line in self.input_file]
+        random_choice = random.sample(lines, test_data)
         with open(self.output_file, "w") as new:
             new.write("".join(random_choice))
 
