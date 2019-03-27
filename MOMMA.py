@@ -109,8 +109,10 @@ def main():
     #Plot the evaluation
     #plot = Plotter.plot_performance(fractions, perf_array)
 
-    #NOTES:
-    #Vectorizer: Als een true eiwit of term niet wordt gevonden in de test set, voeg hier alleen zeros toe.
-    #Dictionary van pred bij eiwit zonder terms: eiwit_id : []
+    """
+    NOTES:
+    Vectorizer: Als een true eiwit of term niet wordt gevonden in de test set, voeg hier alleen zeros toe.
+    Dictionary van pred bij eiwit zonder terms: eiwit_id : []
+    """
 
 main()
