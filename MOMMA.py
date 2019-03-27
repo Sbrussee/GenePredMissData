@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 import importlib
 import random
-from arguments import get_args
 import time
 
 import numpy as np
 import matplotlib as mpl
 
+from arguments import get_args
 from fix_go import fix_go
 from fix_go import read_go_tree
 from true_ann_parser import parse_true_annotation
