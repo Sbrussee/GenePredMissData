@@ -8,7 +8,6 @@ import json
 class Predictor:
     def __init__(self, method, arg1=0, arg2=0):
         self.method = method
-        print(method)
         if self.method == "blast":
             self.newlist = arg1
 
@@ -22,7 +21,7 @@ class Predictor:
                 compareline = line.strip().split('\t')
                 strs = list(filter(None, compareline))
                 for uniprot_code in self.newlist:
-                    if uniprot_code.strip() == strs[1]:
+                    if uniprot_code == strs[1]:
                         if 'GO:' in strs[3]:
                             if uniprot_code in self.pred_dict:
                                 self.pred_dict[uniprot_code].append(strs[3])

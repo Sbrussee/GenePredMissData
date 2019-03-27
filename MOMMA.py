@@ -57,13 +57,14 @@ def main():
     #Determine which columns has the uniprot data:
     uniprot_column_index = 0
     for index, column in enumerate(uniprot_file[0].strip().split(" ")):
-        if "." or "_" not in column:
+        if "." and "_" not in column:
             uniprot_column_index = index
+            break
 
     #Add all the uniprotKB codes to the uniprot_code_list
     uniprot_codes = []
     for line in uniprot_file:
-        uniprot_codes.append(line.strip().split(" ")[index])
+        uniprot_codes.append(line.strip().split(" ")[uniprot_column_index])
 
     print("Loaded in all the UniprotKB codes.")
 
@@ -73,8 +74,8 @@ def main():
     #Make a list for the performance values
     perf_array = []
 
-    # GET PARSED TRUE ANNOTATION:
-    rat_dict = parse_true_annotation(rat_annotation)
+    # GET PARSED TRUE (RAT) ANNOTATION:
+    true_set = parse_true_annotation(rat_annotation)
     print("Parsed input data.")
 
     go_tree = read_go_tree("go-basic.obo")
@@ -82,6 +83,7 @@ def main():
 
     #Calling the predictor class with the blast method ang give the uniprot list as an argument.
     blast_predictor = Predictor("blast", uniprot_codes)
+
     #Loop through each fraction, doing the prediction, go-tree-fixing, vectorization and evaluation for each.
     for frac in fractions:
         #Get a sample of the rat-gaf with missing data.
@@ -95,7 +97,7 @@ def main():
             prediction_set[protein_key] = fix_go(prediction_set[protein_key], go_tree)
         print("Adjusted GO-terms according to GO-tree.")
         #Vectorize the true and predicted annotations, give the go-tree for the columns.
-        #true_vector, pred_vector = Vectorize(true, pred_vec, go_tree)
+        #true_vector, pred_vector = Vectorize(true_set, pred_set, go_tree)
 
         #Evaluate the run:
         #evaluator = Evaluator(true_vector, pred_vector)
