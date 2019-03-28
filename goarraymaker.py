@@ -30,9 +30,9 @@ class GoArrayMaker:
         - res: Numpy array containing a boolean matrix with proteins
                 on the y-axis and GO_therms on the x-axis.
         """
-        res = np.full((self.y_size, self.x_size), False, dtype=bool)
+        res = np.full((self.y_size, self.x_size), 0)
         for key in data:
             for go in data[key]:
                 if go in self.go_pos:
-                    res[self.y_pos[key]][self.go_pos[go]] = True
+                    res[self.y_pos[key]][self.go_pos[go]] = 1
         return res
