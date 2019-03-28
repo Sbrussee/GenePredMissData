@@ -86,7 +86,7 @@ def main():
 
     #Create a numpy array list from the test/true data, and get the unique values.
     converter = Converter()
-    converter.set_terms_unique_test(true_assignment)
+    converter.set_terms_unique_test(true_set)
     converter.set_np()
     converter.set_test_np()
     
