@@ -15,10 +15,17 @@ from Plotter import Plotter
 from klasse_avaluator import Converter
 from class_splitter import Splitter
 from Predictorfile import Predictor
+from goarraymaker import GoArrayMaker
 
+
+
+
+        
+        
 
 def main():
     #READ THE INPUT FILES
+    global go_tree
     mouse_gaf = open("goa_mouse.gaf", "r")
     rat_gaf = open("goa_rat.gaf", "r")
     ref_uniprot = open('Refseqtouniprotkb.txt', 'r')
@@ -76,20 +83,19 @@ def main():
 
     # GET PARSED TRUE (RAT) ANNOTATION:
     true_set = parse_true_annotation(rat_annotation)
+
+    
     print("Parsed input data.")
 
     go_tree = read_go_tree("go-basic.obo")
     print("Read GO-tree.")
 
+    #Initialize GoArrayMaker
+    arraymaker = GoArrayMaker(go_tree, uniprot_codes + list(true_set.keys()))
+
     #Calling the predictor class with the blast method ang give the uniprot list as an argument.
     blast_predictor = Predictor("blast", uniprot_codes)
 
-    #Create a numpy array list from the test/true data, and get the unique values.
-    converter = Converter()
-    converter.set_terms_unique_test(true_set)
-    converter.set_np()
-    converter.set_test_np()
-    
     #Loop through each fraction, doing the prediction, go-tree-fixing, vectorization and evaluation for each.
     for frac in fractions:
         #Get a sample of the rat-gaf with missing data.
@@ -98,22 +104,21 @@ def main():
         #Predict the GO-terms for the mouse by linking the rat-hits to the rat-gaf.
         prediction_set = blast_predictor.blast(sample)
         print("Predicted annotation for the sample.")
-        
         #Fix the GO-terms according to the GO-tree.
-        # Create a empty dictionaire to vectorize per protein key.
-        temporary_dict = {}
         for protein_key in prediction_set:
-            temporary_dict[protein_key] = fix_go(prediction_set[protein_key], go_tree)
-            # Call the converter to put the protein key, with the go terms in the arrray. 
-            converter.set_training_np(temporary_dict)
-            # Empty dictionaire after training data is imported in the converter classe
-            temporary_dict = {}
-            
-        print("Adjusted GO-terms according to GO-tree.")
-        # Import the training and test vector.
-        true_vector, pred_vector = converter.get_array()
-        print("Test and training input for evaluator are made")
+            prediction_set[protein_key] = fix_go(prediction_set[protein_key], go_tree)
+
+        #Turn dataset into numpy array
+        t0 = time.time()
+        mga_set = arraymaker.make_go_array(prediction_set)
+        print("took:", time.time() -t0, "for:", len(prediction_set))
+        #print(mga_set)
         
+        
+        print("Adjusted GO-terms according to GO-tree.")
+        #Vectorize the true and predicted annotations, give the go-tree for the columns.
+        #true_vector, pred_vector = Vectorize(true_set, pred_set, go_tree)
+
         #Evaluate the run:
         #evaluator = Evaluator(true_vector, pred_vector)
         #f1_scores = evaluator.get_f1()
