@@ -19,8 +19,8 @@ class Converter:
 
     # Create a numpy array with onzly zeros for the test and training data.
     def set_np(self):
-        self.array_training = np.zeros((self.length, len(self.terms_unique)))
-        self.array_test = np.zeros((self.length, len(self.terms_unique)))
+        self.array_training = np.zeros((self.length, len(self.terms_unique)), dtype="int")
+        self.array_test = np.zeros((self.length, len(self.terms_unique)), dtype="int")
 
     # Change the zero to a one for the test set if the go term exist per protein.
     def set_test_np(self):
@@ -40,7 +40,7 @@ class Converter:
         for id, terms in training.items():
             for term in terms:
                 if term not in self.terms_unique:
-                    nieuw = np.zeros((self.length, 1))
+                    nieuw = np.zeros((self.length, 1), dtype="int")
                     self.array_training = np.append(self.array_training, nieuw, axis=1)
                     self.array_test = np.append(self.array_test, nieuw, axis=1)
                     self.terms_unique.append(term)
