@@ -22,7 +22,6 @@ class Evaluator:
         #Determine number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = self.pred_annotation.shape
         (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
-        print(type(self.num_of_true_proteins), type(self.num_of_true_go_terms))
         #Set empty np-arrays which should be determined by the class methods.
         empty_array = np.zeros((self.num_of_true_proteins))
         #F1-scores
@@ -41,10 +40,17 @@ class Evaluator:
             return self.f1
         #Loop through the proteins in pred and true and get the go terms for each.
         for prot_index in range(self.num_of_true_proteins):
-            go_pred = self.pred_annotation[prot_index,:]
-            go_true = self.true_annotation[prot_index,:]
+
+            false_negatives = self.true_annotation[prot_index,][np.where(self.true_annotation[prot_index,]==1,
+                                              self.pred_annotation[prot_index,]==0)]
+            false_positives = self.true_annotation[prot_index,][np.where(self.true_annotation[prot_index,]==0,
+                                              self.pred_annotation[prot_index,]==1)]
+            true_predictions = self.true_annotation[np.where(self.true_annotation[prot_index,] == 1,
+                                              self.pred_annotation[prot_index,] == 1)]
+            true_array = np.array(np.ones(len(false_negatives))) + np.array(np.zeros(len(false_positives))) + np.array(np.ones(len(true_predictions)))
+            pred_array = np.array(np.zeros(len(false_negatives))) + np.array(np.ones(len(false_positives))) + np.array(np.ones(len(true_predictions)))
             #Calculate the average f1_score for the protein
-            prot_f1 = metrics.f1_score(go_true, go_pred)
+            prot_f1 = metrics.f1_score(true_array, pred_array)
             #Add the average f1_score to the f1_scores array.
             self.f1[prot_index] = prot_f1
         return self.f1
