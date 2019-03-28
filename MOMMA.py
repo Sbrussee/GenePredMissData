@@ -15,10 +15,17 @@ from Plotter import Plotter
 from klasse_avaluator import Converter
 from class_splitter import Splitter
 from Predictorfile import Predictor
+from goarraymaker import GoArrayMaker
 
+
+
+
+        
+        
 
 def main():
     #READ THE INPUT FILES
+    global go_tree
     mouse_gaf = open("goa_mouse.gaf", "r")
     rat_gaf = open("goa_rat.gaf", "r")
     ref_uniprot = open('Refseqtouniprotkb.txt', 'r')
@@ -76,10 +83,15 @@ def main():
 
     # GET PARSED TRUE (RAT) ANNOTATION:
     true_set = parse_true_annotation(rat_annotation)
+
+    
     print("Parsed input data.")
 
     go_tree = read_go_tree("go-basic.obo")
     print("Read GO-tree.")
+
+    #Initialize GoArrayMaker
+    arraymaker = GoArrayMaker(go_tree, uniprot_codes + list(true_set.keys()))
 
     #Calling the predictor class with the blast method ang give the uniprot list as an argument.
     blast_predictor = Predictor("blast", uniprot_codes)
@@ -95,6 +107,14 @@ def main():
         #Fix the GO-terms according to the GO-tree.
         for protein_key in prediction_set:
             prediction_set[protein_key] = fix_go(prediction_set[protein_key], go_tree)
+
+        #Turn dataset into numpy array
+        t0 = time.time()
+        mga_set = arraymaker.make_go_array(prediction_set)
+        print("took:", time.time() -t0, "for:", len(prediction_set))
+        #print(mga_set)
+        
+        
         print("Adjusted GO-terms according to GO-tree.")
         #Vectorize the true and predicted annotations, give the go-tree for the columns.
         #true_vector, pred_vector = Vectorize(true_set, pred_set, go_tree)
