@@ -40,15 +40,42 @@ class Evaluator:
             return self.f1
         #Loop through the proteins in pred and true and get the go terms for each.
         for prot_index in range(self.num_of_true_proteins):
+            go_pred = self.pred_annotation[prot_index,:]
+            go_true = self.true_annotation[prot_index,:]
+            fn_terms = np.intersect1d(np.where(go_true == 1), np.where(go_pred == 0))
+            fp_terms = np.intersect1d(np.where(go_true == 0), np.where(go_pred == 1))
+            true_terms = np.intersect1d(np.where(go_true == 1), np.where(go_pred == 1))
+            fn_length, fp_length, true_length = len(fn_terms), len(fp_terms), len(true_terms)
+            if fn_length > 0 and fp_length > 0 and true_length > 0:
+                true_array = np.array(np.ones(len(fn_terms))) + np.array(np.zeros(len(fp_terms))) + np.array(
+                    np.ones(len(true_terms)))
+                pred_array = np.array(np.zeros(len(fn_terms))) + np.array(np.ones(len(fp_terms))) + np.array(
+                    np.ones(len(true_terms)))
+            elif fn_length > 0 and fp_length > 0:
+                true_array = np.array(np.ones(len(fn_terms))) + np.array(np.zeros(len(fp_terms)))
+                pred_array = np.array(np.zeros(len(fn_terms))) + np.array(np.ones(len(fp_terms)))
+            elif fn_length > 0 and true_terms > 0:
+                true_array = np.array(np.ones(len(fn_terms))) + np.array(np.ones(len(true_terms)))
+                pred_array = np.array(np.zeros(len(fn_terms))) + np.array(np.ones(len(true_terms)))
+            elif fp_length > 0 and true_terms > 0:
+                true_array = np.array(np.zeros(len(fp_terms))) + np.array(np.ones(len(true_terms)))
+                pred_array = np.array(np.ones(len(fp_terms))) + np.array(np.ones(len(true_terms)))
+            elif fp_length > 0:
+                true_array = np.array(np.zeros(len(fp_terms)))
+                pred_array = np.array(np.ones(len(fp_terms)))
+            elif fn_length > 0:
+                true_array = np.array(np.ones(len(fn_terms)))
+                pred_array = np.array(np.zeros(len(fn_terms)))
+            else:
+                true_array = np.array(np.ones(len(true_terms)))
+                pred_array = np.array(np.ones(len(true_terms)))
 
-            false_negatives = self.true_annotation[prot_index,][np.where(self.true_annotation[prot_index,]==1,
-                                              self.pred_annotation[prot_index,]==0)]
-            false_positives = self.true_annotation[prot_index,][np.where(self.true_annotation[prot_index,]==0,
-                                              self.pred_annotation[prot_index,]==1)]
-            true_predictions = self.true_annotation[np.where(self.true_annotation[prot_index,] == 1,
-                                              self.pred_annotation[prot_index,] == 1)]
-            true_array = np.array(np.ones(len(false_negatives))) + np.array(np.zeros(len(false_positives))) + np.array(np.ones(len(true_predictions)))
-            pred_array = np.array(np.zeros(len(false_negatives))) + np.array(np.ones(len(false_positives))) + np.array(np.ones(len(true_predictions)))
+
+
+
+            true_array = np.array(np.ones(len(fn_terms))) + np.array(np.zeros(len(fp_terms))) + np.array(np.ones(len(true_terms)))
+            pred_array = np.array(np.zeros(len(fn_terms))) + np.array(np.ones(len(fp_terms))) + np.array(np.ones(len(true_terms)))
+
             #Calculate the average f1_score for the protein
             prot_f1 = metrics.f1_score(true_array, pred_array)
             #Add the average f1_score to the f1_scores array.
@@ -68,6 +95,7 @@ class Evaluator:
             go_true = self.true_annotation[prot_index,:]
             #Get the terms for which the predicted value was 0, but the true value is 1 (false negatives).
             fn_terms = np.intersect1d(np.where(go_true == 1), np.where(go_pred == 0))
+
             #loop through false negative terms.
             for fn_term_index in fn_terms:
                 #Add the false negative term ic-scores to the ru-score for the protein.
