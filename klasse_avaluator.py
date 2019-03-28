@@ -1,104 +1,98 @@
 import numpy as np
 class Converter:
     def __init__(self):
+        self.terms_test = {}
         self.terms_unique = []
-        self.total_protein = []
-        self.length = 0
-        self.rows = 0
         self.array_training = np.array([])
         self.array_test = np.array([])
-        self.test_ids = {}
-        self.training_id = {}
-        self.test_volgorde = []
+        self.length = 0
 
-    def get_terms_unique(self, lijst):
-        for id, terms in lijst.items():
-            for term in terms:
-                if term not in self.terms_unique:
-                    self.terms_unique.append(term)
-            if id not in self.total_protein:
-                self.total_protein.append(id)
+    # Import: the whole test data and create an array of all unique values.
+    # Output: A list of all unique values, the size of the test set, and all the test terms.
+    def set_terms_unique_test(self, lijst):
+        self.length = len(lijst)
+        self.terms_test = lijst
+        array = np.array([])
+        for terms in lijst.values():
+            array = np.append(array, terms)
+        self.terms_unique = list(np.unique(array))
 
-    def get_test_terms(self, test):
-        self.test_ids = test
-
-    def get_training_terms(self, training):
-        self.training_id.update(training)
-
+    # Create a numpy array with onzly zeros for the test and training data.
     def set_np(self):
-        self.array_training = np.zeros((len(self.total_protein), len(self.terms_unique)), dtype='int')
-        self.array_test = np.zeros((len(self.total_protein), len(self.terms_unique)), dtype='int')
+        self.array_training = np.zeros((self.length, len(self.terms_unique)), dtype="int")
+        self.array_test = np.zeros((self.length, len(self.terms_unique)), dtype="int")
 
+    # Change the zero to a one for the test set if the go term exist per protein.
     def set_test_np(self):
         getal = 0
-        for id, terms in self.test_ids.items():
-            self.test_volgorde.append(id)
+        for id, terms in self.terms_test.items():
             for term in terms:
                 index = self.terms_unique.index(term)
                 self.array_test[getal, index] = 1
             getal += 1
-        return self.array_test
 
-    def set_training_np(self):
-        for id, terms in self.training_id.items():
-            #Added expectation for whenever training id is not in the test data.
-            try:
-                getal = self.test_volgorde.index(id)
-            except:
-                self.test_volgorde.append(id)
-                getal = self.test_volgorde.index(id)
+    # Change the zero to a one for the training set if the go term exist per protein.
+    # Dictionaires of the test and training are in the same order.
+    # The training id must exist also in the test set.
+    # If go term not in unique values, extend the numpy array of both test and training array.
+    def set_training_np(self, training):
+        getal = 0
+        for id, terms in training.items():
             for term in terms:
+                if term not in self.terms_unique:
+                    nieuw = np.zeros((self.length, 1), dtype="int")
+                    self.array_training = np.append(self.array_training, nieuw, axis=1)
+                    self.array_test = np.append(self.array_test, nieuw, axis=1)
+                    self.terms_unique.append(term)
                 index = self.terms_unique.index(term)
                 self.array_training[getal, index] = 1
-        return self.array_training
+            getal += 1
+
+    # Return test and training array.
+    def get_array(self):
+        return self.array_test, self.array_training
+
 
 if __name__ == "__main__":
     """
-    1. Probably the dictionaire keys between training en test data are unoredered in the dictionaire.
-    2. Not all go terms comparing between the two set are in the right order, or are in both sets.
-    4. if the size between training/test set are not identical, the numpy array has the size of the longest possibly.
+    1. Not all go terms comparing between the two set are in the right order, or are in both sets.
    
-     Step 1: Make a list with all unique go terms for the training set.
-     Step 2: Extend the unique list with training terms if the term does not exist in the unique list.
-     Step 3: - Create a numpy array with the len of unique list and rows with the len of the set with the most rows.
-             - So, check for each term in the list in which column the go-term in the header is located. 
-             - if term exist 1, otherwise 0. 
-    Step 4: - Create a numpy array with help of the test set, because all ids must be placed on the same row. 
-            - if term exist 1, otherwise 0. 
+     Step 1: Make a list with all unique go terms from the test set.
+     Step 2: Create numpy arrays for test and training set with the size of the test set
+     Step 3: Test array: Change 0 to 1 for test array if go term exist for a protein id
+     Step 4: Training array: Change 0 to 1 for test array if go term exist for a protein id
+     Step 5: Extend the unique list with training terms if the term does not exist in the unique list.
      """
 
     # The set with for each term the right assignment.
     true_assignment = {
-        "gen1": ["go1", "go22", "go13", "go10", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go13"],
+        "gen1": ["go1", "go22", "go3", "go10", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go13"],
         "gen3": ["go14", "go15", "go136", "go17", "go22", "go33", "go11", "go8", "go9", "go112", "go119", "go159", "go13"],
         "gen4": ["go1", "go2", "go35", "go4", "go45", "go56", "go755", "go11", "go99", "go10", "go11", "go12", "go133"],
         "gen5": ["go1", "go12", "go3", "go44", "go454", "go20", "go17", "go98", "go93", "go10", "go11", "go12", "go13"],
-        "gen2": ["go1", "go2", "g4o3", "go4", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go1344"]}
+        "gen2": ["go1", "go2", "g4o3", "go4", "go5", "go6", "go7", "go8", "go9", "go10", "go3311", "go12", "go1344"]}
 
     # The set which will be made from the predictor and fix_go classe.
     training_assignment = {
-        "gen3": ["go11", "go2", "go1", "go10", "go51", "go62", "go37", "go8", "go94", "go10", "go11", "go12", "go13"],
-        "gen4": ["go14", "go15", "go136", "go1", "go222", "go332", "go131", "go84", "go91", "go112", "go11", "go15", "go13"],
-        "gen1": ["go1", "go2", "go35", "go4", "go45", "go56", "go11", "go99", "go10", "go11", "go12", "go133"],
-        "gen5": ["go1", "go12", "go3", "go44", "go454", "go20", "go17", "go12", "go13"],
-        "gen2": ["go1", "go23", "go43", "go25", "go16", "go17", "go8", "go9", "go10", "go11", "go12", "go1344"]}
+        "gen1": ["go14", "go15", "go136", "go17", "go22", "go33", "go11", "go8", "go9333", "go112", "go119", "go159", "go3322"],
+        "gen3": ["go1", "go2", "go35", "go4", "go45", "go56", "go755", "go11", "go99", "go10", "go11", "go12", "go133"],
+        "gen4": ["go1", "go22", "go3", "go10", "go5", "go6", "go7", "go8", "go9", "go10", "go4411", "go12", "go13"],
+        "gen5": ["go1", "go12", "go3", "go44", "go454", "go20", "go17", "go98", "go93", "go10", "go11", "go12", "gorr13"],
+        "gen2": ["go1", "go2", "g4o3", "go4", "go5", "go6", "go7", "go8", "go9", "go10", "go11", "go12", "go1344"]}
 
     # Call class
     converter = Converter()
 
-    # Step 1: All test/training unique terms. Training terms will be called in the fixx_go loop:
-    converter.get_terms_unique(true_assignment)
-    converter.get_test_terms(true_assignment)
-
-    converter.get_terms_unique(training_assignment)
-    converter.get_training_terms(training_assignment)
-
-    # Step 3: After fix_go loop is finished, get np.array with right size filled with zeros.
+    # Step 1: All test/training unique terms. Training terms will be called in the fix_go loop:
+    converter.set_terms_unique_test(true_assignment)
     converter.set_np()
+    converter.set_test_np()
 
-    # Step 4: Create test and training vectorizes, whereby the zero in the array change to a 1 for each term.
-    test_array = converter.set_test_np()
-    training_array = converter.set_training_np()
+    # In de go fix loop
+    converter.set_training_np(training_assignment)
+
+    # Nadat geloopt is:
+    test_array, training_array = converter.get_array()
 
     print(test_array)
     print()
