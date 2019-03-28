@@ -84,6 +84,12 @@ def main():
     #Calling the predictor class with the blast method ang give the uniprot list as an argument.
     blast_predictor = Predictor("blast", uniprot_codes)
 
+    #Create a numpy array list from the test/true data, and get the unique values.
+    converter = Converter()
+    converter.set_terms_unique_test(true_assignment)
+    converter.set_np()
+    converter.set_test_np()
+    
     #Loop through each fraction, doing the prediction, go-tree-fixing, vectorization and evaluation for each.
     for frac in fractions:
         #Get a sample of the rat-gaf with missing data.
@@ -92,13 +98,22 @@ def main():
         #Predict the GO-terms for the mouse by linking the rat-hits to the rat-gaf.
         prediction_set = blast_predictor.blast(sample)
         print("Predicted annotation for the sample.")
+        
         #Fix the GO-terms according to the GO-tree.
+        # Create a empty dictionaire to vectorize per protein key.
+        temporary_dict = {}
         for protein_key in prediction_set:
-            prediction_set[protein_key] = fix_go(prediction_set[protein_key], go_tree)
+            temporary_dict[protein_key] = fix_go(prediction_set[protein_key], go_tree)
+            # Call the converter to put the protein key, with the go terms in the arrray. 
+            converter.set_training_np(temporary_dict)
+            # Empty dictionaire after training data is imported in the converter classe
+            temporary_dict = {}
+            
         print("Adjusted GO-terms according to GO-tree.")
-        #Vectorize the true and predicted annotations, give the go-tree for the columns.
-        #true_vector, pred_vector = Vectorize(true_set, pred_set, go_tree)
-
+        # Import the training and test vector.
+        true_vector, pred_vector = converter.get_array()
+        print("Test and training input for evaluator are made")
+        
         #Evaluate the run:
         #evaluator = Evaluator(true_vector, pred_vector)
         #f1_scores = evaluator.get_f1()
