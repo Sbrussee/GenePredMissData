@@ -33,5 +33,6 @@ class GoArrayMaker:
         res = np.full((self.y_size, self.x_size), False, dtype=bool)
         for key in data:
             for go in data[key]:
-                res[self.y_pos[key]][self.go_pos[go]] = True
+                if go in self.go_pos:
+                    res[self.y_pos[key]][self.go_pos[go]] = True
         return res
