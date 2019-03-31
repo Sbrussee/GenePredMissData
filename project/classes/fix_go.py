@@ -3,6 +3,7 @@ import time
 class Go_Fixer:
     def fix_go(self, termlist):
         for term in termlist:
+            term = self.replace_obsolete_terms(term)
             try:
                 parents = self.go_tree[term]
                 while type(parents) == str:
@@ -13,6 +14,22 @@ class Go_Fixer:
                 if not pterm in termlist and pterm != '':
                     termlist.append(pterm)
         return termlist
+
+    """
+    Parameters: self (class), term (String).
+    
+    This function replaces obsolete terms which aren't recognized as obsolete by the gaf file.
+    A dictionary with obsolete terms and the replacement terms is made. If the term given
+    to the function is a key in the dictionary, the term variable is replaced by the replacement
+    term. The replacement term is returned.
+    
+    Returns: term (String) 
+    """
+    def replace_obsolete_terms(self, term):
+        obsolete_terms = {'GO:0032947' : 'GO:0060090'}
+        if term in obsolete_terms.keys():
+            term = obsolete_terms[term]
+        return term
 
     def __init__(self, filename):
         self.go_tree = {}
