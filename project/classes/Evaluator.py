@@ -23,7 +23,7 @@ class Evaluator:
         (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
 
         # Set empty np-arrays which should be determined by the class methods.
-        empty_array = np.zeros((self.num_of_true_proteins))
+        empty_array = np.empty((self.num_of_true_proteins))
 
         # F1-scores
         self.f1 = empty_array
@@ -39,23 +39,30 @@ class Evaluator:
 
     def get_f1(self):
         # Check if f1 already exist:
-        if np.count_nonzero(self.f1) > 0:
+        if np.any(np.nan) == False:
             return self.f1
 
         for index in range(self.num_of_true_proteins):
+            true_row = self.true_annotation[index,]
+            pred_row = self.pred_annotation[index,]
+            tp_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
+            fp_indexes = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
+            fn_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
 
-            true = self.true_annotation[index, ][np.where(self.true_annotation[index, ] == 1)]
-            pred = self.pred_annotation[index,][np.where(self.true_annotation[index,] == 1)]
+            true_tp = true_row[tp_indexes]
+            pred_tp = pred_row[tp_indexes]
 
-            true1 = self.true_annotation[index, ][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index, ] == 1))]
-            pred1 = self.pred_annotation[index,][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index,] == 1))]
+            true_fp = true_row[fp_indexes]
+            pred_fp = pred_row[fp_indexes]
 
-            true_array = np.hstack((true, true1))
-            pred_array = np.hstack((pred, pred1))
+            true_fn = true_row[fn_indexes]
+            pred_fn = pred_row[fn_indexes]
 
-            if len(true_array) > 1:
-                prot_f1  = metrics.f1_score(true_array, pred_array)
-                self.f1[index] = prot_f1
+            true_array = np.hstack((true_tp, true_fp, true_fn))
+            pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
+
+            prot_f1  = metrics.f1_score(true_array, pred_array)
+            self.f1[index] = prot_f1
         return self.f1
 
  #Function for calculating remaining uncertainty
