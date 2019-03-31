@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-from classes.fix_go import fix_go
-from classes.fix_go import read_go_tree
+import time
+from classes.fix_go import Go_Fixer
 from classes.true_ann_parser import parse_true_annotation
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
 from classes.class_splitter import Splitter
 from classes.predictorfile import Predictor
 from classes.klasse_avaluator import Converter
+from classes.Dict2Array import Dict2Array
 
 
 def main():
@@ -18,6 +19,7 @@ def main():
     mouse_annotation = mouse_gaf.readlines()
     rat_annotation = rat_gaf.readlines()
     uniprot_file = ref_uniprot.readlines()
+    
     print("Loaded input files.")
 
     #CLOSE THE INPUT FILES
@@ -32,19 +34,8 @@ def main():
     print("Parsed true-annotation.")
 
     # Step 4: Import data from obo file
-    go_tree = read_go_tree("files/go-basic.obo")
+    gofixer = Go_Fixer("files/go-basic.obo")
     print("GO-tree annotation read.")
-
-    #Add the GO-parents to the true annotation.
-    for protein_key in true_set:
-        true_set[protein_key] = fix_go(true_set[protein_key], go_tree)
-
-    print("Added GO-parents to the true annotation.")
-    converter = Converter()
-    converter.set_terms_unique_test(true_set)
-    converter.set_np()
-    converter.set_test_np()
-    print("Made arrays for use in the Evaluator.")
 
     # Step 2: Create the prediction uniprot ids
     uniprot_column_index = 0
@@ -66,48 +57,44 @@ def main():
 
     # Stap 5: Detemine fraction data and call plotter
     fractions = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]
+    fractions = range(100, 0, -1)
     plotter = Plotter()
 
+    # INIT ArrayMaker
+    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(prediction_set.keys())
+                            + list(true_set.keys()))
+    # Making True vector and adding parent GO-Therms
+    true_vector = arraymaker.make_array(true_set, gofixer.fix_go)
 
     # Loop through all fractions till the plotter input.
     for fraction in fractions:
+        t0 = time.time()
         print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:\n" % str(fraction))
         sample = Splitter(fraction, prediction_set).splitter()
         print("Sampled %s%% from the predicted annotation." % str(fraction))
-
-        # Step 6: Run the Fix go, and create a training numpy array:
-        # Set training array in Evaluator to []
-        temp = {}
-        for protein_key in sample:
-            temp[protein_key] = fix_go(sample[protein_key], go_tree)
-            converter.set_training_np(temp)
-            temp = {}
-        print("Added GO-parent tree for the predicted annotation.")
-
+        
         # Step 7: Call true/false training set
-        true_vector, pred_vector = converter.get_array()
+        #true_vector, pred_vector = converter.get_array()
+        pred_vector = arraymaker.make_array(sample, gofixer.fix_go)
         print("Filled arrays with the predicted annotation.")
 
         # Step 8: Evaluate
+        t1 = time.time()
         evaluator = Evaluator(true_vector, pred_vector)
         f1_scores = evaluator.get_f1()
         gem = f1_scores.mean()
         print("Average f1:", gem)
         print("Evaluated prediction with %s%% of the prediction data." % str(fraction))
-
+        print("Evaluation took: ", time.time() - t1)
 
         # Step 9: plot
         plotter.add_score(fraction, gem)
         print("Saved evaluation in plotter class.")
-
-        # Call the converter class again
-        converter = Converter()
-        converter.set_terms_unique_test(true_set)
-        converter.set_np()
-        converter.set_test_np()
+        print("TOOK:", time.time() - t0)
 
 
-    print(plotter.plot_performance())
+
+    plotter.plot_performance()
 
 
 
