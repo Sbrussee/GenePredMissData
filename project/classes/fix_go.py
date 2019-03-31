@@ -26,13 +26,13 @@ class Go_Fixer:
     Returns: term (String) 
     """
     def replace_obsolete_terms(self, term):
-        obsolete_terms = {'GO:0032947' : 'GO:0060090'}
-        if term in obsolete_terms.keys():
-            term = obsolete_terms[term]
+        if term in self.obsolete_terms.keys():
+            term = self.obsolete_terms[term]
         return term
 
     def __init__(self, filename):
         self.go_tree = {}
+        self.obsolete_terms = {}
         with open(filename) as file:
             id, name, term, replace, obsolete, relation = "", \
             "", [], "", False, []
@@ -43,6 +43,9 @@ class Go_Fixer:
                     id = line[1].strip()
                 if line[0] == "replaced_by":
                     replace = line[1].strip()
+                    self.obsolete_terms[id] = replace
+                if line[0] == "alt_id":
+                    self.obsolete_terms[line[1].strip()] = id
                 if line[0] == 'namespace':
                     name = line[1].strip()
                 if line[0] == "is_obsolete" and line[1].strip() == "true":
