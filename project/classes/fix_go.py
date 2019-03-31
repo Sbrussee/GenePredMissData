@@ -3,7 +3,7 @@ import time
 class Go_Fixer:
     def fix_go(self, termlist):
         for term in termlist:
-            term = self.replace_obsolete_terms(term)
+            termlist[termlist.index(term)] = self.replace_obsolete_terms(term)
             try:
                 parents = self.go_tree[term]
                 while type(parents) == str:
