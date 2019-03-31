@@ -18,7 +18,7 @@ class Plotter:
     def plot_performance(self):
         perf_plot, perf_ax = plt.subplots()
         perf_ax.plot(self.frac_of_miss_array, self.performance_array)
-        plt.xlabel("Percentage of missing data")
+        plt.xlabel("Percentage of prediction data")
         plt.ylabel("Model performance")
         plt.title("PFP-model performance under varying missing data fractions")
         plt.show()
