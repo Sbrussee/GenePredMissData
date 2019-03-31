@@ -37,6 +37,19 @@ class Evaluator:
         # Semantic distance
         self.sd = empty_array
 
+    """
+    Parameters: self (class).
+    
+    This function loops through each protein (row) in the true annotation 2D-array and
+    checks the predicted- and true annotation protein rows for true positives (1 in true, 1 in pred),
+    false positives (0 in true, 1 in pred) and false negatives (1 in true, 0 in pred).
+    The function stacks the row indices for the true postives, false positives and false negatives
+    together and passes them to the scikit-learn f1_score function. This function calculates
+    the f1-score for the protein. The calculated f1-score is put in the self.f1 array.
+    After looping through the proteins the filled f1-score array is returned.
+    
+    Returns: self.f1 (numpy array)
+    """
     def get_f1(self):
         # Check if f1 already exist:
         if np.any(np.nan) == False:
