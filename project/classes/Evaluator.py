@@ -45,6 +45,7 @@ class Evaluator:
         for index in range(self.num_of_true_proteins):
             true_row = self.true_annotation[index,]
             pred_row = self.pred_annotation[index,]
+
             tp_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
             fp_indexes = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
             fn_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
