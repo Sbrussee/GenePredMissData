@@ -18,7 +18,7 @@ class Dict2Array:
             pos += 1 
 
     def make_array(self, data, func = None):
-        res = np.full((self.y_size, self.x_size), 0)
+        res = np.full((self.y_size, self.x_size), False, dtype=bool)
         for key in data:
             if func != None:
                 vals = func(data[key])
@@ -31,7 +31,7 @@ class Dict2Array:
                 if not value in self.x_pos:
                     print("Err value '%s' not in x index."%value)
                     continue
-                res[self.y_pos[key]][self.x_pos[value]] = 1
+                res[self.y_pos[key]][self.x_pos[value]] = True
         return res
 
 
