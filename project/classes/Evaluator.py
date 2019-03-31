@@ -3,7 +3,7 @@ import sklearn.metrics as metrics
 
 # Preferable input for the evaluator:
 # The proteins should be rows and the GO-terms should be columns.
-# If input differs, function in the evaluatos will need to correct this.
+# If input differs, function in the evaluator will need to correct this.
 
 # Arrays with the performance metrics can be retrieved from the class, these should be put in
 # arrays and then be given to the plotter.
