@@ -67,6 +67,14 @@ def main():
 
     # Loop through all fractions till the plotter input.
     for fraction in fractions:
+        """
+        Order per fraction:
+        1: Sample the prediction set.
+        2: Link the sampled set to the GO-terms via the gaf file.
+        3: Make an array of the prediction.
+        4: Evaluate the prediction array
+        5: Add evaluation score to plotter
+        """
         t0 = time.time()
         print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:\n" % str(fraction))
         sample = Splitter(fraction, prediction_set).splitter()
