@@ -29,7 +29,7 @@ def main():
 
     # Stap 1: Get the true data and create a nupy
     #rat_annotation = rat_annotation[:100]
-    true_set = parse_true_annotation(rat_annotation)
+    true_set = parse_true_annotation(mouse_annotation)
     print("Parsed true-annotation.")
 
     # Step 4: Import data from obo file
@@ -99,8 +99,6 @@ def main():
         plotter.add_score(fraction, gem)
         print("Saved evaluation in plotter class.")
         print("TOOK:", time.time() - t0)
-
-
 
     plotter.plot_performance()
 
