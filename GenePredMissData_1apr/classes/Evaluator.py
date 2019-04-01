@@ -3,7 +3,7 @@ import sklearn.metrics as metrics
 
 # Preferable input for the evaluator:
 # The proteins should be rows and the GO-terms should be columns.
-# If input differs, function in the evaluator will need to correct this.
+# If input differs, function in the evaluatos will need to correct this.
 
 # Arrays with the performance metrics can be retrieved from the class, these should be put in
 # arrays and then be given to the plotter.
@@ -23,7 +23,7 @@ class Evaluator:
         (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
 
         # Set empty np-arrays which should be determined by the class methods.
-        empty_array = np.empty((self.num_of_true_proteins))
+        empty_array = np.zeros((self.num_of_true_proteins))
 
         # F1-scores
         self.f1 = empty_array
@@ -37,49 +37,25 @@ class Evaluator:
         # Semantic distance
         self.sd = empty_array
 
-    """
-    Parameters: self (class).
-    
-    This function loops through each protein (row) in the true annotation 2D-array and
-    checks the predicted- and true annotation protein rows for true positives (1 in true, 1 in pred),
-    false positives (0 in true, 1 in pred) and false negatives (1 in true, 0 in pred).
-    The function stacks the row indices for the true postives, false positives and false negatives
-    together and passes them to the scikit-learn f1_score function. This function calculates
-    the f1-score for the protein. The calculated f1-score is put in the self.f1 array.
-    After looping through the proteins the filled f1-score array is returned.
-    
-    Returns: self.f1 (numpy array)
-    """
     def get_f1(self):
         # Check if f1 already exist:
-        if np.any(np.nan) == False:
+        if np.count_nonzero(self.f1) > 0:
             return self.f1
 
         for index in range(self.num_of_true_proteins):
-            true_row = self.true_annotation[index,]
-            pred_row = self.pred_annotation[index,]
+            true = self.true_annotation[index, ][np.where(self.true_annotation[index, ] == 1)]
+            pred = self.pred_annotation[index,][np.where(self.true_annotation[index,] == 1)]
 
-            tp_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
-            fp_indexes = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
-            fn_indexes = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
+            true1 = self.true_annotation[index, ][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index, ] == 1))]
+            pred1 = self.pred_annotation[index,][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index,] == 1))]
 
-            true_tp = true_row[tp_indexes]
-            pred_tp = pred_row[tp_indexes]
+            true_array = np.hstack((true, true1))
+            pred_array = np.hstack((pred, pred1))
 
-            true_fp = true_row[fp_indexes]
-            pred_fp = pred_row[fp_indexes]
-
-            true_fn = true_row[fn_indexes]
-            pred_fn = pred_row[fn_indexes]
-
-            true_array = np.hstack((true_tp, true_fp, true_fn))
-            pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
-
-            #true_array = np.delete(true_row, np.intersect1d(np.where(true_row == False), np.where(pred_row == False)))
-            #pred_array = np.delete(true_row, np.intersect1d(np.where(true_row == False), np.where(pred_row == False)))
-
-            prot_f1  = metrics.f1_score(true_array, pred_array)
-            self.f1[index] = prot_f1
+            # Their must be at least one element in the true array, because otherwise the prediction goes wrong.
+            if len(true) > 0:
+                prot_f1 = metrics.f1_score(true_array, pred_array)
+                self.f1[index] = prot_f1
         return self.f1
 
  #Function for calculating remaining uncertainty
