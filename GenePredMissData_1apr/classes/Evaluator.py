@@ -43,19 +43,27 @@ class Evaluator:
             return self.f1
 
         for index in range(self.num_of_true_proteins):
-            true = self.true_annotation[index, ][np.where(self.true_annotation[index, ] == 1)]
-            pred = self.pred_annotation[index,][np.where(self.true_annotation[index,] == 1)]
+            true_row = self.true_annotation[index,]
+            pred_row = self.pred_annotation[index,]
 
-            true1 = self.true_annotation[index, ][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index, ] == 1))]
-            pred1 = self.pred_annotation[index,][np.intersect1d(np.where(self.true_annotation[index,] == 0), np.where(self.pred_annotation[index,] == 1))]
+            tp_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
+            fp_index = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
+            fn_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
 
-            true_array = np.hstack((true, true1))
-            pred_array = np.hstack((pred, pred1))
+            true_tp = true_row[tp_index]
+            pred_tp = pred_row[tp_index]
 
-            # Their must be at least one element in the true array, because otherwise the prediction goes wrong.
-            if len(true) > 0:
-                prot_f1 = metrics.f1_score(true_array, pred_array)
-                self.f1[index] = prot_f1
+            true_fp = true_row[fp_index]
+            pred_fp = pred_row[fp_index]
+
+            true_fn = true_row[fn_index]
+            pred_fn = pred_row[fn_index]
+
+            true_array = np.hstack((true_tp, true_fp, true_fn))
+            pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
+
+            prot_f1 = metrics.f1_score(true_array, pred_array)
+            self.f1[index] = prot_f1
         return self.f1
 
  #Function for calculating remaining uncertainty
