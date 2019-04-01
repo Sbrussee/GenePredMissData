@@ -10,6 +10,7 @@ from classes.klasse_avaluator import Converter
 from classes.Dict2Array import Dict2Array
 
 
+#MOMMA.py
 def main():
     #READ THE INPUT FILES
     global go_tree
