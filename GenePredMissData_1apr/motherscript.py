@@ -4,77 +4,94 @@ from classes.fix_go import Go_Fixer
 from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
-from classes.class_splitter import Splitter
 from classes.Dict2Array import Dict2Array
+from classes.remove_header import remove_header
+from classes.splitter import split
+from classes.Predictor import Predictor
 
 
 def main():
     #OPEN files
-    mouse_gaf = open("files/goa_mouse.gaf", "r")
-    rat_gaf = open("files/goa_rat.gaf", "r")
-    trainfile = open("files/mouseratblast", "r")
+    testclass_file = open("files/goa_mouse.gaf", "r")
+    trainclass_file = open("files/goa_rat.gaf", "r")
+    traindata_file = open("files/ratresults", "r")
+    testdata_file = open("files/mousedata", "r")
 
     #READ lines
     print("Loading input files")
-    mouse_annotation = mouse_gaf.readlines()
-    rat_annotation = rat_gaf.readlines()
-    traindata = trainfile.readlines()
-    mouse_gaf.close()
-    rat_gaf.close()
-    trainfile.close()
+    testclass = testclass_file.readlines()
+    trainclass = trainclass_file.readlines()
+    traindata = traindata_file.readlines()
+    testdata = testdata_file.readlines()
+    testclass_file.close()
+    trainclass_file.close()
+    traindata_file.close()
+    testdata_file.close()
 
-    #PARSE true annotation
-    print("Parsing true annotation")
-    true_set = gaf_parse(mouse_annotation)
+    #PARSE annotation
+    print("Parsing annotation")
+    testclass = gaf_parse(testclass)
+    trainclass = remove_header(trainclass)
+    
 
     #INIT gofixer
     print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
 
     #INIT arraymaker
-    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), true_set.keys())
+    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys())
+                            + [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
 
-    #MAKE true vector
-    print("Making True vector")
-    true_vector = arraymaker.make_array(true_set, gofixer.fix_go)
-    
+    #INIT predictor
+    predictor = Predictor(traindata)
 
+    #MAKE true vector
+    print("Making correct vector")
+    testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
+    
+    #START mainloop
     for fraction in range(100, 0, -10):
         
-        #MEASURING start time
+        #MEASURE start time
         t0 = time.time()
 
-        print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:\n" % str(fraction))
+        #PRINT round info
+        print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:" % str(fraction))
         
-        #SPLITTING prediction set
-        sample = Splitter(fraction, prediction_set).splitter
+        #SPLIT prediction set
+        sample = split(trainclass, fraction)
 
+        #SET prediction sample
+        predictor.set_trainclass(gaf_parse(sample))
 
-        print("Sampled %s%% from the predicted annotation." % str(fraction))
+        #GET prediction
+        predictions = predictor.get_predictions(testdata)
         
-        # Step 7: Call true/false training set
-        #true_vector, pred_vector = converter.get_array()
-        print("Making prediction vector")
-        pred_vector = arraymaker.make_array(sample, gofixer.fix_go)
-        print("Filled arrays with the predicted annotation.")
-
-        # Step 8: Evaluate
+        #MAKE prediction array
+        print("Converting prediction to array")
+        pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+        
+        #CALCULATE evaluation
         t1 = time.time()
-        evaluator = Evaluator(true_vector, pred_vector)
+        evaluator = Evaluator(testclass_array, pred_array)
         f1_scores = evaluator.get_f1()
-        gem = f1_scores.mean()
-        print("Average f1:", gem)
-        print("Evaluated prediction with %s%% of the prediction data." % str(
-            fraction))
+        average = f1_scores.mean()
+
+        #DISPLAY evaluation
+        print("Average f1:", average)
+        print("Evaluated prediction with %s%% of the prediction data." % str(fraction))
         print("Evaluation took: ", time.time() - t1)
-        # Step 9: plot
-        plotter.add_score(fraction, gem)
-        print("Saved evaluation in plotter class.")
+
+        #ADD evaluation to plotter
+        plotter.add_score(fraction, average)
+
+        #DISPLAY round time
         print("TOOK:", time.time() - t0)
 
+    #PLOT performance
     plotter.plot_performance()
 
 
