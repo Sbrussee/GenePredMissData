@@ -39,8 +39,7 @@ def main():
     gofixer = Go_Fixer("files/go-basic.obo")
 
     #INIT arraymaker
-    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys())
-                            + [x.strip() for x in testdata])
+    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys()) + [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
@@ -94,6 +93,8 @@ def main():
     #PLOT performance
     plotter.plot_performance()
 
+    #SAVE plot to file
+    plotter.savefig("plot.png")
 
 
 main()
