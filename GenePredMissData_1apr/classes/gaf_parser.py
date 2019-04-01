@@ -1,7 +1,7 @@
 import numpy as np
 
 # Function that takes the true annotation files and retrieves the uniprotKBs + GO-terms dictionary
-def parse_true_annotation(annotation_lines):
+def gaf_parse(annotation_lines):
     # Create dictionary for the annotation
     annotation_dict = dict()
     # Loop through the annotation file

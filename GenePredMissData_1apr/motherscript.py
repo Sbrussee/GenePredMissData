@@ -1,83 +1,58 @@
 #!/usr/bin/env python3
 import time
 from classes.fix_go import Go_Fixer
-from classes.true_ann_parser import parse_true_annotation
+from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
 from classes.class_splitter import Splitter
-from classes.predictorfile import Predictor
-from classes.klasse_avaluator import Converter
 from classes.Dict2Array import Dict2Array
 
 
 def main():
-    #READ THE INPUT FILES
+    #OPEN files
     mouse_gaf = open("files/goa_mouse.gaf", "r")
     rat_gaf = open("files/goa_rat.gaf", "r")
-    ref_uniprot = open('files/Refseqtouniprotkb.txt', 'r')
+    trainfile = open("files/mouseratblast", "r")
+
+    #READ lines
+    print("Loading input files")
     mouse_annotation = mouse_gaf.readlines()
     rat_annotation = rat_gaf.readlines()
-    uniprot_file = ref_uniprot.readlines()
-    
-    print("Loaded input files.")
-
-    #CLOSE THE INPUT FILES
+    traindata = trainfile.readlines()
     mouse_gaf.close()
     rat_gaf.close()
-    ref_uniprot.close()
+    trainfile.close()
 
+    #PARSE true annotation
+    print("Parsing true annotation")
+    true_set = gaf_parse(mouse_annotation)
 
-    # Stap 1: Get the true data and create a nupy
-    #rat_annotation = rat_annotation[:100]
-    true_set = parse_true_annotation(mouse_annotation)
-    print("Parsed true-annotation.")
-
-    # Step 4: Import data from obo file
+    #INIT gofixer
+    print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
-    print("GO-tree annotation read.")
 
-    # Step 2: Create the prediction uniprot ids
-    uniprot_column_index = 0
-    for index, column in enumerate(uniprot_file[0].strip().split(" ")):
-        if "." and "_" not in column:
-            uniprot_column_index = index
+    #INIT arraymaker
+    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), true_set.keys())
 
-    uniprot_codes = []
-    for line in uniprot_file:
-        uniprot_codes.append(line.strip().split(" ")[uniprot_column_index])
-    print("Loaded in all UniprotKB codes.")
-
-    # Step 3: Put the uniprot ids in the blast memory and check the blast prediction.
-    blast_predictor = Predictor("blast", uniprot_codes)
-    prediction_set = blast_predictor.blast(rat_annotation)
-    print("BLAST-prediction obtained.")
-
-    
-    # Stap 5: Detemine fraction data and call plotter
-    #fractions = [100, 90, 80, 70, 60, 50, 40, 30, 20, 10]
-    fractions = range(100, 0, -10)
+    #INIT plotter
     plotter = Plotter()
 
-    # INIT ArrayMaker
-    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(prediction_set.keys())
-                            + list(true_set.keys()))
-    # Making True vector and adding parent GO-Therms
+    #MAKE true vector
     print("Making True vector")
     true_vector = arraymaker.make_array(true_set, gofixer.fix_go)
+    
 
-    # Loop through all fractions till the plotter input.
-    for fraction in fractions:
-        """
-        Order per fraction:
-        1: Sample the prediction set.
-        2: Link the sampled set to the GO-terms via the gaf file.
-        3: Make an array of the prediction.
-        4: Evaluate the prediction array
-        5: Add evaluation score to plotter
-        """
+    for fraction in range(100, 0, -10):
+        
+        #MEASURING start time
         t0 = time.time()
+
         print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:\n" % str(fraction))
-        sample = Splitter(fraction, prediction_set).splitter()
+        
+        #SPLITTING prediction set
+        sample = Splitter(fraction, prediction_set).splitter
+
+
         print("Sampled %s%% from the predicted annotation." % str(fraction))
         
         # Step 7: Call true/false training set
