@@ -23,7 +23,7 @@ class Evaluator:
         (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
 
         # Set empty np-arrays which should be determined by the class methods.
-        empty_array = np.zeros((self.num_of_true_proteins))
+        empty_array = np.empty((self.num_of_true_proteins))
 
         # F1-scores
         self.f1 = empty_array
