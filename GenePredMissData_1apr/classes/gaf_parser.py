@@ -10,12 +10,10 @@ def gaf_parse(annotation_lines):
         if line.startswith("!") == False:
             # Split the line into sections
             line_items = line.split("\t")
-            # Get the protein section
-            protein = line_items[7]
             # Check if there is a UniProtKB link in the section if the GO-term is valid
-            if "UniProtKB:" in protein and line_items[3] != "NOT":
+            if line_items[3] != "":
                 # Get the UniprotKB code for the protein
-                protein = protein.split("UniProtKB:")[1][0:6]
+                protein = line_items[1]
                 # Check whether protein code is already in the dictionaire
                 if protein not in annotation_dict.keys():
                     # Create a empty list for the GO-terms if so.
