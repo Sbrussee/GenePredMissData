@@ -30,7 +30,7 @@ def main():
 
     #PARSE annotation
     print("Parsing annotation")
-    testclass = gaf_parse(testclass)
+    testclass = gaf_parse(remove_header(testclass))
     trainclass = remove_header(trainclass)
     
 
