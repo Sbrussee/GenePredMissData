@@ -10,8 +10,7 @@ class Predictor:
         global train
         train = trainclass
         self.trainclass = trainclass
-        #for x in trainclass:
-        #    print(x, trainclass[x])
+
 
     def get_predictions(self, testdata):
         predictions = {}
@@ -21,9 +20,9 @@ class Predictor:
                 protein_class = self.traindata[protein].strip()
                 if protein_class in self.trainclass:
                     predictions[protein] = self.trainclass[protein_class]
-                else:
+                #else:
                     #print("PROTEIN_CLASS not in trainclass", protein_class)
-                    predictions[protein] = []
+                    #predictions[protein] = []
             else:
                 print("PROTEIN NOT IN traindata", protein)
                 predictions[protein] = []

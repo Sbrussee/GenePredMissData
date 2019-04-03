@@ -26,7 +26,7 @@ class Dict2Array:
                 vals = data[key]
             for value in vals:
                 if not key in self.y_pos:
-                    print("Err key '%s' not in y index."%key)
+                    #print("Err key '%s' not in y index."%key)
                     continue
                 if not value in self.x_pos:
                     print("Err value '%s' not in x index."%value)

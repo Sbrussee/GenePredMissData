@@ -38,10 +38,11 @@ def main():
     gofixer = Go_Fixer("files/go-basic.obo")
 
     #INIT arraymaker
+    print("Indexing all GO-terms")
     alltherms = []
     for therms in list(gaf_parse(trainclass).values()) + list(testclass.values()):
         alltherms.extend(gofixer.fix_go(therms))
-    arraymaker = Dict2Array(alltherms, [x.strip() for x in testdata])
+    arraymaker = Dict2Array(alltherms, testclass)
 
     #INIT plotter
     plotter = Plotter()
@@ -55,7 +56,7 @@ def main():
     
     #START mainloop
     for fraction in range(100, 0, -10):
-        for round in range(0, 10, 1):
+        for round in range(0, 2, 1):
             #MEASURE start time
             t0 = time.time()
 
