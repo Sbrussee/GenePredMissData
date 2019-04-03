@@ -11,7 +11,6 @@ def gaf_parse(annotation_lines):
         line_items = line.split("\t")
         # Check if there is a UniProtKB link in the section if the GO-term is valid
         if line_items[3] == "":
-            print(line_items)
             # Get the UniprotKB code for the protein
             protein = line_items[1]
             # Check whether protein code is already in the dictionaire
