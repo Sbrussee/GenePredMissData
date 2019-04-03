@@ -39,9 +39,9 @@ class Evaluator:
 
     def get_f1(self):
         # Check if f1 already exist:
-        if np.count_nonzero(self.f1) > 0:
+        if np.isfinite(self.f1).any() == True:
             return self.f1
-        print()
+
         for index in range(self.num_of_true_proteins):
             true_row = self.true_annotation[index,]
             pred_row = self.pred_annotation[index,]
