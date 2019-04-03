@@ -22,3 +22,14 @@ class Plotter:
         plt.ylabel("Model performance")
         plt.title("PFP-model performance under varying missing data fractions")
         plt.show()
+
+    def scatterplotaverageperformance(self):
+        z = np.polyfit(self.frac_of_miss_array, self.performance_array, 1)
+        p = np.poly1d(z)
+        plt.plot(self.frac_of_miss_array, p(self.frac_of_miss_array), "r-")
+        plt.scatter(self.frac_of_miss_array, self.performance_array, s=2)
+        plt.xlabel("Percentage of prediction data")
+        plt.ylabel("Model performance")
+        plt.title("PFP-model performance under varying missing data fractions")
+        plt.show()
+        plt.savefig('scatterplotaverage.png')
