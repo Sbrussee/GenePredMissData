@@ -38,10 +38,10 @@ def main():
     gofixer = Go_Fixer("files/go-basic.obo")
 
     #INIT arraymaker
-    alltherms = []
-    for therms in list(gaf_parse(trainclass).values()) + list(testclass.values()):
-        alltherms.extend(gofixer.fix_go(therms))
-    arraymaker = Dict2Array(alltherms, [x.strip() for x in testdata])
+    allterms = []
+    for terms in list(gaf_parse(trainclass).values()) + list(testclass.values()):
+        allterms.extend(gofixer.fix_go(terms))
+    arraymaker = Dict2Array(allterms, [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
