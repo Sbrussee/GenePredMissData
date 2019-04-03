@@ -32,14 +32,16 @@ def main():
     print("Parsing annotation")
     testclass = gaf_parse(remove_header(testclass))
     trainclass = remove_header(trainclass)
-    
 
     #INIT gofixer
     print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
 
     #INIT arraymaker
-    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys()) + [x.strip() for x in testdata])
+    alltherms = []
+    for therms in list(gaf_parse(trainclass).values()) + list(testclass.values()):
+        alltherms.extend(gofixer.fix_go(therms))
+    arraymaker = Dict2Array(alltherms, [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
@@ -74,6 +76,7 @@ def main():
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
 
             #CALCULATE evaluation
+            print("Evaluating results")
             t1 = time.time()
             evaluator = Evaluator(testclass_array, pred_array)
             f1_scores = evaluator.get_f1()
@@ -92,9 +95,6 @@ def main():
 
     #PLOT performance
     plotter.plot_performance()
-
-    #SAVE plot to file
-    plotter.savefig("plot.png")
 
 
 main()
