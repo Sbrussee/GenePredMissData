@@ -38,17 +38,8 @@ def main():
     print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
 
-    #Get all the GO-terms present in this run:
-    all_go = []
-    for go_list in gaf_parse(trainclass).values():
-        for term in gofixer.fix_go(go_list):
-            all_go.append(term)
-    for go_list in testclass.values():
-        for term in gofixer.fix_go(go_list):
-            all_go.append(term)
-
     #INIT arraymaker
-    arraymaker = Dict2Array(all_go, list(testclass.keys()) + [x.strip() for x in testdata])
+    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys()) + [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
