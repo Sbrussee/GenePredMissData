@@ -38,8 +38,17 @@ def main():
     print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
 
+    #Get all the GO-terms present in this run:
+    all_go = []
+    for go_list in gaf_parse(trainclass).values():
+        for term in gofixer.fix_go(go_list):
+            all_go.append(term)
+    for go_list in testclass.values():
+        for term in gofixer.fix_go(go_list):
+            all_go.append(term)
+
     #INIT arraymaker
-    arraymaker = Dict2Array(gofixer.get_go_tree().keys(), list(testclass.keys()) + [x.strip() for x in testdata])
+    arraymaker = Dict2Array(all_go, list(testclass.keys()) + [x.strip() for x in testdata])
 
     #INIT plotter
     plotter = Plotter()
@@ -53,42 +62,42 @@ def main():
     
     #START mainloop
     for fraction in range(100, 0, -10):
-        
-        #MEASURE start time
-        t0 = time.time()
+        for round in range(0, 10, 1):
+            #MEASURE start time
+            t0 = time.time()
 
-        #PRINT round info
-        print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:" % str(fraction))
-        
-        #SPLIT prediction set
-        sample = split(trainclass, fraction)
+            #PRINT round info
+            print("\nPREDICTION RUN FOR %s%% OF THE PREDICTED ANNOTATION:" % str(fraction))
 
-        #SET prediction sample
-        predictor.set_trainclass(gaf_parse(sample))
+            #SPLIT prediction set
+            sample = split(trainclass, fraction)
 
-        #GET prediction
-        predictions = predictor.get_predictions(testdata)
-        
-        #MAKE prediction array
-        print("Converting prediction to array")
-        pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
-        
-        #CALCULATE evaluation
-        t1 = time.time()
-        evaluator = Evaluator(testclass_array, pred_array)
-        f1_scores = evaluator.get_f1()
-        average = f1_scores.mean()
+            #SET prediction sample
+            predictor.set_trainclass(gaf_parse(sample))
 
-        #DISPLAY evaluation
-        print("Average f1:", average)
-        print("Evaluated prediction with %s%% of the prediction data." % str(fraction))
-        print("Evaluation took: ", time.time() - t1)
+            #GET prediction
+            predictions = predictor.get_predictions(testdata)
 
-        #ADD evaluation to plotter
-        plotter.add_score(fraction, average)
+            #MAKE prediction array
+            print("Converting prediction to array")
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
 
-        #DISPLAY round time
-        print("TOOK:", time.time() - t0)
+            #CALCULATE evaluation
+            t1 = time.time()
+            evaluator = Evaluator(testclass_array, pred_array)
+            f1_scores = evaluator.get_f1()
+            average = f1_scores.mean()
+
+            #DISPLAY evaluation
+            print("Average f1:", average)
+            print("Evaluated prediction with %s%% of the prediction data." % str(fraction))
+            print("Evaluation took: ", time.time() - t1)
+
+            #ADD evaluation to plotter
+            plotter.add_score(fraction, average)
+
+            #DISPLAY round time
+            print("TOOK:", time.time() - t0)
 
     #PLOT performance
     plotter.plot_performance()

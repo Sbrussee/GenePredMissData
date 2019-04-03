@@ -31,5 +31,5 @@ class Plotter:
         plt.xlabel("Percentage of prediction data")
         plt.ylabel("Model performance")
         plt.title("PFP-model performance under varying missing data fractions")
-        plt.show()
         plt.savefig('scatterplotaverage.png')
+        plt.show()

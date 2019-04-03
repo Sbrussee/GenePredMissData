@@ -9,11 +9,11 @@ class Predictor:
     def __init__(self, method, arg1=0, arg2=0):
         self.method = method
         if self.method == "blast":
-            self.newlist = arg1
+            self.uniprot_codes = arg1
 
     #This function will create the dictionary and add GO:id codes to the corresponding uniprotKB code
     def blast(self, annotation_lines):
-        if type(self.newlist) != list:
+        if type(self.uniprot_codes) != list:
             print("Error: You have not given the BLAST-method the Uniprot list.")
         true_annotation_dict = dict()
         for line in annotation_lines:
