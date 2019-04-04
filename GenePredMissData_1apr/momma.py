@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import time
+from classes.arguments import *
 from classes.fix_go import Go_Fixer
 from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
@@ -9,18 +10,14 @@ from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.Predictor import Predictor
 
-EVIDENCE_CODES = ['EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP',
-                  'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA',
-                  'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM',
-                  'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND',
-                  'IEA']
-
 def main():
+    args = get_args()
+    
     #OPEN files
-    testclass_file = open("files/goa_mouse.gaf", "r")
-    trainclass_file = open("files/goa_rat.gaf", "r")
-    traindata_file = open("files/ratresults", "r")
-    testdata_file = open("files/mousedata", "r")
+    testclass_file = open(args["testgaf"], "r")
+    trainclass_file = open(args["traingaf"], "r")
+    traindata_file = open(args["traindata"], "r")
+    testdata_file = open(args["testdata"], "r")
 
     #READ lines
     print("Loading input files")
@@ -35,7 +32,7 @@ def main():
 
     #PARSE annotation
     print("Parsing annotation")
-    testclass = gaf_parse(filter_gaf(testclass))
+    testclass = gaf_parse(filter_gaf(testclass, args["evidence"]))
     trainclass = filter_gaf(trainclass)
 
     #INIT gofixer
@@ -45,7 +42,8 @@ def main():
     #INIT arraymaker
     print("Indexing all GO-terms")
     allterms = []
-    for terms in list(gaf_parse(trainclass).values()) + list(testclass.values()):
+    for terms in list(gaf_parse(trainclass).values()) + \
+        list(testclass.values()):
         allterms.extend(gofixer.fix_go(terms))
     arraymaker = Dict2Array(allterms, testclass)
 
@@ -60,8 +58,8 @@ def main():
     testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
     
     #START mainloop
-    for fraction in range(100, 0, -5):
-        for round in range(0, 10, 1):
+    for fraction in range(100, 0, -args["stepsize"]):
+        for round in range(0, args["repeats"], 1):
             #MEASURE start time
             t0 = time.time()
 

@@ -5,6 +5,8 @@ EVC = ("EXP","IDA","IPI","IMP","IGI","IEP","HTP","HTP","HDA","HMP",
        "HGI","HEP","IBA","IBD","IKR","IRD","ISS","ISO","ISA","ISM",
        "IGC","RCA","TAS","NAS","IC","ND","IEA","IEA", "*")
 
+DOMAINS = ("CC", "MF", "BP")
+
 def check_stepsize(key, arg):
     text = ""
     if arg.isnumeric():
@@ -30,6 +32,31 @@ def check_file(key, arg):
         text = "The file '%s' does not exist."%arg
     return text, arg
 
+def check_domain(key, arg):
+    text = ""
+    res = []
+    domains = arg.split(",")
+    if arg == "*":
+        res = DOMAINS
+    else:
+        for domain in domains:
+            if domain in DOMAINS:
+                res.append(domain)
+            else:
+                text = "Domain '%s' is not valid."%domain
+                break
+    return text, res
+
+def check_repeats(key, arg):
+    text = ""
+    if not arg.isnumeric():
+        text = "Repeat input %s is not numeric."%arg
+    else:
+        arg = int(arg)
+        if arg > 100 or arg < 0:
+            text = "Repeat input has to be a number between 100 and 0."
+    return text, arg
+
 HELP = "HELP"
 LETTERS = {"p":"predictor",
           "e":"evaluator",
@@ -40,6 +67,8 @@ LETTERS = {"p":"predictor",
           "g":"traingaf", 
           "T":"testdata",
           "G":"testgaf",
+          "d":"domain",
+          "r":"repeats",
           "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
@@ -95,6 +124,18 @@ ARGS = {"predictor":{
                     "check":check_file,
                     "help":"HELP" 
                     },
+        "domain":{
+                    "required":False,
+                    "default":"*",
+                    "check":check_domain,
+                    "help":"HELP" 
+                    },
+        "repeats":{
+                    "required":False,
+                    "default":1,
+                    "check":check_repeats,
+                    "help":"HELP" 
+                    },
         "help":{
                     "required":False,
                     "default":False,
@@ -117,7 +158,6 @@ def finish_arg(argstore):
             inf = ARGS[arg]
             text = ""
             if inf["check"] != False:
-                print("HERE")
                 if type(inf["check"]) == tuple:
                     if not content in inf["check"]:
                         print("'%s' not allowed for argument '%s'.\n"%(
@@ -145,12 +185,12 @@ def get_args():
     argv = sys.argv
     for i in range(1, len(argv)):
         word = False
-        arg = argv[i].lower()
+        arg = argv[i]
         if arg[0] != "-":
             continue
         if arg[1] != "-":
-            if arg[1:] in LETTER:
-                arg = LETTER[arg[1:]]
+            if arg[1:] in LETTERS:
+                arg = LETTERS[arg[1:]]
         else:
             arg = arg[2:]
         if arg not in ARGS:
