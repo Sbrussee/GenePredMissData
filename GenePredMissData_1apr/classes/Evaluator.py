@@ -1,5 +1,9 @@
+import warnings
 import numpy as np
 import sklearn.metrics as metrics
+from sklearn.exceptions import UndefinedMetricWarning
+
+warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
 # Preferable input for the evaluator:
 # The proteins should be rows and the GO-terms should be columns.
