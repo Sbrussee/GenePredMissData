@@ -48,7 +48,7 @@ def get_blast_extend(clas, train, test):
             for prot in protein_class:
                 if prot in clas:
                     extend.get_blast_extend(clas[prot])
-                    doorgaan = True
+                    doorgaan = True    
             if doorgaan:
                 predictions[protein] = extend.set_blast_extend()
     return predictions
@@ -62,6 +62,10 @@ def get_blast(clas, train, test):
             protein_class = train[protein][0]
             if protein_class in clas:
                 predictions[protein] = clas[protein_class]
+            else:
+                    predictions[protein] = []
+        else:
+                predictions[protein] = []
     return predictions
 
 # If blast extension calculate the precision for each protein.
