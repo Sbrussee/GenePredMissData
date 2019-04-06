@@ -50,7 +50,7 @@ def check_domain(key, arg):
 def check_repeats(key, arg):
     text = ""
     if not arg.isnumeric():
-        text = "Repeat input %s is not numeric."%arg
+        text = "Repeat input '%s' is not numeric."%arg
     else:
         arg = int(arg)
         if arg > 100 or arg < 0:
@@ -67,23 +67,24 @@ def check_threads(key, arg):
         text = "Threads has to be a number."
     return text, arg
 
-HELP = "====GOA_PREDICTION FRAMEWORK===="\
+HELP = "====GOA_PREDICTION FRAMEWORK====\n"\
        "Tests different GO-prediction algorithms "\
        "by removing values incrementally from the "\
        "input dataset."
 LETTERS = {"p":"predictor",
-          "e":"evaluator",
-          "l":"plotter",
-          "s":"stepsize",
-          "e":"evidence",
-          "t":"traindata",
-          "g":"traingaf", 
-          "T":"testdata",
-          "G":"testgaf",
-          "d":"domain",
-          "r":"repeats",
-          "n":"threads",
-          "h":"help"}
+           "e":"evaluator",
+           "l":"plotter",
+           "s":"stepsize",
+           "e":"evidence",
+           "t":"traindata",
+           "g":"traingaf", 
+           "T":"testdata",
+           "G":"testgaf",
+           "d":"domain",
+           "r":"repeats",
+           "n":"threads",
+           "f":"nogofix",
+           "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
                     "default":"blast",
@@ -152,9 +153,15 @@ ARGS = {"predictor":{
                     },
         "threads":{
                     "required":False,
-                    "default":1,
+                    "default":"*",
                     "check":check_threads,
                     "help":"Amount of processing threads to use. Should be a positive number." 
+                    },
+        "nogofix":{
+                    "required":False,
+                    "default":"",
+                    "check":None,
+                    "help":"Skip GO-TREE completing the GO terms." 
                     },
         "help":{
                     "required":False,
@@ -184,7 +191,7 @@ def finish_arg(argstore):
                                 content, arg) +
                               "Allowed: %s."%", ".join(inf["check"]))
                         exit()
-                else:
+                elif inf["check"] != None:
                     text, content = inf["check"](arg, content)
                 if text != "":
                     print(text)

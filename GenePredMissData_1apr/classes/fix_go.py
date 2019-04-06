@@ -2,17 +2,19 @@ import time
 
 class Go_Fixer:
     def fix_go(self, termlist):
+        pos = 0
         for term in termlist:
-            termlist[termlist.index(term)] = self.replace_obsolete_terms(term)
             try:
                 parents = self.go_tree[term]
                 while type(parents) == str:
+                    termlist[pos] = parents
                     parents = self.go_tree[parents]
             except KeyError:
                 continue
             for pterm in parents:
                 if not pterm in termlist and pterm != '':
                     termlist.append(pterm)
+            pos += 1
         return termlist
 
     """
@@ -25,10 +27,15 @@ class Go_Fixer:
     
     Returns: term (String) 
     """
-    def replace_obsolete_terms(self, term):
+    def replace_obsolete_term(self, term):
         if term in self.obsolete_terms.keys():
             term = self.obsolete_terms[term]
         return term
+
+    def replace_obsolete_terms(self, terms):
+        for i in range(len(terms)):
+            terms[i] = self.replace_obsolete_term(terms[i])
+        return terms
 
     def __init__(self, filename):
         self.go_tree = {}
@@ -46,6 +53,8 @@ class Go_Fixer:
                     self.obsolete_terms[id] = replace
                 if line[0] == "alt_id":
                     self.obsolete_terms[line[1].strip()] = id
+                    obsolete = True
+                    replace = line[1].strip()
                 if line[0] == 'namespace':
                     name = line[1].strip()
                 if line[0] == "is_obsolete" and line[1].strip() == "true":

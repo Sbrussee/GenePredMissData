@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import time
+import os
 from multiprocessing import Process, Queue
 from classes.arguments import *
 from classes.fix_go import Go_Fixer
@@ -12,13 +13,17 @@ from classes.splitter import split
 from classes.Predictor import Predictor
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
-         trainclass, arraymaker, gofixer):
+         trainclass, arraymaker, gofixer, gofix):
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
         predictor.set_trainclass(gaf_parse(sample))
         predictions = predictor.get_predictions(testdata)
-        pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+        if gofix:
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+        else:
+            pred_array = arraymaker.make_array(predictions,
+                                               gofixer.replace_obsolete_terms)
         evaluator = Evaluator(testclass_array, pred_array)
         f1_scores = evaluator.get_f1()
         average = f1_scores.mean()
@@ -27,7 +32,10 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
 def main():
     args = get_args()
-    
+    gofix = not "nogofix" in args
+    threads = args["threads"]
+    if threads == "*":
+        threads = os.sysconf("SC_NPROCESSORS_ONLN")
     print("Loading input files")
     testclass_file = open(args["testgaf"], "r")
     trainclass_file = open(args["traingaf"], "r")
@@ -53,13 +61,18 @@ def main():
     allterms = []
     for terms in list(gaf_parse(trainclass).values()) + \
         list(testclass.values()):
-        allterms.extend(gofixer.fix_go(terms))
+        if gofix:
+            terms = gofixer.fix_go(terms)
+        allterms.extend(terms)
     arraymaker = Dict2Array(allterms, testclass)
     plotter = Plotter()
     predictor = Predictor(traindata)
     
-    print("Making correct vector")
-    testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
+    if gofix:
+        testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
+    else:
+        testclass_array = arraymaker.make_array(testclass,
+                                                gofixer.replace_obsolete_terms)
 
     print("\nSTARTING")
     requests = Queue()
@@ -72,11 +85,11 @@ def main():
     results = Queue()
     done = 0
     print("Progress: 0%")
-    for x in range(args["threads"]):
+    for x in range(threads):
         p = Process(target = step, args = (requests, results, predictor,
                                            testdata, traindata,
                                            testclass_array, trainclass,
-                                           arraymaker, gofixer))
+                                           arraymaker, gofixer, gofix))
         p.start()
         processes.append(p)
     while total - done > 0:
