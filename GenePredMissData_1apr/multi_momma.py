@@ -92,13 +92,17 @@ def main():
                                            arraymaker, gofixer, gofix))
         p.start()
         processes.append(p)
+    file = open("results.csv","w")
+    file.write("fraction\tresult\n")
     while total - done > 0:
         r = results.get()
         done += 1
         print("Progress:", str(round(100 - (total - done) / total * 100)) +
               "%")
+        file.write(str(r[0]) + "\t" + str(r[1]) + "\n")
         plotter.add_score(r[0], r[1])
         time.sleep(1)
+    file.close()
     plotter.scatterplot_average_performance()
 
 main()
