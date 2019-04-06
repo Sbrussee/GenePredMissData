@@ -11,6 +11,7 @@ from classes.splitter import split
 from classes.Predictor import Predictor
 
 def main():
+    #GET commandline arguments
     args = get_args()
     
     #OPEN files
@@ -88,7 +89,8 @@ def main():
 
             #DISPLAY evaluation
             print("Average f1:", average)
-            print("Evaluated prediction with %s%% of the prediction data." % str(fraction))
+            print("Evaluated prediction with %s%% of the prediction data." %
+                  str(fraction))
             print("Evaluation took: ", time.time() - t1, "seconds")
 
             #ADD evaluation to plotter

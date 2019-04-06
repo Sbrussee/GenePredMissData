@@ -57,7 +57,20 @@ def check_repeats(key, arg):
             text = "Repeat input has to be a number between 100 and 0."
     return text, arg
 
-HELP = "HELP"
+def check_threads(key, arg):
+    text = ""
+    if arg.isnumeric():
+        arg = int(arg)
+        if arg < 1:
+            text = "Threads has to be higher than 0."
+    else:
+        text = "Threads has to be a number."
+    return text, arg
+
+HELP = "====GOA_PREDICTION FRAMEWORK===="\
+       "Tests different GO-prediction algorithms "\
+       "by removing values incrementally from the "\
+       "input dataset."
 LETTERS = {"p":"predictor",
           "e":"evaluator",
           "l":"plotter",
@@ -69,78 +82,85 @@ LETTERS = {"p":"predictor",
           "G":"testgaf",
           "d":"domain",
           "r":"repeats",
+          "n":"threads",
           "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
                     "default":"blast",
                     "check":("blast"),
-                    "help":"HELP" 
+                    "help":"What predictor to use. Can be one of: 'blast'. " 
                     },
         "evaluator":{
                     "required":False,
                     "default":"semantic",
                     "check":("semantic"),
-                    "help":"HELP" 
+                    "help":"What evaluator to use. Can be one of: 'semantic'." 
                     },
         "plotter":{
                     "required":False,
                     "default":"line",
                     "check":("line"),
-                    "help":"HELP" 
+                    "help":"What plotter to use. Can be one of: 'line'." 
                     },
         "stepsize":{
                     "required":False,
                     "default":"5",
                     "check":check_stepsize,
-                    "help":"HELP" 
+                    "help":"Percentage decrease of dataset sample per round. Should be a number from 0 to 100." 
                     },
         "evidence":{
                     "required":False,
                     "default":"*",
                     "check":check_evidence,
-                    "help":"HELP" 
+                    "help":"Evidence codes to use. Should be multiple seperated by comma without spaces or * for all." 
                     },
         "traindata":{
                     "required":True,
                     "default":False,
                     "check":check_file,
-                    "help":"HELP" 
+                    "help":"Filename of traindata." 
                     },
         "traingaf":{
                     "required":True,
                     "default":False,
                     "check":check_file,
-                    "help":"HELP" 
+                    "help":"Filename of traingaf." 
                     },
         "testdata":{
                     "required":True,
                     "default":False,
                     "check":check_file,
-                    "help":"HELP" 
+                    "help":"Filename of testdata."  
                     },
         "testgaf":{
                     "required":True,
                     "default":False,
                     "check":check_file,
-                    "help":"HELP" 
+                    "help":"Filename of testgaf." 
                     },
         "domain":{
                     "required":False,
                     "default":"*",
                     "check":check_domain,
-                    "help":"HELP" 
+                    "help":"Domains to use. Should be multiple seperated by comma without spaces or * for all." 
                     },
         "repeats":{
                     "required":False,
                     "default":1,
                     "check":check_repeats,
-                    "help":"HELP" 
+                    "help":"Amount of repeats per step. Should be a positive number." 
+                    },
+        "threads":{
+                    "required":False,
+                    "default":1,
+                    "check":check_threads,
+                    "help":"Amount of processing threads to use. Should be a positive number." 
                     },
         "help":{
                     "required":False,
                     "default":False,
                     "check":False,
-                    "help":"HELP" 
+                    "help":"Display this help." 
                     }}
     
 def show_help():
@@ -165,7 +185,7 @@ def finish_arg(argstore):
                               "Allowed: %s."%", ".join(inf["check"]))
                         exit()
                 else:
-                    text, arg = inf["check"](arg, content)
+                    text, content = inf["check"](arg, content)
                 if text != "":
                     print(text)
                     exit()
