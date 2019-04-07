@@ -52,7 +52,8 @@ def main():
     plotter = Plotter()
 
     #INIT predictor
-    predictor = Predictor(traindata, extend=1)
+    extend = 1
+    predictor = Predictor(traindata, extend)
 
     #MAKE true vector
     print("Making correct vector")
