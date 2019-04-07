@@ -66,7 +66,7 @@ def main():
         allterms.extend(terms)
     arraymaker = Dict2Array(allterms, testclass)
     plotter = Plotter()
-    predictor = Predictor(traindata)
+    predictor = Predictor(traindata, 1)
     
     if gofix:
         testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
