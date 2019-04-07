@@ -2,21 +2,18 @@ import pandas as pd
 import numpy as np
 class Predictor:
     # Import the train data and get all blast results for the best blast hit or blast extension.
-    def __init__(self, traindata):
-        self.blast_extend = False
+    def __init__(self, traindata, extend):
         self.traindata = {}
+        self.extend = extend
         remember, count = "", 0
         for line in traindata:
             id = line.split("\t")
             input = id[0]
-            output = id[-1].strip()
-            if input == remember and count <= 20 and output not in out:
-                self.blast_extend = True
+            output = id[1].strip()
+            if input == remember and count < extend:
                 self.traindata[input].append(output)
                 count += 1
             elif input != remember:
-                out = []
-                out.append(output)
                 remember = input
                 self.traindata[input] = []
                 self.traindata[input].append(output)
@@ -30,9 +27,10 @@ class Predictor:
 
     # Get prediction for or blast extension or best blast hit.
     def get_predictions(self, testdata):
-        if not self.blast_extend:
+        prediction = {}
+        if self.extend == 1:
             prediction = get_blast(self.trainclass, self.traindata, testdata)
-        if self.blast_extend:
+        if self.extend > 1:
             prediction = get_blast_extend(self.trainclass, self.traindata, testdata)
         return prediction
 
@@ -48,7 +46,7 @@ def get_blast_extend(clas, train, test):
             for prot in protein_class:
                 if prot in clas:
                     extend.get_blast_extend(clas[prot])
-                    doorgaan = True    
+                    doorgaan = True
             if doorgaan:
                 predictions[protein] = extend.set_blast_extend()
     return predictions
