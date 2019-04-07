@@ -77,7 +77,7 @@ def main():
     print("\nSTARTING")
     requests = Queue()
     for fraction in range(100, 0, -args["stepsize"]):
-        for r in range(0, args["repeats"], 1):
+        for r in range(0, args["repeats"], extend=1):
             requests.put(fraction)
 
     total = requests.qsize()
