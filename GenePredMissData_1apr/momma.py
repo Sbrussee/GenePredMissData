@@ -46,13 +46,13 @@ def main():
     for terms in list(gaf_parse(trainclass).values()) + \
         list(testclass.values()):
         allterms.extend(gofixer.fix_go(terms))
-    arraymaker = Dict2Array(allterms, testclass)
+    extend = 1
+    arraymaker = Dict2Array(allterms, testclass, extend)
 
     #INIT plotter
     plotter = Plotter()
 
     #INIT predictor
-    extend = 1
     predictor = Predictor(traindata, extend)
 
     #MAKE true vector
