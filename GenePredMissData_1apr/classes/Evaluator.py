@@ -66,9 +66,19 @@ class Evaluator:
 
             true_array = np.hstack((true_tp, true_fp, true_fn))
             pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
-
+        
             prot_f1 = metrics.f1_score(true_array, pred_array)
             self.f1[index] = prot_f1
+            
+            """
+            A solution for measering the f1 score by decimals:
+            
+            true_array = np.hstack((true_tp, true_fp, true_fn)) * 100
+            pred_array = np.round(np.hstack((pred_tp, pred_fp, pred_fn)) * 100)
+            prot_f1 = metrics.precision_score(true_array, pred_array, average="macro")
+            
+            """
+            
         return self.f1
 
  #Function for calculating remaining uncertainty
