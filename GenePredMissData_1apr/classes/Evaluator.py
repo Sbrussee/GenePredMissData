@@ -71,7 +71,7 @@ class Evaluator:
             self.f1[index] = prot_f1
             
             """
-            A solution for measering the f1 score by decimals:
+            A solution for measering the f1 score with decimals:
             
             true_array = np.hstack((true_tp, true_fp, true_fn)) * 100
             pred_array = np.round(np.hstack((pred_tp, pred_fp, pred_fn)) * 100)
