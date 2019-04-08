@@ -4,8 +4,8 @@ from scipy import *
 
 
 class Dict2Array:
-    def __init__(self, x, y, dtype):
-        self.dtype = dtype
+    def __init__(self, x, y, extend):
+        self.extend = extend
         x = sorted(list(set(x)))
         y = sorted(list(set(y)))
         self.x_pos = {}
@@ -22,31 +22,81 @@ class Dict2Array:
             pos += 1
 
 
-    def make_array(self, data, func):
-        for value in data.values():
-            if value != []:
-                t = value[0][0]
+    def make_array(self, data, func=None):
+        parse_matrix = []
+        if self.extend == 1:
+            parse_matrix = make_array_not_extend(self, data, func)
+        elif self.extend > 1:
+            parse_matrix = make_array_extend(self, data, func)
+        return parse_matrix
+
+def make_array_extend(self, data, func):
+    parse_matrix = []
+    for key in data.values():
+        if len(key) > 0:
+            if type(key[1]) == tuple:
+                parse_matrix = train_extend(self, data, func)
                 break
-        if type(t) == tuple:
-            t = type(t[1])
-        else:
-            t = bool
-        res = lil_matrix((self.y_size, self.x_size), dtype=t)
-        for key in data:
-            if func != None:
-                vals = func(data[key])
             else:
-                vals = data[key]
-            for value in vals:
-                if not type(value) == tuple:
-                    value = (value, True)
-                if not key in self.y_pos:
-                    continue
-                if not value[0] in self.x_pos:
-                    print("Err value '%s' not in x index." % value[0])
-                    continue
-                res[self.y_pos[key], self.x_pos[value[0]]] = value[1]
-        return res
+                parse_matrix = test_extend(self, data, func)
+                break
+    return parse_matrix
+
+def train_extend(self, data, func):
+    res = lil_matrix((self.y_size, self.x_size), dtype=float)
+    for key in data:
+        if func != None:
+            vals = func(data[key])
+        else:
+            vals = data[key]
+        for value in vals:
+            if not key in self.y_pos:
+                # print("Err key '%s' not in y index."%key)
+                continue
+            if not value[0] in self.x_pos:
+                print("Err value '%s' not in x index." % value[0])
+                res[self.y_pos[key], self.x_pos[value[0]]] = 0
+                continue
+            res[self.y_pos[key], self.x_pos[value[0]]] = value[1]
+
+    return res
+
+
+def test_extend(self, data, func):
+    res = lil_matrix((self.y_size, self.x_size), dtype=float)
+    for key in data:
+        if func != None:
+            vals = func(data[key])
+        else:
+            vals = data[key]
+        for value in vals:
+            if not key in self.y_pos:
+                # print("Err key '%s' not in y index."%key)
+                continue
+            if not value in self.x_pos:
+                print("Err value '%s' not in x index." % value)
+                continue
+            res[self.y_pos[key], self.x_pos[value]] = 1
+    return res
+
+
+def make_array_not_extend(self, data, func):
+    # res = np.full((self.y_size, self.x_size), False, dtype=bool)
+    res = lil_matrix((self.y_size, self.x_size), dtype=bool)
+    for key in data:
+        if func != None:
+            vals = func(data[key])
+        else:
+            vals = data[key]
+        for value in vals:
+            if not key in self.y_pos:
+                # print("Err key '%s' not in y index."%key)
+                continue
+            if not value in self.x_pos:
+                print("Err value '%s' not in x index." % value)
+                continue
+            res[self.y_pos[key], self.x_pos[value]] = True
+    return res
 
 
 if __name__ == "__main__":
