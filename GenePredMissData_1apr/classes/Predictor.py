@@ -122,14 +122,7 @@ class extend_converter:
 
     # Save uniprot id in temporary list new.
     def get_blast_extend(self, blast_extend):
-        new = []
-        if len(blast_extend) > 1:
-            for regels in blast_extend:
-                if regels not in new:
-                    new.append(regels)
-            self.blast_extend.append(new)
-        else:
-            self.blast_extend.append(blast_extend)
+        self.blast_extend.append(blast_extend)
         self.count += 1
 
     # Calculate frequence go terms for als go terms per true in in temporary list new.
