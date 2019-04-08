@@ -1,1 +1,0 @@
-python3 momma.py -t files/ratresults -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10
