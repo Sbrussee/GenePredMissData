@@ -86,22 +86,23 @@ def main():
             t1 = time.time()
             evaluator = Evaluator(testclass_array, pred_array)
             f1_scores = evaluator.get_f1()
+            stdev = f1_scores.std()
             average = f1_scores.mean()
 
             #DISPLAY evaluation
             print("Average f1:", average)
+            print("Standard deviation f1:", stdev)
             print("Evaluated prediction with %s%% of the prediction data." %
                   str(fraction))
             print("Evaluation took: ", time.time() - t1, "seconds")
 
             #ADD evaluation to plotter
-            plotter.add_score(fraction, average)
+            plotter.add_score(fraction, average, stdev)
 
             #DISPLAY round time
             print("TOOK:", time.time() - t0, "seconds")
 
     #PLOT performance
-    #plotter.plot_performance()
-    plotter.scatterplotaverageperformance()
+    plotter.plot_performance()
 
 main()
