@@ -57,17 +57,18 @@ def get_lijst_extend(self, traindata, extend):
     self.traindata = {}
     remember, count = "", 0
     for line in traindata:
-        id = line.split("\t")
-        input = id[0].strip()
-        output = id[-1].strip()
-        if input == remember and count < extend:
-            self.traindata[input].append(output)
-            count += 1
-        elif input != remember:
-            remember = input
-            self.traindata[input] = []
-            self.traindata[input].append(output)
-            count = 1
+        if line.strip() != "":
+            id = line.split("\t")
+            input = id[0].strip()
+            output = id[-1].strip()
+            if input == remember and count < extend:
+                self.traindata[input].append(output)
+                count += 1
+            elif input != remember:
+                remember = input
+                self.traindata[input] = []
+                self.traindata[input].append(output)
+                count = 1
     return self.traindata
 
 
