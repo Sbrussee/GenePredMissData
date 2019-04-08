@@ -90,17 +90,17 @@ def main():
             average = f1_scores.mean()
 
             #DISPLAY evaluation
-            print("Average f1:", average)
-            print("Standard deviation f1:", stdev)
+            print("Average f1:", '{0:.3g}'.format(average))
+            print("Standard deviation f1:", '{0:.3g}'.format(stdev))
             print("Evaluated prediction with %s%% of the prediction data." %
                   str(fraction))
-            print("Evaluation took: ", time.time() - t1, "seconds")
+            print("Evaluation took: ", '{0:.3g}'.format(time.time() - t1), "seconds")
 
             #ADD evaluation to plotter
             plotter.add_score(fraction, average, stdev)
 
             #DISPLAY round time
-            print("TOOK:", time.time() - t0, "seconds")
+            print("TOOK:", '{0:.3g}'.format(time.time() - t0), "seconds")
 
     #PLOT performance
     plotter.plot_performance()
