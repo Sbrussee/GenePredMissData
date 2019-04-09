@@ -14,39 +14,48 @@ class Dict2Array:
 
     def make_array(self, data, func):
         create = create_array()
-        for id, value in data.items():
-
+        check_een = 0
+        for id in data:
             if func != None:
                 vals = func(data[id])
             else:
-                vals = func(data[id])
-
-            if len(value) > 0:
-                if type(value[0]) == tuple:
-                    res = create.get_extend(self.y_size, self.x_size, value, self.y_pos, self.x_pos, vals, id)
+                vals = data[id]
+            if len(vals) > 0:
+                if type(vals[0]) == tuple:
+                    if check_een == 0:
+                        check_een = 10
+                        create.set_rest(1, self.y_size, self.x_size )
+                    create.get_extend(self.y_pos, self.x_pos, vals, id)
                 else:
-                    res = create.get_not_extend(self.y_size, self.x_size, self.y_pos, self.x_pos, vals, id)
-        return res
+                    vals = vals[0]
+                    if check_een == 0:
+                        check_een = 10
+                        create.set_rest(2, self.y_size, self.x_size )
+                    create.get_not_extend(self.y_pos, self.x_pos, vals, id)
+        return create.get_array()
 
 class create_array():
-    @staticmethod
-    def get_not_extend(y_size, x_size, y_pos, x_pos, vals, id):
-        res = lil_matrix((y_size, x_size), dtype=bool)
-        for val in vals:
-            if id in y_pos and val in x_pos:
-                res[y_pos[id], x_pos[val]] = True
-        return res
+    def __init__(self):
+        self.res = []
 
+    def set_rest(self, getal, y_size, x_size):
+        if getal == 1:
+            self.res = lil_matrix((y_size, x_size), dtype=float)
+        else:
+            self.res = lil_matrix((y_size, x_size), dtype=bool)
 
-    @staticmethod
-    def get_extend(y_size, x_size, value, y_pos, x_pos, vals, id):
-        res = lil_matrix((y_size, x_size), dtype=float)
-        for val in vals:
-            for regels in value:
-                print(regels)
-                if id in y_pos and val in x_pos:
-                    res[y_pos[id], x_pos[val]] = regels[1]
-        return res
+    def get_not_extend(self, y_pos, x_pos, vals, id):
+        if id in y_pos and vals in x_pos:
+            self.res[y_pos[id], x_pos[vals]] = True
+
+    def get_extend(self, y_pos, x_pos, vals, id):
+        for regels in vals:
+            if id in y_pos and regels[0] in x_pos:
+                self.res[y_pos[id], x_pos[regels[0]]] = regels[1]
+
+    def get_array(self):
+        return self.res
+
 
 
 
