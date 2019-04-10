@@ -87,7 +87,7 @@ LETTERS = {"p":"predictor",
            "h":"help"}
 ARGS = {"predictor":{
                     "required":True,
-                    "default":"classes/",
+                    "default":"predictors/Blast.py",
                     "check":check_file,
                     "help":"What predictor to use. Can be one of: 'blast'. " 
                     },
