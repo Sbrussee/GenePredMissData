@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import time
 import os
+import importlib
 from multiprocessing import Process, Queue
 from classes.arguments import *
 from classes.fix_go import Go_Fixer
 from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
-from classes.Dict2Array import Dict2Array
+from classes.backup.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.Predictor import Predictor
@@ -26,8 +27,9 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
                                                gofixer.replace_obsolete_terms)
         evaluator = Evaluator(testclass_array, pred_array)
         f1_scores = evaluator.get_f1()
+        stdev = f1_scores.std()
         average = f1_scores.mean()
-        results.put((fraction, average))
+        results.put((fraction, average, stdev))
 
 
 def main():
@@ -36,6 +38,7 @@ def main():
     threads = args["threads"]
     if threads == "*":
         threads = os.sysconf("SC_NPROCESSORS_ONLN")
+    print("Using %s threads"%threads)
     print("Loading input files")
     testclass_file = open(args["testgaf"], "r")
     trainclass_file = open(args["traingaf"], "r")
@@ -78,7 +81,7 @@ def main():
     print("\nSTARTING")
     requests = Queue()
     for fraction in range(100, 0, -args["stepsize"]):
-        for r in range(0, args["repeats"], extend=1):
+        for r in range(0, args["repeats"]):
             requests.put(fraction)
 
     total = requests.qsize()
@@ -93,7 +96,7 @@ def main():
                                            arraymaker, gofixer, gofix))
         p.start()
         processes.append(p)
-    file = open("results.csv","w")
+    file = open("results.tsv","w")
     file.write("fraction\tresult\n")
     while total - done > 0:
         r = results.get()
@@ -101,9 +104,9 @@ def main():
         print("Progress:", str(round(100 - (total - done) / total * 100)) +
               "%")
         file.write(str(r[0]) + "\t" + str(r[1]) + "\n")
-        plotter.add_score(r[0], r[1])
+        plotter.add_score(r[0], r[1], r[2])
         time.sleep(1)
     file.close()
-    plotter.scatterplot_average_performance()
+    plotter.plot_performance()
 
 main()
