@@ -102,14 +102,13 @@ def main():
     file.write("fraction\tresult\n")
     while total - done > 0:
         r = results.get()
-        print(r)
         done += 1
         print("Progress:", str(round(100 - (total - done) / total * 100)) +
               "%")
         for metric, evaluation in r[1].items():
             print("Fraction:", r[0], "Metric:", metric, "Evaluation:", evaluation)
             file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation) + "\n")
-        #plotter.add_score(r[0], r[1])
+        plotter.add_score(r[0], r[1]["f-score"],  0)
         time.sleep(1)
     file.close()
     plotter.plot_performance()
