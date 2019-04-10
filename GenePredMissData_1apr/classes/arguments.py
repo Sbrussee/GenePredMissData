@@ -5,7 +5,7 @@ EVC = ("EXP","IDA","IPI","IMP","IGI","IEP","HTP","HTP","HDA","HMP",
        "HGI","HEP","IBA","IBD","IKR","IRD","ISS","ISO","ISA","ISM",
        "IGC","RCA","TAS","NAS","IC","ND","IEA","IEA")
 
-DOMAINS = ("CC", "MF", "BP")
+DOMAINS = ("C", "F", "P")
 
 EVAL = ('f-score', 'precision')
 
@@ -106,7 +106,7 @@ ARGS = {"predictor":{
                     },
         "evaluator":{
                     "required":False,
-                    "default":"f-score",
+                    "default":["f-score"],
                     "check":check_evaluator,
                     "help":"What evaluator to use. Can be one of: 'f-score', 'precision'." 
                     },
