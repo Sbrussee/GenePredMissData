@@ -50,7 +50,7 @@ def main():
     arraymaker = Dict2Array(allterms, testclass, extend)
 
     #INIT plotter
-    plotter = Plotter()
+    plotter = Plotter(['f-score', 'precision'])
 
     #INIT predictor
     predictor = Predictor(traindata, extend)
