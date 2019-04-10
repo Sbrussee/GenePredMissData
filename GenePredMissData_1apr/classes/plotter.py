@@ -24,8 +24,10 @@ class Plotter:
         for index, fraction in enumerate(self.frac_of_miss_array):
             means[fraction] = np.mean(self.performance_array[index:index+amount_of_runs])
             stdevs[fraction] = np.mean(self.stdev_array[index:index+amount_of_runs])
-        means = np.asarray(list(means.values())[::-1])
-        stdevs = np.asarray(list(stdevs.values())[::-1])
+
+
+        means = np.asarray([100 - x for x in list(means.values())])
+        stdevs = np.asarray([100 - x for x in list(stdevs.values())])
         plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
         plt.xticks(np.arange(len(fractions)), fractions[::-1])
         plt.plot(means)
