@@ -11,10 +11,9 @@ from classes.plotter import Plotter
 from classes.backup.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
-from classes.Predictor import Predictor
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
-         trainclass, arraymaker, gofixer, gofix):
+         trainclass, arraymaker, gofixer, gofix, evaluators):
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
@@ -25,20 +24,22 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         else:
             pred_array = arraymaker.make_array(predictions,
                                                gofixer.replace_obsolete_terms)
-        evaluator = Evaluator(testclass_array, pred_array)
-        f1_scores = evaluator.get_f1()
-        stdev = f1_scores.std()
-        average = f1_scores.mean()
-        results.put((fraction, average, stdev))
+        evaluator = Evaluator(testclass_array, pred_array, evaluators)
+        evaluation = evaluator.get_evaluation()
+        results.put((fraction, evaluation))
 
 
 def main():
     args = get_args()
+    modname = args["predictor"].split(".")[0].replace("/", ".")
+    print("Using predictor:", modname)
+    Predictor = importlib.import_module(modname).Predictor
     gofix = not "nogofix" in args
     threads = args["threads"]
     if threads == "*":
         threads = os.sysconf("SC_NPROCESSORS_ONLN")
     print("Using %s threads"%threads)
+    
     print("Loading input files")
     testclass_file = open(args["testgaf"], "r")
     trainclass_file = open(args["traingaf"], "r")
@@ -54,8 +55,8 @@ def main():
     testdata_file.close()
     
     print("Parsing annotation")
-    testclass = gaf_parse(filter_gaf(testclass, args["evidence"]))
-    trainclass = filter_gaf(trainclass)
+    testclass = gaf_parse(filter_gaf(testclass, args["evidence"], args["domain"]))
+    trainclass = filter_gaf(trainclass, args["evidence"], args["domain"])
     
     print("Reading GO-tree")
     gofixer = Go_Fixer("files/go-basic.obo")
@@ -93,18 +94,22 @@ def main():
         p = Process(target = step, args = (requests, results, predictor,
                                            testdata, traindata,
                                            testclass_array, trainclass,
-                                           arraymaker, gofixer, gofix))
+                                           arraymaker, gofixer, gofix,
+                                           args["evaluator"]))
         p.start()
         processes.append(p)
     file = open("results.tsv","w")
     file.write("fraction\tresult\n")
     while total - done > 0:
         r = results.get()
+        print(r)
         done += 1
         print("Progress:", str(round(100 - (total - done) / total * 100)) +
               "%")
-        file.write(str(r[0]) + "\t" + str(r[1]) + "\n")
-        plotter.add_score(r[0], r[1], r[2])
+        for metric, evaluation in r[1].items():
+            print("Fraction:", r[0], "Metric:", metric, "Evaluation:", evaluation)
+            file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation) + "\n")
+        #plotter.add_score(r[0], r[1])
         time.sleep(1)
     file.close()
     plotter.plot_performance()
