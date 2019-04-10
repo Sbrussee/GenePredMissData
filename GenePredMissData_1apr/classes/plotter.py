@@ -30,7 +30,7 @@ class Plotter:
         means = np.asarray(list(means.values()))
         stdevs = np.asarray(list(stdevs.values()))
         plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
-        plt.xticks(np.arange(len(fractions)), fractions)
+        plt.xticks(np.arange(len(fractions)), fractions )
         plt.plot(means)
         plt.ylabel('Performance score')
         plt.xlabel('Percentage of missing data')
