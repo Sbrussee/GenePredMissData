@@ -10,27 +10,24 @@ class Plotter:
         self.frac_of_miss_array = []
         self.performance_array = []
         self.stdev_array = []
-
     def add_score(self, fraction, mean, stdev):
         self.frac_of_miss_array.append(fraction)
         self.performance_array.append(mean)
         self.stdev_array.append(stdev)
 
     def plot_performance(self):
-        fractionsa = sorted(set(self.frac_of_miss_array))
+        fractions = sorted(set(self.frac_of_miss_array))
         amount_of_runs = self.frac_of_miss_array.count(100)
-        fractions = [100-x for x in fractionsa]
         means = dict.fromkeys(fractions)
         stdevs = dict.fromkeys(fractions)
         for index, fraction in enumerate(self.frac_of_miss_array):
             means[fraction] = np.mean(self.performance_array[index:index+amount_of_runs])
             stdevs[fraction] = np.mean(self.stdev_array[index:index+amount_of_runs])
 
-
-        means = np.asarray(list(means.values()))
-        stdevs = np.asarray(list(stdevs.values()))
+        means = np.asarray(list(means.values())[::-1])
+        stdevs = np.asarray(list(stdevs.values())[::-1])
         plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
-        plt.xticks(np.arange(len(fractions)), fractions )
+        plt.xticks(np.arange(len(fractions)), [100 - x for x in fractions] )
         plt.plot(means)
         plt.ylabel('Performance score')
         plt.xlabel('Percentage of missing data')
