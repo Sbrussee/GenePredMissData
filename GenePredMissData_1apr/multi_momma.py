@@ -108,7 +108,7 @@ def main():
         for metric, evaluation in r[1].items():
             print("Fraction:", r[0], "Metric:", metric, "Evaluation:", evaluation)
             file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation) + "\n")
-        plotter.add_score(r[0], r[1]["f-score"],  0)
+        plotter.add_score(r[0], r[1]["f-score"])
         time.sleep(1)
     file.close()
     plotter.plot_performance()

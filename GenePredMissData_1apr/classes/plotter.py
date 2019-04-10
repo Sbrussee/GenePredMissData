@@ -10,7 +10,7 @@ class Plotter:
         self.frac_of_miss_array = []
         self.performance_array = []
 
-    def add_score(self, fraction, mean, stdev):
+    def add_score(self, fraction, mean):
         self.frac_of_miss_array.append(fraction)
         self.performance_array.append(mean)
 
