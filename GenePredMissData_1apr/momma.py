@@ -50,7 +50,7 @@ def main():
     arraymaker = Dict2Array(allterms, testclass, extend)
 
     #INIT plotter
-    plotter = Plotter(['f-score', 'precision'])
+    plotter = Plotter(args['evaluator'])
 
     #INIT predictor
     predictor = Predictor(traindata, extend)
@@ -84,7 +84,7 @@ def main():
             #CALCULATE evaluation
             print("Evaluating results")
             t1 = time.time()
-            evaluator = Evaluator(testclass_array, pred_array, ['f-score', 'precision'])
+            evaluator = Evaluator(testclass_array, pred_array, args['evaluator'])
             evaluations = evaluator.get_evaluation()
             for metric, average in evaluations.items():
                 print(metric, average)
