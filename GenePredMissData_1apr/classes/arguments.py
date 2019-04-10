@@ -5,7 +5,7 @@ EVC = ("EXP","IDA","IPI","IMP","IGI","IEP","HTP","HTP","HDA","HMP",
        "HGI","HEP","IBA","IBD","IKR","IRD","ISS","ISO","ISA","ISM",
        "IGC","RCA","TAS","NAS","IC","ND","IEA","IEA", "*")
 
-DOMAINS = ("CC", "MF", "BP")
+DOMAINS = ("C", "F", "P")
 
 def check_stepsize(key, arg):
     text = ""
@@ -86,9 +86,9 @@ LETTERS = {"p":"predictor",
            "f":"nogofix",
            "h":"help"}
 ARGS = {"predictor":{
-                    "required":False,
-                    "default":"blast",
-                    "check":("blast"),
+                    "required":True,
+                    "default":"classes/",
+                    "check":check_file,
                     "help":"What predictor to use. Can be one of: 'blast'. " 
                     },
         "evaluator":{
