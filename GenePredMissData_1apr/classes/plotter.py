@@ -9,12 +9,10 @@ class Plotter:
     def __init__(self):
         self.frac_of_miss_array = []
         self.performance_array = []
-        self.stdev_array = []
 
     def add_score(self, fraction, mean, stdev):
         self.frac_of_miss_array.append(fraction)
         self.performance_array.append(mean)
-        self.stdev_array.append(stdev)
 
     def plot_performance(self):
         fractions = sorted(set(self.frac_of_miss_array))

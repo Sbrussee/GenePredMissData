@@ -40,7 +40,6 @@ class Dict2Array:
             for value in vals:
                 if not type(value) == tuple:
                     value = (value, True)
-                    print(value)
                 if not key in self.y_pos:
                     continue
                 if not value[0] in self.x_pos:
