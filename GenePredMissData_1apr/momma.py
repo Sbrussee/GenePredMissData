@@ -5,7 +5,7 @@ from classes.fix_go import Go_Fixer
 from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
-from classes.Dict2Array import Dict2Array
+from classes.backup.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.Predictor import Predictor
@@ -84,20 +84,18 @@ def main():
             #CALCULATE evaluation
             print("Evaluating results")
             t1 = time.time()
-            evaluator = Evaluator(testclass_array, pred_array)
-            f1_scores = evaluator.get_f1()
-            stdev = f1_scores.std()
-            average = f1_scores.mean()
+            evaluator = Evaluator(testclass_array, pred_array, ['f-score', 'precision'])
+            evaluations = evaluator.get_evaluation()
+            for metric, average in evaluations.items():
+                print(metric, average)
 
             #DISPLAY evaluation
-            print("Average f1:", '{0:.3g}'.format(average))
-            print("Standard deviation f1:", '{0:.3g}'.format(stdev))
             print("Evaluated prediction with %s%% of the prediction data." %
                   str(fraction))
             print("Evaluation took: ", '{0:.3g}'.format(time.time() - t1), "seconds")
 
             #ADD evaluation to plotter
-            plotter.add_score(fraction, average, stdev)
+            plotter.add_score(fraction, evaluations)
 
             #DISPLAY round time
             print("TOOK:", '{0:.3g}'.format(time.time() - t0), "seconds")

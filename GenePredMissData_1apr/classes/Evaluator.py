@@ -15,13 +15,13 @@ warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 class Evaluator:
     # Initiator function, sets, metrics to empty string in order to be able to check if these metrics are already calc
     # Check if these metrics are already calculated.
-    def __init__(self, true_annotation, pred_annotation):
+    def __init__(self, true_annotation, pred_annotation, evaluators):
         # Set the input files/lists
         # True (Y_true), pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
         self.pred_annotation = pred_annotation
-        # Set given vector of term IC-scores.
-        # self.ic = termICs.
+
+        self.evaluators = evaluators
         # Determin number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = self.pred_annotation.shape
         (self.num_of_true_proteins, self.num_of_true_go_terms) = self.true_annotation.shape
@@ -32,6 +32,9 @@ class Evaluator:
         # F1-scores
         self.f1 = empty_array
 
+        # Precision-scores
+        self.prec = empty_array
+
         # R UM
         self.ru = empty_array
 
@@ -41,6 +44,22 @@ class Evaluator:
         # Semantic distance
         self.sd = empty_array
 
+    def get_evaluation(self):
+        evaluation_dict = dict.fromkeys(self.evaluators)
+        if 'precision' in self.evaluators:
+            evaluation_dict['precision'] = self.get_precision()
+        if 'f-score' in self.evaluators:
+            evaluation_dict['f-score'] = self.get_f1()
+        return evaluation_dict
+
+
+    def get_precision(self):
+        for index in range(self.num_of_true_proteins):
+            true_row = self.true_annotation[index].toarray()[0]
+            pred_row = self.pred_annotation[index].toarray()[0]
+            self.prec[index] = metrics.precision_score(true_row, pred_row)
+        return self.prec.mean()
+
     def get_f1(self):
         # Check if f1 already exist:
         #if np.isfinite(self.f1).any() == True:
@@ -49,25 +68,24 @@ class Evaluator:
         for index in range(self.num_of_true_proteins):
             true_row = self.true_annotation[index].toarray()[0]
             pred_row = self.pred_annotation[index].toarray()[0]
-            
 
-            tp_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
-            fp_index = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
-            fn_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
-
-            true_tp = true_row[tp_index]
-            pred_tp = pred_row[tp_index]
-
-            true_fp = true_row[fp_index]
-            pred_fp = pred_row[fp_index]
-
-            true_fn = true_row[fn_index]
-            pred_fn = pred_row[fn_index]
-
-            true_array = np.hstack((true_tp, true_fp, true_fn))
-            pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
+            # tp_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 1))
+            # fp_index = np.intersect1d(np.where(true_row == 0), np.where(pred_row == 1))
+            # fn_index = np.intersect1d(np.where(true_row == 1), np.where(pred_row == 0))
+            #
+            # true_tp = true_row[tp_index]
+            # pred_tp = pred_row[tp_index]
+            #
+            # true_fp = true_row[fp_index]
+            # pred_fp = pred_row[fp_index]
+            #
+            # true_fn = true_row[fn_index]
+            # pred_fn = pred_row[fn_index]
+            #
+            # true_array = np.hstack((true_tp, true_fp, true_fn))
+            # pred_array = np.hstack((pred_tp, pred_fp, pred_fn))
         
-            prot_f1 = metrics.f1_score(true_array, pred_array)
+            prot_f1 = metrics.f1_score(true_row, pred_row)
             self.f1[index] = prot_f1
             
             """
@@ -79,7 +97,7 @@ class Evaluator:
             
             """
             
-        return self.f1
+        return self.f1.mean()
 
  #Function for calculating remaining uncertainty
     def get_ru(self):
