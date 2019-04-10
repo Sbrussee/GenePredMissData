@@ -33,8 +33,8 @@ def main():
 
     #PARSE annotation
     print("Parsing annotation")
-    testclass = gaf_parse(filter_gaf(testclass, args["evidence"]))
-    trainclass = filter_gaf(trainclass)
+    testclass = gaf_parse(filter_gaf(testclass, args["evidence"], args["domain"]))
+    trainclass = filter_gaf(trainclass, args['evidence'], args['domain'])
 
     #INIT gofixer
     print("Reading GO-tree")
