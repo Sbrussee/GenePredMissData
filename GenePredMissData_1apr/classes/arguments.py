@@ -3,9 +3,11 @@ import os
 
 EVC = ("EXP","IDA","IPI","IMP","IGI","IEP","HTP","HTP","HDA","HMP",
        "HGI","HEP","IBA","IBD","IKR","IRD","ISS","ISO","ISA","ISM",
-       "IGC","RCA","TAS","NAS","IC","ND","IEA","IEA", "*")
+       "IGC","RCA","TAS","NAS","IC","ND","IEA","IEA")
 
-DOMAINS = ("C", "F", "P")
+DOMAINS = ("CC", "MF", "BP")
+
+EVAL = ('f-score', 'precision')
 
 def check_stepsize(key, arg):
     text = ""
@@ -21,7 +23,7 @@ def check_evidence(key, arg):
     res = []
     for i in range(len(arg)):
         if arg[i] in EVC:
-            res.append(arg)
+            res.append(arg[i])
         else:
             text = "'%s' is not a valid evidence code."%arg[i]
     return text , res
@@ -67,6 +69,17 @@ def check_threads(key, arg):
         text = "Threads has to be a number."
     return text, arg
 
+def check_evaluator(key, arg):
+    arg = arg.split(",")
+    text = ""
+    res = []
+    for i in range(len(arg)):
+        if arg[i] in EVAL:
+            res.append(arg[i])
+        else:
+            text = "'%s' is not a valid evaluator."%arg[i]
+    return text , res
+
 HELP = "====GOA_PREDICTION FRAMEWORK====\n"\
        "Tests different GO-prediction algorithms "\
        "by removing values incrementally from the "\
@@ -75,7 +88,7 @@ LETTERS = {"p":"predictor",
            "e":"evaluator",
            "l":"plotter",
            "s":"stepsize",
-           "e":"evidence",
+           "E":"evidence",
            "t":"traindata",
            "g":"traingaf", 
            "T":"testdata",
@@ -86,16 +99,16 @@ LETTERS = {"p":"predictor",
            "f":"nogofix",
            "h":"help"}
 ARGS = {"predictor":{
-                    "required":True,
-                    "default":"predictors/Blast.py",
+                    "required":False,
+                    "default":"blast",
                     "check":check_file,
                     "help":"What predictor to use. Can be one of: 'blast'. " 
                     },
         "evaluator":{
                     "required":False,
-                    "default":"semantic",
-                    "check":("semantic"),
-                    "help":"What evaluator to use. Can be one of: 'semantic'." 
+                    "default":"f-score",
+                    "check":check_evaluator,
+                    "help":"What evaluator to use. Can be one of: 'f-score', 'precision'." 
                     },
         "plotter":{
                     "required":False,
