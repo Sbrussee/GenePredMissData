@@ -1,4 +1,5 @@
 import numpy as np
+import itertools
 class Predictor_top20:
     def __init__(self, traindata):
         self.traindata = {}
@@ -25,39 +26,20 @@ class Predictor_top20:
             if protein in self.traindata:
                 protein_class = self.traindata[protein]
                 if len(protein_class) > 1:
-                    extend = extend_converter()
-                    for prot in protein_class:
-                        if prot in self.trainclass:
-                            extend.get_blast_extend(self.trainclass[prot])
-                    predictions[protein] = extend.set_blast_extend()
+                    blast_extend = [self.trainclass[prot] for prot in protein_class if prot in self.trainclass]
+                    blast_list = list(itertools.chain.from_iterable(blast_extend))
+                    unique, counts = np.unique(blast_list, return_counts=True)
+                    predictions[protein] = list(zip(unique, counts/len(blast_extend)))
                 else:
                     protein_class = protein_class[0]
                     if protein_class in self.trainclass:
                         predictions[protein] = self.trainclass[protein_class]
+            else:
+              #  print("PROTEIN NOT IN traindata", protein)
+                predictions[protein] = []
         return predictions
 
     def get_dtype(self):
         return float
 
 
-# If blast extension calculate the precision for each protein.
-# 1. save all predicted ids for each true protein
-# 2. Return frequentie list per predicter protein per true protein.
-class extend_converter:
-    def __init__(self):
-        self.count = 0
-        self.blast_extend = np.array([])
-
-    # Save uniprot id in temporary list new.
-    def get_blast_extend(self, blast_extend):
-        self.blast_extend = np.append(blast_extend, blast_extend)
-        self.count += 1
-
-    # Calculate frequence go terms for als go terms per true in in temporary list new.
-    # Use pandas to set all go terms in list and calculate values.
-    def set_blast_extend(self):
-        self.blast_extend = np.unique(self.blast_extend)
-        unique, counts = np.unique(self.blast_extend, return_counts=True)
-        counts = counts / self.count
-        self.count = 0
-        return list(zip(unique, counts))
