@@ -30,13 +30,6 @@ class Predictor_top20:
                     blast_list = list(itertools.chain.from_iterable(blast_extend))
                     unique, counts = np.unique(blast_list, return_counts=True)
                     predictions[protein] = list(zip(unique, counts/len(blast_extend)))
-                else:
-                    protein_class = protein_class[0]
-                    if protein_class in self.trainclass:
-                        predictions[protein] = self.trainclass[protein_class]
-            else:
-              #  print("PROTEIN NOT IN traindata", protein)
-                predictions[protein] = []
         return predictions
 
     def get_dtype(self):
