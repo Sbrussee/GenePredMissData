@@ -8,28 +8,40 @@ import matplotlib.pyplot as plt
 class Plotter:
     def __init__(self):
         self.frac_of_miss_array = []
-        self.performance_array = []
+        self.dictarray = []
 
+    #Add_score will add fraction data to the frac_of_miss_array list
+    #Add score will also add a dictionary with the technique as key and corresponding value used for plotting.
+    #For example{'f1-score',10} to the dictarray, this will be used in plot performance.
     def add_score(self, fraction, mean):
         self.frac_of_miss_array.append(fraction)
-        self.performance_array.append(mean)
+        self.dictarray.append(mean)
 
+    #Plot_performance is able to plot multiple times depending on the amount of unique keys in the dict_array
+    #This will count the amount of fractions and plot the mean and standard deviation for each fraction
+    #Plotter will also give the corresponding x-as and y-axis names to the corresponding technique used
     def plot_performance(self):
-        fractions = sorted(set(self.frac_of_miss_array))
-        amount_of_runs = self.frac_of_miss_array.count(100)
-        means = dict.fromkeys(fractions)
-        stdevs = dict.fromkeys(fractions)
-        for index, fraction in enumerate(self.frac_of_miss_array):
-            means[fraction] = np.mean(self.performance_array[index-amount_of_runs:index])
-            stdevs[fraction] = np.std(self.performance_array[index-amount_of_runs:index])
+        uniquelist = []
+        for key in self.dictarray[1].keys():
+            if key not in uniquelist:
+                uniquelist.append(key)
+        for value in uniquelist:
+            newarray = [d[value] for d in self.dictarray]
+            fractions = sorted(set(self.frac_of_miss_array))
+            amount_of_runs = self.frac_of_miss_array.count(0)
+            means = dict.fromkeys(fractions)
+            stdevs = dict.fromkeys(fractions)
+            for portions in range(0,100,amount_of_runs):
+                means[portions] = np.mean(newarray[portions:portions+amount_of_runs-1])
+                stdevs[portions] = np.std(newarray[portions:portions+amount_of_runs-1])
+            means = np.asarray(list(means.values())[::-1])
+            stdevs = np.asarray(list(stdevs.values())[::-1])
+            plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
+            plt.xticks(np.arange(len(fractions)), fractions)
+            plt.plot(means)
 
-        means = np.asarray(list(means.values())[::-1])
-        stdevs = np.asarray(list(stdevs.values())[::-1])
-        plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
-        plt.xticks(np.arange(len(fractions)), [100 - x for x in fractions[::-1]])
-        plt.plot(means)
-        plt.ylabel('Performance score')
-        plt.xlabel('Percentage of missing data')
-        plt.title("PFP-model performance under varying missing data fractions")
-        plt.savefig('performance_plot.png')
-        plt.show()
+            plt.ylabel(value)
+            plt.xlabel('Percentage of missing data')
+            plt.title("PFP-model " + value + " under varying missing data fractions")
+            plt.savefig('performance_plot.png')
+            plt.show()
