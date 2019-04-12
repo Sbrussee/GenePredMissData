@@ -22,13 +22,13 @@ class Plotter:
     #Plotter will also give the corresponding x-as and y-axis names to the corresponding technique used
     def plot_performance(self):
         uniquelist = []
-        for key in self.dictarray[1].keys():
+        for key in self.dictarray[0].keys():
             if key not in uniquelist:
                 uniquelist.append(key)
         for value in uniquelist:
             newarray = [d[value] for d in self.dictarray]
             fractions = sorted(set(self.frac_of_miss_array))
-            amount_of_runs = self.frac_of_miss_array.count(0)
+            amount_of_runs = len(self.frac_of_miss_array)
             means = dict.fromkeys(fractions)
             stdevs = dict.fromkeys(fractions)
             for portions in range(0,100,amount_of_runs):
@@ -36,7 +36,8 @@ class Plotter:
                 stdevs[portions] = np.std(newarray[portions:portions+amount_of_runs-1])
             means = np.asarray(list(means.values())[::-1])
             stdevs = np.asarray(list(stdevs.values())[::-1])
-            plt.errorbar(np.arange(len(fractions)), means, stdevs, lw=3, fmt='ok')
+            print("testen", stdevs)
+            plt.errorbar(means, stdevs, lw=3, fmt='ok')
             plt.xticks(np.arange(len(fractions)), fractions)
             plt.plot(means)
 
