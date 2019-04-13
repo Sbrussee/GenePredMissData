@@ -2,8 +2,12 @@ import numpy as np
 from scipy.sparse import *
 from scipy import *
 
-
+# This class has been made to create a matrix from the input data(test and train set).
 class Dict2Array:
+
+    # The x: all go terms, y: All protein ids, dtype: Defining type array, must be imported.
+    # All data from the x, y will be saved in a dictionairy assigned with a position.
+    # Also, the size of each dictionairy will be defined.
     def __init__(self, x, y, dtype):
         self.dtype = dtype
         x = sorted(list(set(x)))
@@ -13,6 +17,12 @@ class Dict2Array:
         self.x_size = len(x)
         self.y_size = len(y)
 
+    # This function creates the matrix with the data(train or prediction data). Also the go term tree must
+    # be imported to get all go terms for a specific go term.
+    # First, the matrix will be defined.
+    # Second, for all ids the go terms will be specified.
+    # Thirdly, if the go term in the go term dictionry and protein id in protein dictionairy defined above, then
+    # fill the matrix.
     def make_array(self, data, func):
         res = lil_matrix((self.y_size, self.x_size), dtype=self.dtype)
         for key in data:
