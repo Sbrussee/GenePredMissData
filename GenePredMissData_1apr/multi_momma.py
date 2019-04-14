@@ -8,7 +8,7 @@ from classes.fix_go import Go_Fixer
 from classes.gaf_parser import gaf_parse
 from classes.Evaluator import Evaluator
 from classes.plotter import Plotter
-from classes.backup.Dict2Array import Dict2Array
+from classes.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 
@@ -68,10 +68,9 @@ def main():
         if gofix:
             terms = gofixer.fix_go(terms)
         allterms.extend(terms)
-    extend = 1
-    arraymaker = Dict2Array(allterms, testclass, extend)
+    predictor = Predictor(traindata)
+    arraymaker = Dict2Array(allterms, testclass, predictor.get_dtype())
     plotter = Plotter()
-    predictor = Predictor(traindata, extend)
     
     if gofix:
         testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
@@ -99,7 +98,7 @@ def main():
         p.start()
         processes.append(p)
     file = open("results.tsv","w")
-    file.write("fraction\tresult\n")
+    file.write("fraction\tmetric\tresult\n")
     reslist = []
     while total - done > 0:
         r = results.get()
