@@ -15,7 +15,7 @@ warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 class Evaluator:
     # Initiator function, sets, metrics to empty string in order to be able to check if these metrics are already calc
     # Check if these metrics are already calculated.
-    def __init__(self, true_annotation, pred_annotation, evaluators):
+    def __init__(self, true_annotation, pred_annotation, evaluators, dtype=[]):
         # Set the input files/lists
         # True (Y_true), pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
@@ -50,6 +50,7 @@ class Evaluator:
             evaluation_dict['precision'] = self.get_precision()
         if 'f-score' in self.evaluators:
             evaluation_dict['f-score'] = self.get_f1()
+        print(evaluation_dict)
         return evaluation_dict
 
 
