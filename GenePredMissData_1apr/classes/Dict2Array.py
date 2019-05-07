@@ -40,3 +40,6 @@ class Dict2Array:
                     continue
                 res[self.y_pos[key], self.x_pos[value[0]]] = value[1]
         return res
+
+    def get_index(self):
+        return self.x_pos, self.y_pos
