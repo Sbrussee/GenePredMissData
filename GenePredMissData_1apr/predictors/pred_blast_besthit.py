@@ -2,7 +2,7 @@
 class Predictor:
 
     # Traindata must be imported and the blast results will be saved into the traindata dictionaire.
-    def __init__(self, traindata):
+    def __init__(self, traindata, args):
         self.traindata = {}
         for line in traindata:
             line = line.split("\t")

@@ -5,7 +5,7 @@ import itertools
 class Predictor:
 
     # The traindata must be imported to save the blast results in the dictionaire self.traindata.
-    def __init__(self, traindata):
+    def __init__(self, traindata, args):
         self.traindata = {}
         for id in traindata:
             id = id.split("\t")
