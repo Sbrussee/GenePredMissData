@@ -80,6 +80,10 @@ def check_evaluator(key, arg):
             text = "'%s' is not a valid evaluator."%arg[i]
     return text , res
 
+def check_evaluator(key, arg):
+    arg = arg.split(",")
+    return text, arg
+
 HELP = "====GOA_PREDICTION FRAMEWORK====\n"\
        "Tests different GO-prediction algorithms "\
        "by removing values incrementally from the "\
@@ -97,12 +101,19 @@ LETTERS = {"p":"predictor",
            "r":"repeats",
            "n":"threads",
            "f":"nogofix",
+           "a":"predargs",
            "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
                     "default":"blast",
                     "check":check_file,
                     "help":"What predictor to use. Can be one of: 'blast'. " 
+                    },
+        "predargs":{
+                    "required":False,
+                    "default":"blast",
+                    "check":check_,
+                    "help":"Extra arguments to pass to the predictor separated by comma without spaces." 
                     },
         "evaluator":{
                     "required":False,

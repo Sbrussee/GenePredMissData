@@ -55,7 +55,8 @@ def main():
     testdata_file.close()
     
     print("Parsing annotation")
-    testclass = gaf_parse(filter_gaf(testclass, args["evidence"], args["domain"]))
+    testclass = gaf_parse(filter_gaf(testclass, args["evidence"],
+                                     args["domain"]))
     trainclass = filter_gaf(trainclass, args["evidence"], args["domain"])
     
     print("Reading GO-tree")
@@ -68,7 +69,10 @@ def main():
         if gofix:
             terms = gofixer.fix_go(terms)
         allterms.extend(terms)
-    predictor = Predictor(traindata)
+    if "predargs" in args:
+        predictor = Predictor(traindata, args["predargs"])
+    else:
+        predictor = Predictor(traindata, None)
     arraymaker = Dict2Array(allterms, testclass, predictor.get_dtype())
     plotter = Plotter()
     
@@ -76,7 +80,7 @@ def main():
         testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
     else:
         testclass_array = arraymaker.make_array(testclass,
-                                                gofixer.replace_obsolete_terms)
+                                            gofixer.replace_obsolete_terms)
 
     print("\nSTARTING")
     requests = Queue()
@@ -108,8 +112,10 @@ def main():
         reslist.append(r)
     for r in sorted(reslist, key=lambda x: x[0]):
         for metric, evaluation in r[1].items():
-            print("Fraction:", r[0], "Metric:", metric, "Evaluation:", evaluation)
-            file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation) + "\n")
+            print("Fraction:", r[0], "Metric:", metric, "Evaluation:",
+                  evaluation)
+            file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation)
+                       + "\n")
         plotter.add_score(r[0], r[1])
     file.close()
     plotter.plot_performance()
