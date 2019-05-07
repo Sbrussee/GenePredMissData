@@ -7,7 +7,7 @@ EVC = ("EXP","IDA","IPI","IMP","IGI","IEP","HTP","HTP","HDA","HMP",
 
 DOMAINS = ("C", "F", "P")
 
-EVAL = ('f-score', 'precision')
+EVAL = ('f-score', 'precision', 'average_precision')
 
 def check_stepsize(key, arg):
     text = ""
@@ -108,7 +108,7 @@ ARGS = {"predictor":{
                     "required":False,
                     "default":["f-score"],
                     "check":check_evaluator,
-                    "help":"What evaluator to use. Can be one of: 'f-score', 'precision'." 
+                    "help":"What evaluator to use. Can be one of: 'f-score', 'precision', 'average_precision'."
                     },
         "plotter":{
                     "required":False,
