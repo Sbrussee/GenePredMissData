@@ -32,7 +32,6 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         "if PLST return pred array, otherwise return predictions"
         if PLST_method:
             pred_array = predictor.get_predictions(testdata, PLST_method, PLST_class)
-            print("ja", pred_array)
         else:
             predictions = predictor.get_predictions(testdata, PLST_method, PLST_class)
 
