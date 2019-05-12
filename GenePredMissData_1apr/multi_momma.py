@@ -11,19 +11,39 @@ from classes.plotter import Plotter
 from classes.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
+from classes.lsdr import PLST as PLST_class
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators):
+
+    """Return x pos en y pos van Dict2array voor de PLST methode.
+    En kijk of de PLST methode uitgevoerd moet worden."""
+    PLST_method = False
+    x_pos, y_pos = arraymaker.get_index()
+
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
-        predictor.set_trainclass(gaf_parse(sample))
-        predictions = predictor.get_predictions(testdata)
-        if gofix:
-            pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+
+        " geef x_pos, y_pos en plst_method aan trainclass"
+        predictor.set_trainclass(gaf_parse(sample), x_pos, y_pos, PLST_method)
+
+        " Geef plst method en PLST class aan aan predictions"
+        "if PLST return pred array, otherwise return predictions"
+        if PLST_method:
+            pred_array = predictor.get_predictions(testdata, PLST_method, PLST_class)
+            print("ja", pred_array)
         else:
-            pred_array = arraymaker.make_array(predictions,
-                                               gofixer.replace_obsolete_terms)
+            predictions = predictor.get_predictions(testdata, PLST_method, PLST_class)
+
+        "Arraymaker only if not PLST"
+        if not PLST_method:
+            if gofix:
+                pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+            else:
+                pred_array = arraymaker.make_array(predictions,
+                                                   gofixer.replace_obsolete_terms)
+
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         evaluation = evaluator.get_evaluation()
         results.put((fraction, evaluation))
@@ -45,10 +65,10 @@ def main():
     trainclass_file = open(args["traingaf"], "r")
     traindata_file = open(args["traindata"], "r")
     testdata_file = open(args["testdata"], "r")
-    testclass = testclass_file.readlines()
-    trainclass = trainclass_file.readlines()
-    traindata = traindata_file.readlines()
-    testdata = testdata_file.readlines()
+    testclass = testclass_file.readlines()[:1000]
+    trainclass = trainclass_file.readlines()[:1000]
+    traindata = traindata_file.readlines()[:1000]
+    testdata = testdata_file.readlines()[:1000]
     testclass_file.close()
     trainclass_file.close()
     traindata_file.close()
