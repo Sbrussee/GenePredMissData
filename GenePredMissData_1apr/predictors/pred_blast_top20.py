@@ -18,7 +18,7 @@ class Predictor:
                 self.traindata[input].append(output)
 
     # This function imports the train gaf file(rat gaf)
-    def set_trainclass(self, trainclass):
+    def set_trainclass(self, trainclass, x_pos, y_pos, PLST):
         global train
         train = trainclass
         self.trainclass = trainclass
@@ -29,7 +29,7 @@ class Predictor:
     # Third, if so calculate the frequency each go-term exist in a train protein id.
     # Because there are 20 train ids and only 1 test id, therefore the frequency will be calculated.
     # Fourth, save the frequency in the dictionaire: predictions.
-    def get_predictions(self, testdata):
+    def get_predictions(self, testdata, PLST, PLST_class):
         predictions = {}
         for protein in testdata:
             protein = protein.strip()
