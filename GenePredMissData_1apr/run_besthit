@@ -1,1 +1,19 @@
+# Kan er maar 1 per keer runnen:
+
+# Default: Domains invullen om het domein eruit te laten
+# domain C wordt als default eruit gelaten
 python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py 
+
+# Filteren op domains:
+# P (biological process), F (molecular function) or C (cellular component).
+python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d P
+python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d F
+
+# Filteren op evidence
+python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA
+
+# Filteren op evidence en bewijs
+python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d P
+python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d F
+
+
