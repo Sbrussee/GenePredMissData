@@ -84,7 +84,7 @@ def check_evaluator(key, arg):
 # Hier is nog iets niet goed
 def check_(key, arg):
     arg = arg.split(",")
-    return text, arg
+    return arg
 
 HELP = "====GOA_PREDICTION FRAMEWORK====\n"\
        "Tests different GO-prediction algorithms "\
