@@ -1,5 +1,3 @@
-# Kan er maar 1 per keer runnen:
-
 # Default: Domains invullen om het domein eruit te laten
 # domain C wordt als default eruit gelaten
 python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py 
