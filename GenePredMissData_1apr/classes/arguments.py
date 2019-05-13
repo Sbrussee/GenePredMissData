@@ -80,7 +80,9 @@ def check_evaluator(key, arg):
             text = "'%s' is not a valid evaluator."%arg[i]
     return text , res
 
-def check_evaluator(key, arg):
+# Check_evaluator -> check_ 
+# Hier is nog iets niet goed
+def check_(key, arg):
     arg = arg.split(",")
     return text, arg
 
