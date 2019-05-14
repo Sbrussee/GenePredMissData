@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse import lil_matrix as lil
+import itertools
 
 # This class is to predict if only the blast besthit method is used.
 class Predictor:
@@ -14,16 +15,21 @@ class Predictor:
 
     # This function saves the gaf file from the train set(rat gaf)
     def set_trainclass(self, trainclass, x_pos, y_pos, PLST):
-        self.y_pos = y_pos
         if PLST:
-            self.matrix = np.zeros((len(y_pos), len(x_pos)))
-            for lines in trainclass:
-                for value in lines[1]:
-                    if not lines in y_pos:
-                        continue
-                    if not value in x_pos:
-                        continue
-                    self.matrix[y_pos[lines], x_pos[value]] = 1
+            # Step 1: Determine how big the matrix will be.
+            go_termen_train = [trainclass[rat.strip()] for mouse, rat in self.traindata.items() if rat.strip() in trainclass]
+            go_termen_train = list(itertools.chain.from_iterable(go_termen_train))
+            go_termen_train = np.unique(go_termen_train)
+            go_index = {a:getal for getal, a in enumerate(np.unique(go_termen_train))}
+
+            # Step 2: Create matrix from all unique go terms in gaf file
+            self.matrix = np.zeros((len(self.traindata, len(go_termen_train))), dtype="int")
+            print(self.matrix)
+
+
+
+
+
         else:
             global train
             train = trainclass
@@ -56,8 +62,9 @@ def PLST_predictions(self, testdata, transformed):
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
-            if protein in self.y_pos:
-                index.append(self.y_pos[protein])
+            if protein in self.y_index:
+                index.append(self.y_index[protein])
+    print(index)
     return transformed[index, :]
 
 # Call PLST class
