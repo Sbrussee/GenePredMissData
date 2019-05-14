@@ -17,18 +17,22 @@ class Predictor:
     def set_trainclass(self, trainclass, x_pos, y_pos, PLST):
         if PLST:
             # Step 1: Determine how big the matrix will be.
-            go_termen_train = [trainclass[rat.strip()] for mouse, rat in self.traindata.items() if rat.strip() in trainclass]
-            go_termen_train = list(itertools.chain.from_iterable(go_termen_train))
-            go_termen_train = np.unique(go_termen_train)
-            go_index = {a:getal for getal, a in enumerate(np.unique(go_termen_train))}
+            self.go_termen_train = [go for go in trainclass.values()]
+            self.go_termen_train = list(itertools.chain.from_iterable(self.go_termen_train))
+            self.go_termen_train = np.unique(self.go_termen_train)
+            self.go_index = {a:getal for getal, a in enumerate(np.unique(self.go_termen_train))}
+            self.go_index_reverse = {getal: a for getal, a in enumerate(np.unique(self.go_termen_train))}
 
             # Step 2: Create matrix from all unique go terms in gaf file
-            self.matrix = np.zeros((len(self.traindata, len(go_termen_train))), dtype="int")
-            print(self.matrix)
-
-
-
-
+            self.matrix = np.zeros(((len(trainclass), len(self.go_termen_train))), dtype="int")
+            self.rat_index = {}
+            getal = 0
+            for rat, go_terms in trainclass.items():
+                self.rat_index[rat] = getal
+                for go in go_terms:
+                    index = self.go_index[go]
+                    self.matrix[getal, index] = 1
+                getal += 1
 
         else:
             global train
@@ -41,16 +45,23 @@ class Predictor:
     # Second, the loop will look if the linked train id to the test id can be linked to the train gaf file.
     # Third, if so save the data.
     def get_predictions(self, testdata, PLST, PLST_class):
+        predictions = {}
         if PLST:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
-            predicted_matrix = PLST_predictions(self, testdata, transformed_matrix)
+            predicted_matrix, protein_volgorde = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
-            return lil(inverse_matrix)
 
+            # Zet de predictions weer terug in een dictionairy
+            for getal, eiwitten in enumerate(protein_volgorde):
+                go_termen = []
+                for go in inverse_matrix[getal, ]:
+                    if go == 1:
+                        go_termen.append(self.go_index_reverse[go])
+                predictions[eiwitten] = go_termen
         else:
             predictions = not_PLST_predictions(self, testdata)
-            return predictions
-
+        print(predictions)
+        return predictions
 
     # If this method is used, return a bool for defining which type of array has to be made.
     def get_dtype(self):
@@ -59,19 +70,21 @@ class Predictor:
 # Predictions if PLST
 def PLST_predictions(self, testdata, transformed):
     index = []
+    protein_volgorde = []
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
-            if protein in self.y_index:
-                index.append(self.y_index[protein])
-    print(index)
-    return transformed[index, :]
+            check = self.traindata[protein].strip()
+            if check in self.rat_index:
+                protein_volgorde.append(check)
+                index.append(self.rat_index[check])
+    return transformed[index, :], protein_volgorde
 
 # Call PLST class
 def call_PLST_class(self, PLST_class):
-    getal = int("%.0f" % (len(self.matrix) / 4))
+    #getal = int("%.0f" % (self.matrix.shape[0] / 4))
     transform = PLST_class()
-    transformed_matrix = transform.fit(self.matrix, ndims=getal)
+    transformed_matrix = transform.fit(self.matrix, var=0.7)
     return transformed_matrix, transform
 
 # Method if not PLST method is used
