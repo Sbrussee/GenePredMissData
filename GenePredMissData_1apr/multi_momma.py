@@ -16,32 +16,23 @@ from classes.lsdr import PLST as PLST_class
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators):
 
-    """Return x pos en y pos van Dict2array voor de PLST methode.
-    En kijk of de PLST methode uitgevoerd moet worden."""
-    PLST_method = False
-    x_pos, y_pos = arraymaker.get_index()
+    """Moet de PLST methode uitgevoerd worden"""
+    PLST_method = True
+
 
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
 
-        " geef x_pos, y_pos en plst_method aan trainclass"
-        predictor.set_trainclass(gaf_parse(sample), x_pos, y_pos, PLST_method)
+        "PLST methode aan trainclass"
+        predictor.set_trainclass(gaf_parse(sample), PLST_method)
+        predictions = predictor.get_predictions(testdata, PLST_method, PLST_class)
 
-        " Geef plst method en PLST class aan aan predictions"
-        "if PLST return pred array, otherwise return predictions"
-        if PLST_method:
-            pred_array = predictor.get_predictions(testdata, PLST_method, PLST_class)
+        if gofix:
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
         else:
-            predictions = predictor.get_predictions(testdata, PLST_method, PLST_class)
-
-        "Arraymaker only if not PLST"
-        if not PLST_method:
-            if gofix:
-                pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
-            else:
-                pred_array = arraymaker.make_array(predictions,
-                                                   gofixer.replace_obsolete_terms)
+            pred_array = arraymaker.make_array(predictions,
+                                               gofixer.replace_obsolete_terms)
 
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         evaluation = evaluator.get_evaluation()
