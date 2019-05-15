@@ -14,7 +14,7 @@ class Predictor:
                 self.traindata[line[0]] = line[1]
 
     # This function saves the gaf file from the train set(rat gaf)
-    def set_trainclass(self, trainclass, x_pos, y_pos, PLST):
+    def set_trainclass(self, trainclass, PLST):
         if PLST:
             # Step 1: Determine how big the matrix will be.
             self.go_termen_train = [go for go in trainclass.values()]
@@ -54,13 +54,13 @@ class Predictor:
             # Zet de predictions weer terug in een dictionairy
             for getal, eiwitten in enumerate(protein_volgorde):
                 go_termen = []
-                for go in inverse_matrix[getal, ]:
-                    if go == 1:
-                        go_termen.append(self.go_index_reverse[go])
+                for go in inverse_matrix[getal, : ]:
+
+                    if go > 0.3:
+                        go_termen.append(self.go_index_reverse[getal])
                 predictions[eiwitten] = go_termen
         else:
             predictions = not_PLST_predictions(self, testdata)
-        print(predictions)
         return predictions
 
     # If this method is used, return a bool for defining which type of array has to be made.
