@@ -99,7 +99,6 @@ class PLST:
 			if not found:
 				ndims = Y.shape[1]
 
-			print (ndims)
 
 			self.w = VT[:ndims,:].T
 
