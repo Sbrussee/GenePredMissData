@@ -75,9 +75,9 @@ def PLST_predictions(self, testdata, transformed):
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
-            protein_volgorde.append(protein)
             check = self.traindata[protein].strip()
             if check in self.rat_index:
+                protein_volgorde.append(protein)
                 index.append(self.rat_index[check])
     return transformed[index, :], protein_volgorde
 
