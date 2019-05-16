@@ -16,14 +16,14 @@ class Predictor:
             elif input not in self.traindata:
                 self.traindata[input] = []
                 self.traindata[input].append(output)
-        print("train data:", self.traindata)
+    
 
     # This function imports the train gaf file(rat gaf)
     def set_trainclass(self, trainclass, PLST):
         global train
         train = trainclass
         self.trainclass = trainclass
-        print("self.trainclass", self.trainclass)
+  
 
     # This functions looks if the test ids can be linked to the train gaf.
     # First, the loop will look if the id from the testdata is in the blast results dictionaire: self.traindata.
@@ -45,7 +45,7 @@ class Predictor:
                     unique, counts = np.unique(blast_list, return_counts=True)
                     predictions[protein] = list(zip(unique, counts/len(blast_extend)))
 
-        print("Predictions:", predictions)
+       
         return predictions
 
     # If this method is used, return a float for defining which type of array has to be made.
