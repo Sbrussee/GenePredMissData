@@ -13,6 +13,7 @@ class Predictor:
             if len(line) > 1:
                 self.traindata[line[0]] = line[1]
 
+
     # This function saves the gaf file from the train set(rat gaf)
     def set_trainclass(self, trainclass, PLST):
         if PLST:
@@ -23,6 +24,7 @@ class Predictor:
             self.go_index = {a:getal for getal, a in enumerate(np.unique(self.go_termen_train))}
             self.go_index_reverse = {getal: a for getal, a in enumerate(np.unique(self.go_termen_train))}
             self.train_id_reverse = {getal: id for getal, id in enumerate(trainclass)}
+
             # Step 2: Create matrix from all unique go terms in gaf file
             self.matrix = np.zeros(((len(trainclass), len(self.go_termen_train))), dtype="int")
             self.rat_index = {}
@@ -33,6 +35,7 @@ class Predictor:
                     index = self.go_index[go]
                     self.matrix[getal, index] = 1
                 getal += 1
+
 
         else:
             global train
@@ -50,10 +53,9 @@ class Predictor:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
             predicted_matrix, index = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
-
             # Zet de predictions weer terug in een dictionairy
             for getal, eiwitten in enumerate(index):
-                eiwit = self.train_id_reverse[eiwitten]
+                eiwit = testdata[eiwitten]
                 go_termen = []
                 for getal1, go in enumerate(inverse_matrix[getal, : ]):
                     if go > 0.3:
@@ -95,3 +97,21 @@ def not_PLST_predictions(self, testdata):
             if protein_class in self.trainclass:
                 predictions[protein] = self.trainclass[protein_class]
     return predictions
+
+
+# Klopt de script?
+if __name__ == "__main__":
+    trainclass = {'A1': ['GO:1', 'GO:2', 'GO:3', 'GO:4', 'GO:5'],
+                  'A2': ['GO:1', 'GO:2'],
+                  'A3': ['GO:1', 'GO:2', 'GO:3', 'GO:4', 'GO:5', 'GO:6', 'GO:7'],
+                  'A4': ['GO:1', 'GO:0', 'GO:7', 'GO:6', 'GO:2']}
+    trandatata = ["B1\tA1",
+                  "B2\tA2",
+                  "B3\tA3",
+                  "B4\tA4"]
+    testdata = ["B1", "B2", "B3", "B4"]
+
+    predictor = Predictor(trandatata, args=None)
+    predictor.set_trainclass(trainclass, PLST=True)
+    predictor.get_predictions(testdata, PLST=True, PLST_class=PLST)
+
