@@ -22,7 +22,7 @@ class Predictor:
             self.go_termen_train = np.unique(self.go_termen_train)
             self.go_index = {a:getal for getal, a in enumerate(np.unique(self.go_termen_train))}
             self.go_index_reverse = {getal: a for getal, a in enumerate(np.unique(self.go_termen_train))}
-
+            self.train_id_reverse = {getal: id for getal, id in enumerate(trainclass)}
             # Step 2: Create matrix from all unique go terms in gaf file
             self.matrix = np.zeros(((len(trainclass), len(self.go_termen_train))), dtype="int")
             self.rat_index = {}
@@ -48,17 +48,17 @@ class Predictor:
         predictions = {}
         if PLST:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
-            predicted_matrix, protein_volgorde = PLST_predictions(self, testdata, transformed_matrix)
+            predicted_matrix, index = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
 
             # Zet de predictions weer terug in een dictionairy
-            for getal, eiwitten in enumerate(protein_volgorde):
+            for getal, eiwitten in enumerate(index):
+                eiwit = self.train_id_reverse[eiwitten]
                 go_termen = []
-                for go in inverse_matrix[getal, : ]:
-
+                for getal1, go in enumerate(inverse_matrix[getal, : ]):
                     if go > 0.3:
-                        go_termen.append(self.go_index_reverse[getal])
-                predictions[eiwitten] = go_termen
+                        go_termen.append(self.go_index_reverse[getal1])
+                predictions[eiwit] = go_termen
         else:
             predictions = not_PLST_predictions(self, testdata)
         return predictions
@@ -70,21 +70,19 @@ class Predictor:
 # Predictions if PLST
 def PLST_predictions(self, testdata, transformed):
     index = []
-    protein_volgorde = []
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
             check = self.traindata[protein].strip()
             if check in self.rat_index:
-                protein_volgorde.append(check)
                 index.append(self.rat_index[check])
-    return transformed[index, :], protein_volgorde
+    return transformed[index, :], index
 
 # Call PLST class
 def call_PLST_class(self, PLST_class):
-    #getal = int("%.0f" % (self.matrix.shape[0] / 4))
+    getal = int("%.0f" % (self.matrix.shape[1] / 4))
     transform = PLST_class()
-    transformed_matrix = transform.fit(self.matrix, var=0.7)
+    transformed_matrix = transform.fit(self.matrix, ndims=getal)
     return transformed_matrix, transform
 
 # Method if not PLST method is used
