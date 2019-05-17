@@ -7,13 +7,16 @@ class Predictor:
     # The traindata must be imported to save the blast results in the dictionaire self.traindata.
     def __init__(self, traindata, args):
         self.traindata = {}
+        getal = 1
         for id in traindata:
             id = id.split("\t")
             input = id[0]
             output = id[-1].strip()
-            if input in self.traindata:
+            if input in self.traindata and getal < 20:
+                getal += 1
                 self.traindata[input].append(output)
             elif input not in self.traindata:
+                getal = 1
                 self.traindata[input] = []
                 self.traindata[input].append(output)
     
