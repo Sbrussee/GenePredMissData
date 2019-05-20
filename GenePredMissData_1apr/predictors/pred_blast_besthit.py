@@ -85,7 +85,10 @@ def PLST_predictions(self, testdata, transformed):
 def call_PLST_class(self, PLST_class):
     getal = int("%.0f" % (self.matrix.shape[1] / 4))
     transform = PLST_class()
-    transformed_matrix = transform.fit(self.matrix, ndims=getal)
+    try:
+        transformed_matrix = transform.fit(self.matrix, ndims=getal)
+    except:
+        print("plst methode werkt niet op matrix: ", self.matrix.shape)
     return transformed_matrix, transform
 
 # Method if not PLST method is used
