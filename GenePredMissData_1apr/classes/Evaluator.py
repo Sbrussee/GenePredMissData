@@ -105,7 +105,6 @@ class Evaluator:
         for index in range(self.num_of_true_proteins):
             true_row = self.true_annotation[index].toarray()[0]
             pred_row = self.pred_annotation[index].toarray()[0]
-
             self.avprec[index] = metrics.average_precision_score(true_row, pred_row)
         return self.avprec.mean()
     """
@@ -122,7 +121,6 @@ class Evaluator:
         for index in range(self.num_of_true_proteins):
             true_row = self.true_annotation[index].toarray()[0]
             pred_row = self.pred_annotation[index].toarray()[0]
-        
             prot_f1 = metrics.f1_score(true_row, pred_row)
             self.f1[index] = prot_f1
         return self.f1.mean()

@@ -11,6 +11,6 @@ def filter_gaf(gaf_lines, evidence_codes, domains):
     headfiltered_gaf = gaf_lines[number:]
     for index, line in enumerate(headfiltered_gaf):
         line_items = line.split("\t")
-        if line_items[3] != "" or line_items[6] not in evidence_codes or line_items[8] not in domains or line_items[8] == "C":
+        if line_items[3] != "" or line_items[6] not in evidence_codes or line_items[8] not in domains:
             del headfiltered_gaf[index]
     return headfiltered_gaf
