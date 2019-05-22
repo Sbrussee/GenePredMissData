@@ -80,9 +80,8 @@ def check_evaluator(key, arg):
             text = "'%s' is not a valid evaluator."%arg[i]
     return text , res
 
-# Check_evaluator -> check_ 
-# Hier is nog iets niet goed
-def check_(key, arg):
+
+def check_predargs(key, arg):
     arg = arg.split(",")
     return arg
 
@@ -114,7 +113,7 @@ ARGS = {"predictor":{
         "predargs":{
                     "required":False,
                     "default":"blast",
-                    "check":check_,
+                    "check":check_predargs,
                     "help":"Extra arguments to pass to the predictor separated by comma without spaces." 
                     },
         "evaluator":{
