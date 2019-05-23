@@ -136,7 +136,7 @@ ARGS = {"predictor":{
                     },
         "evidence":{
                     "required":False,
-                    "default":"*",
+                    "default":EVC,
                     "check":check_evidence,
                     "help":"Evidence codes to use. Should be multiple seperated by comma without spaces or * for all." 
                     },
@@ -166,7 +166,7 @@ ARGS = {"predictor":{
                     },
         "domain":{
                     "required":False,
-                    "default":"*",
+                    "default":DOMAINS,
                     "check":check_domain,
                     "help":"Domains to use. Should be multiple seperated by comma without spaces or * for all." 
                     },
