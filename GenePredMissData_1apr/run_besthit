@@ -1,24 +1,63 @@
-# Default: 
-# domain C wordt als default eruit gelaten
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 3 -n 1 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 3 -n 1 -e precision
 
-# Filteren op domains:
-# P (biological process), F (molecular function) or C (cellular component).
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d P -n 1 -r 3 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d P -n 1 -r 3 -e precision
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d F -n 1 -r 3 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -d F -n 1 -r 3 -e precision
+# Default: Domain C standart without
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
 
-
-# Filteren op evidence
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -n 1 -r 3 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -n 1 -r 3 -e precision
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d C
+        lengte=$(cat results.tsv | wc -l)
+done
 
 
-# Filteren op evidence en bewijs
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d P -n 1 -r 3 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d P -n 1 -r 3 -e precision
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d F -n 1 -r 3 -e f-score
-python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -E IEA -d F -n 1 -r 3 -e precision
+# Domain only biological
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
 
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d F,C
+        lengte=$(cat results.tsv | wc -l)
+done
+
+
+# Domain only molecular
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
+
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d P,C
+        lengte=$(cat results.tsv | wc -l)
+done
+
+
+# filtered evidence
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
+
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d C -E IEA
+        lengte=$(cat results.tsv | wc -l)
+done
+
+# Filtered evidence and domain biological
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
+
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d C,F -E IEA
+        lengte=$(cat results.tsv | wc -l)
+done
+
+# Filtered evidence and domain Molecular
+echo "test" > results.tsv
+lengte=$(cat results.tsv | wc -l)
+
+while  [ $lengte -lt 2 ]
+do
+	python3 multi_momma.py -t files/mouseratblast -g files/goa_rat.gaf -T files/mousedata -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_besthit.py -r 1 -e f-score -d C,P -E IEA
+        lengte=$(cat results.tsv | wc -l)
+done
