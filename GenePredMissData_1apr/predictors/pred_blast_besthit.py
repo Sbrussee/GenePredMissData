@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.sparse import lil_matrix as lil
+import sys
 import itertools
 
 # This class is to predict if only the blast besthit method is used.
@@ -89,6 +90,7 @@ def call_PLST_class(self, PLST_class):
         transformed_matrix = transform.fit(self.matrix, ndims=getal)
     except:
         print("plst methode werkt niet op matrix: ", self.matrix.shape)
+        sys.exit()
     return transformed_matrix, transform
 
 # Method if not PLST method is used
