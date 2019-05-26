@@ -94,7 +94,7 @@ def main():
 
     print("\nSTARTING")
     requests = Queue()
-    for fraction in range(100, 90, -args["stepsize"]):
+    for fraction in range(100, 0, -args["stepsize"]):
         for r in range(0, args["repeats"]):
             requests.put(fraction)
 
