@@ -1,10 +1,12 @@
 import numpy as np
 import itertools
 
-# This method will be used if the top 20 best blast hits must be predicted.
+"This class predicts the top20 blast hits, whereby the used best hits are not checked if it is annotated."
 class Predictor:
 
-    # The traindata must be imported to save the blast results in the dictionaire self.traindata.
+    """ constructor: the blast results are going to be saved in a dictionaire.
+        traindata = blast results
+        self.traindata = dictionaire where the blast results will be saved"""
     def __init__(self, traindata, args):
         self.traindata = {}
         getal = 1
@@ -21,19 +23,17 @@ class Predictor:
                 self.traindata[input].append(output)
     
 
-    # This function imports the train gaf file(rat gaf)
+    "This function stores all the annotated proteins from the train organism into the trainclass"
     def set_trainclass(self, trainclass, PLST):
         global train
         train = trainclass
         self.trainclass = trainclass
   
 
-    # This functions looks if the test ids can be linked to the train gaf.
-    # First, the loop will look if the id from the testdata is in the blast results dictionaire: self.traindata.
-    # Second, the loop will look if the linked train id to the test id can be linked to the train gaf file.
-    # Third, if so calculate the frequency each go-term exist in a train protein id.
-    # Because there are 20 train ids and only 1 test id, therefore the frequency will be calculated.
-    # Fourth, save the frequency in the dictionaire: predictions.
+    """This functions looks if the test ids can be linked to the train gaf.
+     1. predictions: All the predictions made are stored in this variable.
+     2. iterate over the testdata to transfer the go terms from the train data for the right protein.
+     3. Calculate the frequency of how often a go term is linked to a protein for the top 20 blast hit."""
     def get_predictions(self, testdata, PLST, PLST_class, besthits=None):
         predictions = {}
         for protein in testdata:
@@ -51,27 +51,6 @@ class Predictor:
        
         return predictions
 
-    # If this method is used, return a float for defining which type of array has to be made.
+    """Determine the bool for type of array(blast beshtit or top20 hits)"""
     def get_dtype(self):
         return float
-
-
-# Werkt het script?
-if __name__ == "__main__":
-    traindata = ['A1\tB1', 'A1\tB2', "A1\tB3",
-                 'A2\tB4', 'A2\tB5', "A2\tB6",
-                 'A3\tB7', 'A3\tB8', "A3\tB9"]
-    trainclass = {"B1":["GO1", "GO2", "GO3"],
-                  "B2":["GO1", "GO2", "GO3"],
-                  "B3":["GO1", "GO2", "GO3"],
-                  "B4":["GO1", "GO2", "GO3"],
-                  "B5":["GO4", "GO5", "GO6"],
-                  "B6":["GO1", "GO2", "GO3"],
-                  "B7":["GO1", "GO2", "GO3"],
-                  "B8":["GO4", "GO5", "GO6"],
-                  "B9":["GO7", "GO8", "GO9"],}
-    testdata=['A1', "A2", "A3"]
-    predictor = Predictor(traindata, args=None)
-    predictor.set_trainclass(trainclass, PLST=None)
-    predictor.get_predictions(testdata, PLST=None, PLST_class=None)
-

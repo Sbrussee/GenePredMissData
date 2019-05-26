@@ -1,10 +1,14 @@
 import itertools
 import numpy as np
 import sys
-# This predictor calls all the results from the blast hit
+
+"""This class can predict the best blasthit or more blast hits, whereby the used best" 
+    hits are checked if they are annotated"""
 class Predictor:
 
-    # The traindata must be imported to save all the blast results in the dictionaire self.traindata.
+    """ constructor: the blast results are going to be saved in a dictionaire.
+        traindata = blast results
+        self.traindata = dictionaire where the blast results will be saved"""
     def __init__(self, traindata, args):
         self.traindata = {}
         for id in traindata:
@@ -17,7 +21,18 @@ class Predictor:
                 self.traindata[input] = []
                 self.traindata[input].append(output)
 
-    # This function imports the train gaf file(rat gaf)
+    """ This function saves the gaf file from the train set(rat gaf) in a class or matrix dependent on PLST method
+        1. Determine if the PLST method is used.
+            - self.go_termen_train: to store all unique go terms in a list
+            - self.go_index: index all the unique go terms with the go term as key
+            - self.go_index_reverse: Switched key-values from self.go_index, so that index number is the key
+            - self.train_id_reverse: index the protein ids with the index number as key
+            - self.matrix: The matrix on the i-th row the protein ids, and the j-th row the go terms.
+                a 0 indicates a go term is absent on a protein and a 1 indicates the go term is present
+            - self.rat index: determines the index of the proteins used in the self.matrix
+
+        2. If PLST method is not used then:
+            - self.trainclass: store in a dictionaire all proteins with the specific go terms"""
     def set_trainclass(self, trainclass, PLST):
         if PLST:
             # Step 1: Determine how big the matrix will be.
@@ -44,12 +59,20 @@ class Predictor:
             train = trainclass
             self.trainclass = trainclass
 
-    # The testdata must be imported.
-    # First, the loop will look if the id from the testdata is in the blast results dictionaire: self.traindata.
-    # Second, the loop will look if the linked train id to the test id can be linked to the train gaf file.
-    # Third, if so save the data.
+    """ Predict the go terms for the the proteome.
+         - self.besthit: Determines the used hits for the blast
+         - predictions: all the predictions are stored in this dictionaire. 
+         - self.traindata: Determines the annotated data into the determine_annotated_data function
+         1. If the PLST method is used:
+             - transformed_matrix: transform the self.matrix
+             - predicted_matrix: Determine which rows of the transformed_matrix are used for the prediction
+             - inverse_matrix: Convert the predicted matrix values back to normal values
+             - store the go terms per protein from the inverse_matrix into a dictionaire.
+         2. If the PLST method is not used:
+             - determine the prediction into the not_PLST_predictions function. """
     def get_predictions(self, testdata, PLST, PLST_class, besthits=1):
         self.besthits = besthits
+        self.traindata = determine_annotated_data(self)
         predictions = {}
         if PLST:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
@@ -63,14 +86,17 @@ class Predictor:
                         go_termen.append(self.go_index_reverse[getal1])
                 predictions[eiwit] = go_termen
         else:
-            self.traindata = determine_annotated_data(self)
             predictions = not_PLST_predictions(self, testdata)
         return predictions
 
-
+    """Determine the bool for type of array(blast beshtit or top20 hits)"""
     def get_dtype(self):
         return bool
 
+"""This function determines the annotated data
+- traindata: Dicitionaire where the annotated data will be stored
+- returns the traindata
+- self.besthit: Determines the used hits for the blast"""
 def determine_annotated_data(self):
     traindata = {}
     for keys in self.traindata:
@@ -82,7 +108,10 @@ def determine_annotated_data(self):
                 traindata[keys].append(values)
     return traindata
 
-# Predictions if PLST
+"""This functions determines the prediction if the PLST method is used
+- index: To determine the proteins used from the transformed matrix
+- protein_volgorde: list with the protein order in the predictions made
+- returns the predicted matrix and the protein order"""
 def PLST_predictions(self, testdata, transformed):
     index = []
     protein_volgorde = []
@@ -96,7 +125,11 @@ def PLST_predictions(self, testdata, transformed):
     return transformed[index, :], protein_volgorde
 
 
-# Call PLST class
+"""This function convert the self.matrix to the transformed_matrix with the PLST method.
+- transform: Call the PLST class
+- transformed _matrix: The matrix returned from the PLST class.
+- Exit script if method gives an error
+- return the transformed matrix and the PLST class to convert the transformed matrix back"""
 def call_PLST_class(self, PLST_class):
     getal = int("%.0f" % (self.matrix.shape[1] / 4))
     transform = PLST_class()
@@ -108,7 +141,11 @@ def call_PLST_class(self, PLST_class):
     return transformed_matrix, transform
 
 
-# Method if not PLST method is used
+
+"""This function determines the prediction if the PLST method is not used.
+- predictions: All the predictions are stored in this variable.
+- returns the predictions dictionaire
+- self.besthits: specifies the hits used for the blast."""
 def not_PLST_predictions(self, testdata):
     predictions = {}
     for protein in testdata:
