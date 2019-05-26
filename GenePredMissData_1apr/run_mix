@@ -1,0 +1,6 @@
+# default
+python3 multi_momma.py -t files/all_blastresults.txt -g files/goa_rat.gaf -T files/all_geannoteerde_mouse_ids -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_mix.py -r 1 -e f-score -d C
+
+# run with domains
+#python3 multi_momma.py -t files/all_blastresults.txt -g files/goa_rat.gaf -T files/all_geannoteerde_mouse_ids -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_mix.py -r 1 -e f-score -d C,P
+#python3 multi_momma.py -t files/all_blastresults.txt -g files/goa_rat.gaf -T files/all_geannoteerde_mouse_ids -G files/goa_mouse.gaf -s 10 -p predictors/pred_blast_mix.py -r 1 -e f-score -d C,F
