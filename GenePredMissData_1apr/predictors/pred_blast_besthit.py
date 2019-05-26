@@ -48,7 +48,7 @@ class Predictor:
     # First, the loop will look if the id from the testdata is in the blast results dictionaire: self.traindata.
     # Second, the loop will look if the linked train id to the test id can be linked to the train gaf file.
     # Third, if so save the data.
-    def get_predictions(self, testdata, PLST, PLST_class):
+    def get_predictions(self, testdata, PLST, PLST_class, besthits=None):
         predictions = {}
         if PLST:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
