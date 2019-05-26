@@ -16,9 +16,9 @@ from classes.lsdr import PLST as PLST_class
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators):
 
-    """Moet de PLST methode uitgevoerd worden"""
+    """Moet de PLST methode uitgevoerd worden en moet de blast mix worden uitgevoerd"""
     PLST_method = False
-
+    besthits=1
 
     while requests.qsize() > 0:
         fraction = requests.get()
@@ -26,7 +26,7 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
         "PLST methode aan trainclass"
         predictor.set_trainclass(gaf_parse(sample), PLST_method)
-        predictions = predictor.get_predictions(testdata, PLST_method, PLST_class)
+        predictions = predictor.get_predictions(testdata, PLST_method, PLST_class, besthits)
 
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
@@ -94,7 +94,7 @@ def main():
 
     print("\nSTARTING")
     requests = Queue()
-    for fraction in range(100, 0, -args["stepsize"]):
+    for fraction in range(100, 90, -args["stepsize"]):
         for r in range(0, args["repeats"]):
             requests.put(fraction)
 
