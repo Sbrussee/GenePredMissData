@@ -10,7 +10,7 @@ Evaluator Class:
 
 The Evaluator class takes the predicted go-terms predicted by the Predictor class and
 the true go-terms taken from a gaf-file and evaluates the prediction performance of each predicted annotation
-by looking at the true annotation found in the gaf-file. The evluator only calculates metrics specified by the user
+by looking at the true annotation found in the gaf-file. The evaluator only calculates metrics specified by the user
 in the command line. The Evaluator will return the mean of the specified metric for each predicted annotation.
 """
 
@@ -20,7 +20,6 @@ class Evaluator:
         - true_annotation: 2D-numpy array [proteins; go-terms] with the protein annotations taken from the gaf file.
         - pred_annotation: 2D-numpy array [proteins; go-terms] with the predicted protein annotations from the predictor
         - evaluators: list of the specified performance metrics as specified by the user.
-        - dtype: datatype which is in the true_annotation and pred_annotation vectors.
 
     The initiator function takes the predicted annotation, the true annotation and the specified evaluation metrics.
     The function then determines the number of go-terms and proteins in each set by looking at the vector shape of the
@@ -29,14 +28,13 @@ class Evaluator:
     empty array is saved in the class variables for each metric that can be calculated by the evaluator. The performance
     metric for each protein prediction will be saved in these empty arrays.
     """
-    def __init__(self, true_annotation, pred_annotation, evaluators, dtype=''):
+    def __init__(self, true_annotation, pred_annotation, evaluators):
         # Set the input files/lists
         # True (Y_true), pred (Y_pred) > Need to be in np vector format.
         self.true_annotation = true_annotation
         self.pred_annotation = pred_annotation
 
         self.evaluators = evaluators
-        self.dtype = dtype
 
         # Determine number of terms and proteins.
         (self.num_of_pred_proteins, self.num_of_pred_go_terms) = self.pred_annotation.shape
