@@ -77,7 +77,7 @@ class Predictor:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
             predicted_matrix, protein_volgorde = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
-            # Zet de predictions weer terug in een dictionairy
+
             for getal, eiwit in enumerate(protein_volgorde):
                 go_termen = []
                 for getal1, go in enumerate(inverse_matrix[getal, : ]):
@@ -117,10 +117,11 @@ def PLST_predictions(self, testdata, transformed):
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
-            check = self.traindata[protein].strip()
-            if check in self.rat_index:
-                protein_volgorde.append(protein)
-                index.append(self.rat_index[check])
+            if len(self.traindata[protein]) > 0:
+                for prot in self.traindata[protein]:
+                    if prot in self.rat_index:
+                        protein_volgorde.append(protein)
+                        index.append(self.rat_index[prot])
     return transformed[index, :], protein_volgorde
 
 
