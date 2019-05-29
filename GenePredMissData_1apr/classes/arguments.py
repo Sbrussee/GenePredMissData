@@ -243,9 +243,7 @@ def finish_arg(argstore):
             if ARGS[arg]["required"]:
                 print("Error: Required argument '%s' not given."%arg)
                 exit()
-            print(arg)
             if ARGS[arg]["default"] != False:
-                print("ADDING DEFAULT")
                 argstore[arg] = ARGS[arg]["default"]
     return argstore
 

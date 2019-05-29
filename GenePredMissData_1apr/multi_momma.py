@@ -39,7 +39,7 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
         "PLST methode aan trainclass"
         predictor.set_trainclass(gaf_parse(sample), plst)
-        predictions = predictor.get_predictions(testdata, plst, PLST_class, besthits)
+        predictions = predictor.get_predictions(testdata, plst, besthits)
 
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
@@ -55,7 +55,6 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
 def main():
     args = get_args()
-    print(args)
     modname = args["predictor"].split(".")[0].replace("/", ".")
     print("Using predictor:", modname)
     Predictor = importlib.import_module(modname).Predictor
