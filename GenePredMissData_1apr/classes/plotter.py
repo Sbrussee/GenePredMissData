@@ -65,7 +65,7 @@ class Plotter:
             plt.xticks(fractions)  # location, labels
             plt.xlim(fractions[0]-0.5, fractions[-1]+0.5)
             word = ''
-            if PLST == True:
+            if PLST > 0:
                 word = 'PLST'
             plt.title(value + ' plotted ' + word)
             plt.ylabel(value)
