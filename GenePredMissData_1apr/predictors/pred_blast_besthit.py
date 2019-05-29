@@ -30,7 +30,12 @@ class Predictor:
         2. If PLST method is not used then:
             - self.trainclass: store in a dictionaire all proteins with the specific go terms"""
     def set_trainclass(self, trainclass, PLST):
-        if PLST:
+        self.PLST = PLST
+        global train
+        train = trainclass
+        self.trainclass = trainclass
+
+        if PLST > 0:
             # Step 1: Determine how big the matrix will be.
             self.go_termen_train = [go for go in trainclass.values()]
             self.go_termen_train = list(itertools.chain.from_iterable(self.go_termen_train))
@@ -51,12 +56,6 @@ class Predictor:
                 getal += 1
 
 
-        else:
-            global train
-            train = trainclass
-            self.trainclass = trainclass
-
-
     """ Predict the go terms for the the proteome.
         - predictions: all the predictions are stored in this dictionaire. 
         1. If the PLST method is used:
@@ -68,7 +67,7 @@ class Predictor:
             - determine the prediction into the not_PLST_predictions function. """
     def get_predictions(self, testdata, PLST, PLST_class, besthits=None):
         predictions = {}
-        if PLST:
+        if PLST > 0:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
             predicted_matrix, protein_volgorde = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
@@ -109,7 +108,7 @@ def PLST_predictions(self, testdata, transformed):
 - Exit script if method gives an error
 - return the transformed matrix and the PLST class to convert the transformed matrix back"""
 def call_PLST_class(self, PLST_class):
-    getal = int("%.0f" % (self.matrix.shape[1] / 4))
+    getal = int("%.0f" % (self.matrix.shape[1] / self.PLST))
     transform = PLST_class()
     try:
         transformed_matrix = transform.fit(self.matrix, ndims=getal)
