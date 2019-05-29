@@ -28,10 +28,9 @@ class thread_print:
     
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
-         trainclass, arraymaker, gofixer, gofix, evaluators, t):
+         trainclass, arraymaker, gofixer, gofix, evaluators, t, plst):
 
     """Moet de PLST methode uitgevoerd worden en moet de blast mix worden uitgevoerd"""
-    PLST_method = False
     besthits=1
 
     while requests.qsize() > 0:
@@ -39,8 +38,8 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         sample = split(trainclass, fraction)
 
         "PLST methode aan trainclass"
-        predictor.set_trainclass(gaf_parse(sample), PLST_method)
-        predictions = predictor.get_predictions(testdata, PLST_method, PLST_class, besthits)
+        predictor.set_trainclass(gaf_parse(sample), plst)
+        predictions = predictor.get_predictions(testdata, plst, PLST_class, besthits)
 
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
@@ -125,7 +124,7 @@ def main():
                                            testdata, traindata,
                                            testclass_array, trainclass,
                                            arraymaker, gofixer, gofix,
-                                           args["evaluator"], t))
+                                           args["evaluator"], t, args["plst"]))
         p.start()
         processes.append(p)
     file = open("results.tsv","w")

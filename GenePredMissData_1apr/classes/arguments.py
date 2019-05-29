@@ -85,6 +85,16 @@ def check_predargs(key, arg):
     arg = arg.split(",")
     return arg
 
+def plst_check(key, arg):
+    text = ""
+    if arg.isnumeric():
+        arg = int(arg)
+        if arg < 1:
+            text = "Argument plst or P shoud be a number above 0."
+    else:
+        text = "Argument plst or P should be a number."
+    return text, arg
+
 HELP = "====GOA_PREDICTION FRAMEWORK====\n"\
        "Tests different GO-prediction algorithms "\
        "by removing values incrementally from the "\
@@ -103,6 +113,7 @@ LETTERS = {"p":"predictor",
            "n":"threads",
            "f":"nogofix",
            "a":"predargs",
+           "P":"plst"
            "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
@@ -186,6 +197,12 @@ ARGS = {"predictor":{
                     "required":False,
                     "default":"",
                     "check":None,
+                    "help":"Skip GO-TREE completing the GO terms." 
+                    },
+        "plst":{
+                    "required":False,
+                    "default":0,
+                    "check":plst_check,
                     "help":"Skip GO-TREE completing the GO terms." 
                     },
         "help":{
