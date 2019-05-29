@@ -4,6 +4,11 @@ class Go_Fixer:
     def fix_go(self, termlist):
         pos = 0
         for term in termlist:
+            fnum = False
+            if type(term) == tuple:
+                conf = term[1]
+                term = term[0]
+                fnum = True
             try:
                 parents = self.go_tree[term]
                 while type(parents) == str:
@@ -13,7 +18,10 @@ class Go_Fixer:
                 continue
             for pterm in parents:
                 if not pterm in termlist and pterm != '':
-                    termlist.append(pterm)
+                    if fnum:
+                        termlist.append((pterm, conf))
+                    else:
+                        termlist.append(pterm)
             pos += 1
         return termlist
 
