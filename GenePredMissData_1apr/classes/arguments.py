@@ -113,7 +113,7 @@ LETTERS = {"p":"predictor",
            "n":"threads",
            "f":"nogofix",
            "a":"predargs",
-           "P":"plst"
+           "P":"plst",
            "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
@@ -201,7 +201,7 @@ ARGS = {"predictor":{
                     },
         "plst":{
                     "required":False,
-                    "default":0,
+                    "default":-1,
                     "check":plst_check,
                     "help":"Skip GO-TREE completing the GO terms." 
                     },
@@ -243,7 +243,9 @@ def finish_arg(argstore):
             if ARGS[arg]["required"]:
                 print("Error: Required argument '%s' not given."%arg)
                 exit()
-            if ARGS[arg]["default"]:
+            print(arg)
+            if ARGS[arg]["default"] != False:
+                print("ADDING DEFAULT")
                 argstore[arg] = ARGS[arg]["default"]
     return argstore
 

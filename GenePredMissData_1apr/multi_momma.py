@@ -55,6 +55,7 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
 def main():
     args = get_args()
+    print(args)
     modname = args["predictor"].split(".")[0].replace("/", ".")
     print("Using predictor:", modname)
     Predictor = importlib.import_module(modname).Predictor
