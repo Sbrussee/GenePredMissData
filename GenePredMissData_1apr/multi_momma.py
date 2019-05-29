@@ -13,8 +13,22 @@ from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.lsdr import PLST as PLST_class
 
+
+class thread_print:
+    def __init__(self):
+        self.q = Queue()
+    
+    def print(self, toprint):
+        self.q.put(toprint)
+
+    def display(self):
+        if self.q.qsize() > 0:
+            print(self.q.get())
+        
+    
+
 def step(requests, results, predictor, testdata, traindata, testclass_array,
-         trainclass, arraymaker, gofixer, gofix, evaluators):
+         trainclass, arraymaker, gofixer, gofix, evaluators, t):
 
     """Moet de PLST methode uitgevoerd worden en moet de blast mix worden uitgevoerd"""
     PLST_method = False
@@ -37,6 +51,7 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         evaluation = evaluator.get_evaluation()
         results.put((fraction, evaluation))
+        t.print("YEET")
 
 
 def main():
@@ -101,25 +116,30 @@ def main():
     total = requests.qsize()
     processes = []
     results = Queue()
+    t = thread_print()
     done = 0
+    
     print("Progress: 0%")
     for x in range(threads):
         p = Process(target = step, args = (requests, results, predictor,
                                            testdata, traindata,
                                            testclass_array, trainclass,
                                            arraymaker, gofixer, gofix,
-                                           args["evaluator"]))
+                                           args["evaluator"], t))
         p.start()
         processes.append(p)
     file = open("results.tsv","w")
     file.write("fraction\tmetric\tresult\n")
     reslist = []
     while total - done > 0:
-        r = results.get()
-        done += 1
-        print("Progress:", str(round(100 - (total - done) / total * 100)) +
-              "%")
-        reslist.append(r)
+        t.display()
+        if results.qsize() > 0:
+            r = results.get()
+            done += 1
+            print("Progress:", str(round(100 - (total - done)
+                                         / total * 100)) + "%")
+            reslist.append(r)
+        time.sleep(0.1)
     for r in sorted(reslist, key=lambda x: x[0]):
         for metric, evaluation in r[1].items():
             print("Fraction:", r[0], "Metric:", metric, "Evaluation:",
