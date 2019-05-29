@@ -34,30 +34,29 @@ class Predictor:
         2. If PLST method is not used then:
             - self.trainclass: store in a dictionaire all proteins with the specific go terms"""
     def set_trainclass(self, trainclass, PLST):
+        global train
+        train = trainclass
+        self.trainclass = trainclass
+
         if PLST:
             # Step 1: Determine how big the matrix will be.
-            self.go_termen_train = [go for go in trainclass.values()]
+            self.go_termen_train = [go for go in self.trainclass.values()]
             self.go_termen_train = list(itertools.chain.from_iterable(self.go_termen_train))
             self.go_termen_train = np.unique(self.go_termen_train)
             self.go_index = {a: getal for getal, a in enumerate(np.unique(self.go_termen_train))}
             self.go_index_reverse = {getal: a for getal, a in enumerate(np.unique(self.go_termen_train))}
-            self.train_id_reverse = {getal: id for getal, id in enumerate(trainclass)}
+            self.train_id_reverse = {getal: id for getal, id in enumerate(self.trainclass)}
 
             # Step 2: Create matrix from all unique go terms in gaf file
-            self.matrix = np.zeros(((len(trainclass), len(self.go_termen_train))), dtype="int")
+            self.matrix = np.zeros(((len(self.trainclass), len(self.go_termen_train))), dtype="int")
             self.rat_index = {}
             getal = 0
-            for rat, go_terms in trainclass.items():
+            for rat, go_terms in self.trainclass.items():
                 self.rat_index[rat] = getal
                 for go in go_terms:
                     index = self.go_index[go]
                     self.matrix[getal, index] = 1
                 getal += 1
-
-        else:
-            global train
-            train = trainclass
-            self.trainclass = trainclass
 
     """ Predict the go terms for the the proteome.
          - self.besthit: Determines the used hits for the blast
@@ -78,7 +77,7 @@ class Predictor:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
             predicted_matrix, protein_volgorde = PLST_predictions(self, testdata, transformed_matrix)
             inverse_matrix = transform.inverseMap(predicted_matrix)
-            # Zet de predictions weer terug in een dictionairy
+
             for getal, eiwit in enumerate(protein_volgorde):
                 go_termen = []
                 for getal1, go in enumerate(inverse_matrix[getal, : ]):
@@ -118,10 +117,11 @@ def PLST_predictions(self, testdata, transformed):
     for protein in testdata:
         protein = protein.strip()
         if protein in self.traindata:
-            check = self.traindata[protein].strip()
-            if check in self.rat_index:
-                protein_volgorde.append(protein)
-                index.append(self.rat_index[check])
+            if len(self.traindata[protein]) > 0:
+                for prot in self.traindata[protein]:
+                    if prot in self.rat_index:
+                        protein_volgorde.append(protein)
+                        index.append(self.rat_index[prot])
     return transformed[index, :], protein_volgorde
 
 
