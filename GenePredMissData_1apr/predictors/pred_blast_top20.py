@@ -34,7 +34,7 @@ class Predictor:
     # Third, if so calculate the frequency each go-term exist in a train protein id.
     # Because there are 20 train ids and only 1 test id, therefore the frequency will be calculated.
     # Fourth, save the frequency in the dictionaire: predictions.
-    def get_predictions(self, testdata, PLST):
+    def get_predictions(self, testdata, PLST, besthits=None):
         predictions = {}
         for protein in testdata:
             protein = protein.strip()
