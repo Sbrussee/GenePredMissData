@@ -46,7 +46,6 @@ class Predictor:
                     blast_list = list(itertools.chain.from_iterable(blast_extend))
                     unique, counts = np.unique(blast_list, return_counts=True)
                     predictions[protein] = list(zip(unique, counts/len(blast_extend)))
-        print(predictions)
         return predictions
 
     # If this method is used, return a float for defining which type of array has to be made.

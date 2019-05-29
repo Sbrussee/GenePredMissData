@@ -65,7 +65,7 @@ class Predictor:
             - store the go terms per protein from the inverse_matrix into a dictionaire.
         2. If the PLST method is not used:
             - determine the prediction into the not_PLST_predictions function. """
-    def get_predictions(self, testdata, PLST, PLST_class, besthits=None):
+    def get_predictions(self, testdata, PLST, besthits=None):
         predictions = {}
         if PLST > 0:
             transformed_matrix, transform = call_PLST_class(self, PLST_class)
