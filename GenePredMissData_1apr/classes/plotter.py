@@ -33,7 +33,6 @@ class Plotter:
         for key in self.dictarray[0].keys():
             if key not in uniquelist:
                 uniquelist.append(key)
-
         fractions = sorted(set(self.frac_of_miss_array))
         for value in uniquelist:
             newarray = [d[value] for d in self.dictarray]
