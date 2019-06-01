@@ -30,16 +30,18 @@ class thread_print:
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators, t, plst):
 
-    """Moet de PLST methode uitgevoerd worden en moet de blast mix worden uitgevoerd"""
-    besthits=1
 
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
 
-        "PLST methode aan trainclass"
-        predictor.set_trainclass(gaf_parse(sample), plst)
+        predictor.set_trainclass(gaf_parse(sample))
         predictions = predictor.get_predictions(testdata, plst, besthits)
+        
+         """PLST caller:"""
+        if plst > 0:
+            train = predictor.get_train()
+            predictions = call_PLST().do(gaf_parse(trainclass), predictions, train, plst, PLST_class)
 
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
