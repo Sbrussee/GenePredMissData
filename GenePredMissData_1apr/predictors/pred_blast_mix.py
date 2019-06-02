@@ -22,19 +22,16 @@ class Predictor:
                 self.traindata[input].append(output)
 
 
-    def set_trainclass(self, trainclass):
+    def set_trainclass(self, trainclass, besthits):
         self.trainclass = trainclass
-
+        self.besthits = besthits
+        self.traindata = self.determine_annotated_data()
 
     """This function determines the prediction if the PLST method is not used.
     - predictions: All the predictions are stored in this variable.
     - returns the predictions dictionaire
     - self.besthits: specifies the hits used for the blast."""
-    def get_predictions(self, testdata, trainclass, besthits):
-        self.besthits = besthits
-        self.trainclass = trainclass
-        self.traindata = self.determine_annotated_data()
-
+    def get_predictions(self, testdata):
         predictions = {}
         for protein in testdata:
             protein = protein.strip()

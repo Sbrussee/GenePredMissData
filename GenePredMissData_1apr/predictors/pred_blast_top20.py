@@ -22,7 +22,7 @@ class Predictor:
     
 
     # This function imports the train gaf file(rat gaf)
-    def set_trainclass(self, trainclass, PLST=None):
+    def set_trainclass(self, trainclass, besthits):
         global train
         train = trainclass
         self.trainclass = trainclass
@@ -34,7 +34,7 @@ class Predictor:
     # Third, if so calculate the frequency each go-term exist in a train protein id.
     # Because there are 20 train ids and only 1 test id, therefore the frequency will be calculated.
     # Fourth, save the frequency in the dictionaire: predictions.
-    def get_predictions(self, testdata, trainclass, besthits=None):
+    def get_predictions(self, testdata):
         predictions = {}
         for protein in testdata:
             protein = protein.strip()
@@ -52,23 +52,6 @@ class Predictor:
     def get_dtype(self):
         return float
 
-
-# Werkt het script?
-if __name__ == "__main__":
-    traindata = ['A1\tB1', 'A1\tB2', "A1\tB3",
-                 'A2\tB4', 'A2\tB5', "A2\tB6",
-                 'A3\tB7', 'A3\tB8', "A3\tB9"]
-    trainclass = {"B1":["GO1", "GO2", "GO3"],
-                  "B2":["GO1", "GO2", "GO3"],
-                  "B3":["GO1", "GO2", "GO3"],
-                  "B4":["GO1", "GO2", "GO3"],
-                  "B5":["GO4", "GO5", "GO6"],
-                  "B6":["GO1", "GO2", "GO3"],
-                  "B7":["GO1", "GO2", "GO3"],
-                  "B8":["GO4", "GO5", "GO6"],
-                  "B9":["GO7", "GO8", "GO9"],}
-    testdata=['A1', "A2", "A3"]
-    predictor = Predictor(traindata, args=None)
-    predictor.set_trainclass(trainclass, PLST=None)
-    print(predictor.get_predictions(testdata, PLST=None, PLST_class=None))
+    def get_train(self):
+        return self.traindata
 
