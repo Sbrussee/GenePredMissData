@@ -12,7 +12,7 @@ from classes.Dict2Array import Dict2Array
 from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.lsdr import PLST as PLST_class
-
+from classes.call_PLST import call_PLST
 
 class thread_print:
     def __init__(self):
@@ -35,10 +35,12 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         fraction = requests.get()
         sample = split(trainclass, fraction)
 
-        predictor.set_trainclass(gaf_parse(sample))
-        predictions = predictor.get_predictions(testdata, plst, besthits)
-        
-         """PLST caller:"""
+        """Extend predargs predictor with besthits"""
+        besthits = 1
+
+        predictor.set_trainclass(gaf_parse(sample), besthits)
+        predictions = predictor.get_predictions(testdata)
+
         if plst > 0:
             train = predictor.get_train()
             predictions = call_PLST().do(gaf_parse(trainclass), predictions, train, plst, PLST_class)
@@ -59,7 +61,8 @@ def main():
     #print(args)
     arglist = [
         {'stepsize': 25, 'traindata': './files/blast_top20_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_top20_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_top20.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 25, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
+        {'stepsize': 25, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
+        {'stepsize': 25, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_mix.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
                ]
     plotter = Plotter()
     methodlist = []
