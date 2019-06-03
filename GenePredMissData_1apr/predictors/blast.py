@@ -22,16 +22,21 @@ class Predictor:
                 self.traindata[input].append(output)
 
 
-    def correct_traindata(self, besthits, rat_index):
+    def correct_traindata(self, besthits, rat_index, annotation):
         self.besthits = besthits
         traindata = {}
         for keys in self.traindata:
             traindata[keys] = []
             getal = 0
             for values in self.traindata[keys]:
-                if values in rat_index and getal < besthits:
-                    getal += 1
-                    traindata[keys].append(values)
+                if annotation:
+                    if values in rat_index and getal < besthits:
+                        getal += 1
+                        traindata[keys].append(values)
+                else:
+                    if getal < besthits:
+                        getal += 1
+                        traindata[keys].append(values)
         self.traindata = traindata
 
 
