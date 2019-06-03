@@ -115,10 +115,10 @@ def main():
         trainclass_file = open(args["traingaf"], "r")
         traindata_file = open(args["traindata"], "r")
         testdata_file = open(args["testdata"], "r")
-        testclass = testclass_file.readlines()[:10000]
-        trainclass = trainclass_file.readlines()[:10000]
-        traindata = traindata_file.readlines()[:10000]
-        testdata = testdata_file.readlines()[:10000]
+        testclass = testclass_file.readlines()
+        trainclass = trainclass_file.readlines()
+        traindata = traindata_file.readlines()
+        testdata = testdata_file.readlines()
         testclass_file.close()
         trainclass_file.close()
         traindata_file.close()
