@@ -14,6 +14,7 @@ from classes.filter_gaf import filter_gaf
 from classes.splitter import split
 from classes.lsdr import PLST as PLST_class
 from classes.call_PLST import call_PLST
+from classes.train_matrix import train_matrix
 
 class thread_print:
     def __init__(self):
@@ -36,21 +37,45 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         fraction = requests.get()
         sample = split(trainclass, fraction)
 
-        """Extend predargs predictor with besthits"""
+        """Besthits: How many predictors do you want?"""
         besthits = 1
 
-        predictor.set_trainclass(gaf_parse(sample), besthits)
-        predictions = predictor.get_predictions(testdata)
+        """train_matrix: Define the gaf file in a matrix"""
+        train = train_matrix()
+        matrix, go_index_reverse, rat_index = train.convert(gaf_parse(sample))
 
+        """If you want only annotated hits"""
+        only_annotated = True
+        predictor.correct_traindata(besthits, rat_index, only_annotated)
+
+        """Get the train data"""
+        traindata = predictor.get_train()
+
+        """If plst method has to be performed:"""
         if plst > 0:
-            train = predictor.get_train()
-            predictions = call_PLST().do(gaf_parse(trainclass), predictions, train, plst, PLST_class)
+            a = call_PLST()
+            matrix = a.train(matrix, plst, PLST_class)
 
+        """Make the predictions:"""
+        matrix, rat_index = predictor.get_predictions(testdata, matrix, rat_index)
+
+        """If the plst method has been performed, then convert the matrix to the original score"""
+        if plst > 0:
+            matrix = a.inverse(matrix)
+            del a
+
+        """Put the matrix results in a dictionaire"""
+        predictions = train.back_convert(matrix, rat_index, go_index_reverse, traindata)
+
+        """Delete some variables out of memory"""
+        del matrix, traindata, rat_index, go_index_reverse, train
+
+        """Create a lil matrix from the dictionaire"""
         if gofix:
-            pred_array = arraymaker.make_array(predictions, gofixer.fix_go)
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype())
         else:
             pred_array = arraymaker.make_array(predictions,
-                                               gofixer.replace_obsolete_terms)
+                                               gofixer.replace_obsolete_terms, predictor.get_dtype())
 
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         evaluation = evaluator.get_evaluation()
@@ -61,8 +86,8 @@ def main():
     #args = get_args()
     #print(args)
     arglist = [
-        {'stepsize': 50, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_mix.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
+        {'stepsize': 50, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': 2, 'nogofix': '', 'plst': -1},
+        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': 2, 'nogofix': '', 'plst': -1}
                ]
     plotter = Plotter()
     methodlist = []
@@ -74,6 +99,8 @@ def main():
             methodlist.append(argname)
         else:
             methodlist.append(argname+'n'+str(number))
+
+
         modname = args["predictor"].split(".")[0].replace("/", ".")
         print("Using predictor:", modname)
         Predictor = importlib.import_module(modname).Predictor
@@ -88,10 +115,10 @@ def main():
         trainclass_file = open(args["traingaf"], "r")
         traindata_file = open(args["traindata"], "r")
         testdata_file = open(args["testdata"], "r")
-        testclass = testclass_file.readlines()
-        trainclass = trainclass_file.readlines()
-        traindata = traindata_file.readlines()
-        testdata = testdata_file.readlines()
+        testclass = testclass_file.readlines()[:10000]
+        trainclass = trainclass_file.readlines()[:10000]
+        traindata = traindata_file.readlines()[:10000]
+        testdata = testdata_file.readlines()[:10000]
         testclass_file.close()
         trainclass_file.close()
         traindata_file.close()
@@ -116,13 +143,13 @@ def main():
             predictor = Predictor(traindata, args["predargs"])
         else:
             predictor = Predictor(traindata, None)
-        arraymaker = Dict2Array(allterms, testclass, predictor.get_dtype())
+        arraymaker = Dict2Array(allterms, testclass)
         
         if gofix:
-            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go)
+            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool)
         else:
             testclass_array = arraymaker.make_array(testclass,
-                                                gofixer.replace_obsolete_terms)
+                                                gofixer.replace_obsolete_terms, bool)
 
         print("\nSTARTING")
         requests = Queue()
