@@ -2,6 +2,7 @@
 import time
 import os
 import importlib
+import re
 from multiprocessing import Process, Queue
 from classes.arguments import *
 from classes.fix_go import Go_Fixer
@@ -60,14 +61,19 @@ def main():
     #args = get_args()
     #print(args)
     arglist = [
-        {'stepsize': 25, 'traindata': './files/blast_top20_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_top20_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_top20.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 25, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 25, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_mix.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
+        {'stepsize': 50, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
+        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_mix.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
                ]
     plotter = Plotter()
     methodlist = []
+    number = 0
     for args in arglist:
-        methodlist.append(args["predictor"])
+        argname = re.split('/|\.', args["predictor"])[-2]
+        if argname not in methodlist:
+            number += 1
+            methodlist.append(argname)
+        else:
+            methodlist.append(argname+'n'+str(number))
         modname = args["predictor"].split(".")[0].replace("/", ".")
         print("Using predictor:", modname)
         Predictor = importlib.import_module(modname).Predictor
@@ -159,6 +165,8 @@ def main():
                            + "\n")
             plotter.add_score(r[0], r[1])
         file.close()
+
+
     plotter.plot_performance(args["plst"], methodlist)
 
 main()
