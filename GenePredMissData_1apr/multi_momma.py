@@ -31,43 +31,25 @@ class thread_print:
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators, t, plst):
-
-
     while requests.qsize() > 0:
         fraction = requests.get()
         sample = split(trainclass, fraction)
-
-        """train_matrix: Define the gaf file in a matrix"""
         train = train_matrix()
         matrix, go_index_reverse, rat_index = train.convert(gaf_parse(sample))
-
-
-        """If plst method has to be performed:"""
         if plst > 0:
             a = call_PLST()
             matrix = a.train(matrix, plst, PLST_class)
-
-        """Make the predictions:"""
         matrix, rat_index = predictor.get_predictions(testdata, matrix, rat_index)
-
-        """If the plst method has been performed, then convert the matrix to the original score"""
         if plst > 0:
             matrix = a.inverse(matrix)
             del a
-
-        """Put the matrix results in a dictionaire"""
         predictions = train.back_convert(matrix, rat_index, go_index_reverse, predictor.get_train())
-
-        """Delete some variables out of memory"""
         del matrix, rat_index, go_index_reverse, train
-
-        """Create a lil matrix from the dictionaire"""
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype())
         else:
             pred_array = arraymaker.make_array(predictions,
                                                gofixer.replace_obsolete_terms, predictor.get_dtype())
-
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         evaluation = evaluator.get_evaluation()
         results.put((fraction, evaluation))

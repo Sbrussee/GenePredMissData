@@ -198,7 +198,7 @@ ARGS = {"predictor":{
                     },
         "nogofix":{
                     "required":False,
-                    "default":"",
+                    "default":False,
                     "check":None,
                     "help":"Skip GO-TREE completing the GO terms." 
                     },
