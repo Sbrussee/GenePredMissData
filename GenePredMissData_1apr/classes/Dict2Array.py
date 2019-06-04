@@ -25,11 +25,20 @@ class Dict2Array:
     # fill the matrix.
     def make_array(self, data, func):
         res = lil_matrix((self.y_size, self.x_size), dtype=self.dtype)
+        #file = open("print", "a")
+        #file.write("Print\n")
+        #file.close()
         for key in data:
             if func != None:
                 vals = func(data[key])
             else:
                 vals = data[key]
+            #file = open("print", "a")
+            #file.write("TUPLE:" + str(data[key]))
+            #if type(data[key][0]) == tuple:
+            #    file.write("BEFORE GOFIX:"+  str(data[key]) + "\n")
+            #    file.write("AFTER GOFIX:" + str(vals) + "\n")
+            #file.close()
             for value in vals:
                 if not type(value) == tuple:
                     value = (value, True)
