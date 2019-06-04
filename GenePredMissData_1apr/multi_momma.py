@@ -86,14 +86,11 @@ def main():
     #args = get_args()
     #print(args)
     arglist = [
-<<<<<<< HEAD
         {'stepsize': 25, 'traindata': './files/blast_top20_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_top20_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_top20.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': '*', 'nogofix': '', 'plst': -1},
         {'stepsize': 25, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': '*', 'nogofix': '', 'plst': -1}
-=======
+
         {'stepsize': 50, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}
->>>>>>> 23154efc69157ab8cac78434d0bcae75a21e4ae6
-               ]
+        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}               ]
     plotter = Plotter()
     methodlist = []
     number = 0

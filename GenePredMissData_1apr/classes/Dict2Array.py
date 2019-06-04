@@ -23,16 +23,14 @@ class Dict2Array:
     # Second, for all ids the go terms will be specified.
     # Thirdly, if the go term in the go term dictionry and protein id in protein dictionairy defined above, then
     # fill the matrix.
-<<<<<<< HEAD
     def make_array(self, data, func):
         res = lil_matrix((self.y_size, self.x_size), dtype=self.dtype)
         #file = open("print", "a")
         #file.write("Print\n")
         #file.close()
-=======
+
     def make_array(self, data, func, dtype):
         res = lil_matrix((self.y_size, self.x_size), dtype=dtype)
->>>>>>> 23154efc69157ab8cac78434d0bcae75a21e4ae6
         for key in data:
             if func != None:
                 vals = func(data[key])
