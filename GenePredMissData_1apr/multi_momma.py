@@ -80,7 +80,7 @@ def main():
     number = 0
     for legend in multargs:
         if len(multargs) > 1:
-            print("RUN:", legend)
+            print("\nRUN:", legend)
         methodlist.append(legend)
         args = multargs[legend]
         argname = re.split('/|\.', args["predictor"])[-2]
