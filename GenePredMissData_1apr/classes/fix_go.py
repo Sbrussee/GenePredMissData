@@ -1,14 +1,13 @@
 import time
 
 class Go_Fixer:
-    def fix_go(self, termlist):
+    def fix_go(self, termlist, t):
         pos = 0
+        fnum = type(termlist[0]) == tuple
+        t0 = time.time()
         for term in termlist:
-            fnum = False
-            if type(term) == tuple:
-                conf = term[1]
-                term = term[0]
-                fnum = True
+            if fnum:
+                term, conf = term
             try:
                 parents = self.go_tree[term]
                 while type(parents) == str:
@@ -17,12 +16,14 @@ class Go_Fixer:
             except KeyError:
                 continue
             for pterm in parents:
-                if not pterm in termlist and pterm != '':
-                    if fnum:
+                if fnum:
+                    if not pterm in [x[0] for x in termlist] and pterm != '':
                         termlist.append((pterm, conf))
-                    else:
+                else:
+                    if not pterm in termlist and pterm != '':
                         termlist.append(pterm)
             pos += 1
+            t0 = time.time()
         return termlist
 
     """
