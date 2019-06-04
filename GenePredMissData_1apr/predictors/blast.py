@@ -11,6 +11,8 @@ class Predictor:
         self.traindata = dictionaire where the blast results will be saved"""
     def __init__(self, traindata, args):
         self.traindata = {}
+        self.besthits = int(args[0])
+        self.only_annotate = bool(args[1])
         for id in traindata:
             id = id.split("\t")
             input = id[0].strip()
@@ -22,22 +24,21 @@ class Predictor:
                 self.traindata[input].append(output)
 
 
-    def correct_traindata(self, besthits, rat_index, annotation):
-        self.besthits = besthits
+    def correct_traindata(self,  rat_index):
         traindata = {}
         for keys in self.traindata:
             traindata[keys] = []
             getal = 0
             for values in self.traindata[keys]:
-                if annotation:
-                    if values in rat_index and getal < besthits:
+                if self.only_annotate:
+                    if values in rat_index and getal < self.besthits:
                         getal += 1
                         traindata[keys].append(values)
                 else:
-                    if getal < besthits:
+                    if getal < self.besthits and values:
                         getal += 1
                         traindata[keys].append(values)
-        self.traindata = traindata
+        return traindata
 
 
     """This function determines the prediction if the PLST method is not used.
@@ -45,6 +46,7 @@ class Predictor:
     - returns the predictions dictionaire
     - self.besthits: specifies the hits used for the blast."""
     def get_predictions(self, testdata, matrix, rat_index):
+        self.traindata = self.correct_traindata(rat_index)
         index = []
         rat = {}
         getal = 0
