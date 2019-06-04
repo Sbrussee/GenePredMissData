@@ -31,7 +31,7 @@ class Plotter:
     Plotter will also give the corresponding x-as and y-axis names to the corresponding technique used
     This plotter is able to combine results from multiple techniques.
     """
-    def plot_performance(self, PLST, totalruns):
+    def plot_performance(self, PLST, title, totalruns):
         uniquelist = []
         for key in self.dictarray[0]:
             if key not in uniquelist:
@@ -61,13 +61,18 @@ class Plotter:
                                                              list(stdevs.values()),
                                                              fractions)]
                 dataframeus = dataframeus.append(vs, ignore_index=True)
-            dataframeus.pivot('fractions', 'methods', 'means').plot(yerr= dataframeus.pivot('fractions', 'methods', 'stdevs'),legend=True)
+            if len(totalruns) > 1:
+                l = True
+            else:
+                l = False
+            dataframeus.pivot('fractions', 'methods', 'means').plot(yerr= dataframeus.pivot('fractions', 'methods', 'stdevs'),legend=l)
             plt.xticks(fractions)  # location, labels
             plt.xlim(fractions[0]-0.5, fractions[-1]+0.5)
             word = ''
             if PLST > 0:
                 word = 'PLST'
-            plt.title(value + ' plotted ' + word)
+            #plt.title(value + ' plotted ' + word)
+            plt.title(title)
             plt.ylabel(value)
             plt.gca().invert_xaxis()
             plt.grid(True)

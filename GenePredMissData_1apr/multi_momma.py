@@ -74,26 +74,16 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
 
 
 def main():
-    #args = get_args()
-    #print(args)
-    arglist = [
-        {'stepsize': 25, 'traindata': './files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': ['20', True], 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': 1, 'nogofix': '', 'plst': -1}
-    ]
-
+    title, multargs = get_args()
     plotter = Plotter()
     methodlist = []
     number = 0
-    for args in arglist:
+    for legend in multargs:
+        if len(multargs) > 1:
+            print("RUN:", legend)
+        methodlist.append(legend)
+        args = multargs[legend]
         argname = re.split('/|\.', args["predictor"])[-2]
-        if argname not in methodlist:
-            number += 1
-            methodlist.append(argname)
-        else:
-            methodlist.append(argname+'n'+str(number))
-
-
-
-
         modname = args["predictor"].split(".")[0].replace("/", ".")
         print("Using predictor:", modname)
         Predictor = importlib.import_module(modname).Predictor
@@ -187,6 +177,6 @@ def main():
         file.close()
 
 
-    plotter.plot_performance(args["plst"], methodlist)
+    plotter.plot_performance(args["plst"], title, methodlist)
 
 main()

@@ -82,8 +82,9 @@ def check_evaluator(key, arg):
 
 
 def check_predargs(key, arg):
+    text = ""
     arg = arg.split(",")
-    return arg
+    return text, arg
 
 def plst_check(key, arg):
     text = ""
@@ -114,6 +115,8 @@ LETTERS = {"p":"predictor",
            "f":"nogofix",
            "a":"predargs",
            "P":"plst",
+           "h":"plotheader",
+           "a":"argfile",
            "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
@@ -141,7 +144,7 @@ ARGS = {"predictor":{
                     },
         "stepsize":{
                     "required":False,
-                    "default":"5",
+                    "default":5,
                     "check":check_stepsize,
                     "help":"Percentage decrease of dataset sample per round. Should be a number from 0 to 100." 
                     },
@@ -203,7 +206,19 @@ ARGS = {"predictor":{
                     "required":False,
                     "default":-1,
                     "check":plst_check,
-                    "help":"Skip GO-TREE completing the GO terms." 
+                    "help":"Use PLST to reduce input traindata. Give the amount of dimensions to reduce to." 
+                    },
+        "argfile":{
+                    "required":False,
+                    "default":None,
+                    "check":False,
+                    "help":"Give arguments file." 
+                    },
+        "plotheader":{
+                    "required":False,
+                    "default":"Plot Title",
+                    "check":False,
+                    "help":"title of the plot." 
                     },
         "help":{
                     "required":False,
@@ -220,7 +235,7 @@ def show_help():
         print("\t -%s --%s\t%s"%(letter, LETTERS[letter], inf["help"]))
 
 
-def finish_arg(argstore):
+def finish_arg(argstore, lnum):
     for arg in ARGS:
         if arg in argstore:
             content = argstore[arg]
@@ -229,6 +244,8 @@ def finish_arg(argstore):
             if inf["check"] != False:
                 if type(inf["check"]) == tuple:
                     if not content in inf["check"]:
+                        if lnum != 0:
+                            print("Line:", lnum)
                         print("'%s' not allowed for argument '%s'.\n"%(
                                 content, arg) +
                               "Allowed: %s."%", ".join(inf["check"]))
@@ -236,11 +253,15 @@ def finish_arg(argstore):
                 elif inf["check"] != None:
                     text, content = inf["check"](arg, content)
                 if text != "":
-                    print(text)
+                    if lnum != 0:
+                        print("Line:", lnum)
+                    print("Error:" + text)
                     exit()
             argstore[arg] = content
         else:
             if ARGS[arg]["required"]:
+                if lnum != 0:
+                    print("Line:", lnum)
                 print("Error: Required argument '%s' not given."%arg)
                 exit()
             if ARGS[arg]["default"] != False:
@@ -249,10 +270,9 @@ def finish_arg(argstore):
 
             
 
-def get_args():
+def parse_args(argv, lnum = 0):
     argstore = {}
-    argv = sys.argv
-    for i in range(1, len(argv)):
+    for i in range(0, len(argv)):
         word = False
         arg = argv[i]
         if arg[0] != "-":
@@ -263,6 +283,8 @@ def get_args():
         else:
             arg = arg[2:]
         if arg not in ARGS:
+            if lnum != 0:
+                print("Line", lnum)
             print("Argument '%s' is not a valid argument."%arg)
         if arg in ARGS:
             if arg == "help":
@@ -271,5 +293,44 @@ def get_args():
             content = ""
             if len(argv) > i + 1:
                 content = argv[i + 1]
-            argstore[arg] = content   
-    return finish_arg(argstore)
+            argstore[arg] = content
+    return finish_arg(argstore, lnum)
+
+
+def get_args():
+    argv = sys.argv
+    if "-a" in argv or "--argfile" in argv:
+        filename = ""
+        for i in range(len(argv)):
+            if argv[i] in ["-a", "--argfile"]:
+                if len(argv) > i+1:
+                    filename = argv[i+1]
+                else:
+                    print("Give argfile filename.")
+                    exit()
+        if filename != "":
+            try:
+                argfile = open(filename, "r")
+            except Exception as ass:
+                print(ass)
+                print("Could not open argfile")
+                exit()
+            lines = argfile.readlines()
+            argfile.close()
+            args = {}
+            title = lines[0].split(":")[1].strip()
+            lnum = 1
+            for line in lines[1:]:
+                lnum += 1
+                legend = line.split(":")[0]
+                line = line.split(":")[1].strip().split()
+                args[legend] = parse_args(line, lnum)
+    else:
+        args = {"Default":parse_args(argv[1:])}
+        title = args["Default"]["plotheader"]
+    return title, args
+    
+
+if __name__ == "__main__":
+    os.chdir("..")
+    print("RES:", get_args())
