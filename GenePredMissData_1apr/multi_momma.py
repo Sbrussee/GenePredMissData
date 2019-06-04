@@ -37,19 +37,10 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         fraction = requests.get()
         sample = split(trainclass, fraction)
 
-        """Besthits: How many predictors do you want?"""
-        besthits = 1
-
         """train_matrix: Define the gaf file in a matrix"""
         train = train_matrix()
         matrix, go_index_reverse, rat_index = train.convert(gaf_parse(sample))
 
-        """If you want only annotated hits"""
-        only_annotated = True
-        predictor.correct_traindata(besthits, rat_index, only_annotated)
-
-        """Get the train data"""
-        traindata = predictor.get_train()
 
         """If plst method has to be performed:"""
         if plst > 0:
@@ -65,10 +56,10 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
             del a
 
         """Put the matrix results in a dictionaire"""
-        predictions = train.back_convert(matrix, rat_index, go_index_reverse, traindata)
+        predictions = train.back_convert(matrix, rat_index, go_index_reverse, predictor.get_train())
 
         """Delete some variables out of memory"""
-        del matrix, traindata, rat_index, go_index_reverse, train
+        del matrix, rat_index, go_index_reverse, train
 
         """Create a lil matrix from the dictionaire"""
         if gofix:
@@ -86,11 +77,9 @@ def main():
     #args = get_args()
     #print(args)
     arglist = [
-        {'stepsize': 25, 'traindata': './files/blast_top20_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_top20_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_top20.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 25, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/pred_blast_besthit.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': '*', 'nogofix': '', 'plst': -1}
+        {'stepsize': 25, 'traindata': './files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': ['20', True], 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 3, 'threads': 1, 'nogofix': '', 'plst': -1}
+    ]
 
-        {'stepsize': 50, 'traindata': 'files/blast_besthit_traindata_mouserat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_besthit_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1},
-        {'stepsize': 50, 'traindata': 'files/blast_onlyannotated_traindata_rat', 'traingaf': './files/goa_rat.gaf', 'testdata': './files/blast_onlyannotated_testdata_mouse', 'testgaf': './files/goa_mouse.gaf', 'predictor': 'predictors/blast.py', 'evaluator': ['average_precision'], 'predargs': 'blast', 'plotter': 'line', 'evidence': ('EXP', 'IDA', 'IPI', 'IMP', 'IGI', 'IEP', 'HTP', 'HTP', 'HDA', 'HMP', 'HGI', 'HEP', 'IBA', 'IBD', 'IKR', 'IRD', 'ISS', 'ISO', 'ISA', 'ISM', 'IGC', 'RCA', 'TAS', 'NAS', 'IC', 'ND', 'IEA', 'IEA'), 'domain': ('C', 'F', 'P'), 'repeats': 1, 'threads': '*', 'nogofix': '', 'plst': -1}               ]
     plotter = Plotter()
     methodlist = []
     number = 0
@@ -101,6 +90,8 @@ def main():
             methodlist.append(argname)
         else:
             methodlist.append(argname+'n'+str(number))
+
+
 
 
         modname = args["predictor"].split(".")[0].replace("/", ".")
