@@ -26,31 +26,45 @@ class thread_print:
     def display(self):
         if self.q.qsize() > 0:
             print(self.q.get())
-        
+
+class tprint:
+    def print(self, toprint):
+        print(toprint)
     
 
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators, t, plst):
     while requests.qsize() > 0:
+        t.print("START")
         fraction = requests.get()
         sample = split(trainclass, fraction)
         train = train_matrix()
         matrix, go_index_reverse, rat_index = train.convert(gaf_parse(sample))
+        t.print("AFTER TRAIN CONVERT")
         if plst > 0:
+            t.print("STARTING a.train")
             a = call_PLST()
             matrix = a.train(matrix, plst, PLST_class)
+            t.print("RAN a.train")
+        t.print("STARTING PREDICTION")
         matrix, rat_index = predictor.get_predictions(testdata, matrix, rat_index)
         if plst > 0:
+            t.print("STARTING a.inverse")
             matrix = a.inverse(matrix)
             del a
+            t.print("RAN a.inverse")
+        t.print("STARTING backconvert")
         predictions = train.back_convert(matrix, rat_index, go_index_reverse, predictor.get_train())
         del matrix, rat_index, go_index_reverse, train
+        t.print("STARTING GOFIX")
         if gofix:
-            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype())
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype(), t)
         else:
             pred_array = arraymaker.make_array(predictions,
-                                               gofixer.replace_obsolete_terms, predictor.get_dtype())
+                                               gofixer.replace_obsolete_terms, predictor.get_dtype(), t)
+        t.print("STARTING EVAL")
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
+        
         evaluation = evaluator.get_evaluation()
         results.put((fraction, evaluation))
 
@@ -88,6 +102,8 @@ def main():
         trainclass_file.close()
         traindata_file.close()
         testdata_file.close()
+
+        t = tprint()
         
         print("Parsing annotation")
         testclass = gaf_parse(filter_gaf(testclass, args["evidence"],
@@ -102,7 +118,7 @@ def main():
         for terms in list(gaf_parse(trainclass).values()) + \
             list(testclass.values()):
             if gofix:
-                terms = gofixer.fix_go(terms)
+                terms = gofixer.fix_go(terms, tprint())
             allterms.extend(terms)
         if "predargs" in args:
             predictor = Predictor(traindata, args["predargs"])
@@ -111,10 +127,10 @@ def main():
         arraymaker = Dict2Array(allterms, testclass)
         
         if gofix:
-            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool)
+            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool, t)
         else:
             testclass_array = arraymaker.make_array(testclass,
-                                                gofixer.replace_obsolete_terms, bool)
+                                                gofixer.replace_obsolete_terms, bool, t)
 
         print("\nSTARTING")
         requests = Queue()
