@@ -73,7 +73,7 @@ class Plotter:
                 word = 'PLST'
             #plt.title(value + ' plotted ' + word)
             plt.title(title)
-            plt.ylabel(value)
+            plt.ylabel(value.replace("_", " "))
             plt.gca().invert_xaxis()
             plt.grid(True)
             extrastring = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
