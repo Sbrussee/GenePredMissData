@@ -8,7 +8,7 @@ class Dict2Array:
     # The x: all go terms, y: All protein ids, dtype: Defining type array, must be imported.
     # All data from the x, y will be saved in a dictionairy assigned with a position.
     # Also, the size of each dictionairy will be defined.
-    def __init__(self, x, y, dtype):
+    def __init__(self, x, y):
         self.dtype = dtype
         x = sorted(list(set(x)))
         y = sorted(list(set(y)))
@@ -23,11 +23,16 @@ class Dict2Array:
     # Second, for all ids the go terms will be specified.
     # Thirdly, if the go term in the go term dictionry and protein id in protein dictionairy defined above, then
     # fill the matrix.
+<<<<<<< HEAD
     def make_array(self, data, func):
         res = lil_matrix((self.y_size, self.x_size), dtype=self.dtype)
         #file = open("print", "a")
         #file.write("Print\n")
         #file.close()
+=======
+    def make_array(self, data, func, dtype):
+        res = lil_matrix((self.y_size, self.x_size), dtype=dtype)
+>>>>>>> 23154efc69157ab8cac78434d0bcae75a21e4ae6
         for key in data:
             if func != None:
                 vals = func(data[key])
