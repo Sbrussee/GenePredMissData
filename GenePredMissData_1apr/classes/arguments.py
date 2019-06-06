@@ -322,9 +322,11 @@ def get_args():
             lnum = 1
             for line in lines[1:]:
                 lnum += 1
-                legend = line.split(":")[0]
-                line = line.split(":")[1].strip().split()
-                args[legend] = parse_args(line, lnum)
+                lsplit = line.split(":")
+                if len(lsplit) > 1:
+                    legend = lsplit[0]
+                    line = lsplit[1].strip().split()
+                    args[legend] = parse_args(line, lnum)
     else:
         args = {"Default":parse_args(argv[1:])}
         title = args["Default"]["plotheader"]
