@@ -35,7 +35,7 @@ class Predictor:
                         getal += 1
                         traindata[keys].append(values)
                 else:
-                    if getal < self.besthits and values:
+                    if getal < self.besthits:
                         getal += 1
                         traindata[keys].append(values)
         return traindata
