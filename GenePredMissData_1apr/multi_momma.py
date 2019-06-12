@@ -73,12 +73,14 @@ def main():
     title, multargs = get_args()
     plotter = Plotter()
     methodlist = []
+    plotconfig = []
     number = 0
     for legend in multargs:
         if len(multargs) > 1:
             print("\nRUN:", legend)
         methodlist.append(legend)
         args = multargs[legend]
+        plotconfig.append((args["color"], args["linetype"]))
         argname = re.split('/|\.', args["predictor"])[-2]
         modname = args["predictor"].split(".")[0].replace("/", ".")
         print("Using predictor:", modname)
@@ -175,6 +177,6 @@ def main():
         file.close()
 
 
-    plotter.plot_performance(args["plst"], title, methodlist)
+    plotter.plot_performance(args["plst"], title, methodlist, plotconfig)
 
 main()

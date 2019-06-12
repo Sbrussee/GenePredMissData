@@ -9,6 +9,9 @@ DOMAINS = ("C", "F", "P")
 
 EVAL = ('f-score', 'precision', 'average_precision')
 
+def check_colors(key, arg)
+
+
 def check_stepsize(key, arg):
     text = ""
     if arg.isnumeric():
@@ -117,6 +120,8 @@ LETTERS = {"p":"predictor",
            "P":"plst",
            "h":"plotheader",
            "a":"argfile",
+           "c":"color",
+           "L":"linetype",
            "h":"help"}
 ARGS = {"predictor":{
                     "required":False,
@@ -219,6 +224,18 @@ ARGS = {"predictor":{
                     "default":"Plot Title",
                     "check":False,
                     "help":"title of the plot." 
+                    },
+        "color":{
+                    "required":"*",
+                    "default":"*",
+                    "check":("b", "g", "r", "c", "m", "y", "k", "w"),
+                    "help":"Color of the line in the plot. Can be one of: b, g, r, c, m, y, k, w." 
+                    },
+        "linetype":{
+                    "required":False,
+                    "default":"-",
+                    "check":("-", "--", "-.", ":"),
+                    "help":"Linetype can be one of: -, --, -., :." 
                     },
         "help":{
                     "required":False,
