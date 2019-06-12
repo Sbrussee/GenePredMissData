@@ -9,9 +9,6 @@ DOMAINS = ("C", "F", "P")
 
 EVAL = ('f-score', 'precision', 'average_precision')
 
-def check_colors(key, arg)
-
-
 def check_stepsize(key, arg):
     text = ""
     if arg.isnumeric():
