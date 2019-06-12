@@ -223,7 +223,7 @@ ARGS = {"predictor":{
                     "help":"title of the plot." 
                     },
         "color":{
-                    "required":"*",
+                    "required":False,
                     "default":"*",
                     "check":("b", "g", "r", "c", "m", "y", "k", "w"),
                     "help":"Color of the line in the plot. Can be one of: b, g, r, c, m, y, k, w." 
