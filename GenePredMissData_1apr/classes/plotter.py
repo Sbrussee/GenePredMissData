@@ -32,11 +32,7 @@ class Plotter:
     This plotter is able to combine results from multiple techniques.
     Implemented line-type and line coloring with config file 7pm 13-06-2019
     """
-    def plot_performance(self, PLST, title, totalruns, extrainfo, extrastring):
-        listnumber = ['b', 'g', 'r', 'c', 'm', 'k']
-        while len(extrainfo) < len(totalruns):
-            nicevalue = randint(0, len(listnumber)-1)
-            extrainfo.append((listnumber[nicevalue], '-'))
+    def plot_performance(self, PLST, title, totalruns, extrainfo):
         uniquelist = []
         for key in self.dictarray[0]:
             if key not in uniquelist:
@@ -68,16 +64,13 @@ class Plotter:
                                                              list(stdevs.values()),
                                                              fractions)]
                 dataframeus = dataframeus.append(vs, ignore_index=True)
-            if len(totalruns) > 1:
-                l = True
-            else:
-                l = False
-                title = value
-            dataframeus.pivot('fractions', 'methods', 'means').plot(yerr= dataframeus.pivot('fractions', 'methods', 'stdevs'),legend=l)
             reformed = dataframeus.pivot('fractions','methods')
             for number, valueas in enumerate(totalruns):
-                plt.errorbar(reformed.index,reformed['means'][valueas],yerr=reformed['stdevs'][valueas],
-                             color=color[number],fmt='',linestyle=type[number], capsize=5)
+                if color[number] != '*':
+                    plt.errorbar(reformed.index,reformed['means'][valueas],yerr=reformed['stdevs'][valueas],
+                        color=color[number],fmt='',linestyle=type[number], capsize=4)
+                else:
+                    plt.errorbar(reformed.index, reformed['means'][valueas], yerr=reformed['stdevs'][valueas], capsize=4)
             plt.xticks(fractions)  # location, labels
             plt.xlim(fractions[0]-0.5, fractions[-1]+0.5)
             plt.title(title)
@@ -85,8 +78,7 @@ class Plotter:
             plt.xlabel('fractions of data')
             plt.gca().invert_xaxis()
             plt.grid(True)
-            writeout = title + extrastring
-            #extrastring = datetime.datetime.now().strftime("%d%H%M%S")
+            extrastring = datetime.datetime.now().strftime("%d%H%M%S")
             strings = ''
             if PLST:
                 strings = 'PLST'
