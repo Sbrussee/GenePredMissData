@@ -30,8 +30,15 @@ class Plotter:
     This will count the amount of fractions and plot the mean and standard deviation for each fraction
     Plotter will also give the corresponding x-as and y-axis names to the corresponding technique used
     This plotter is able to combine results from multiple techniques.
+    Implemented line-type and line coloring with config file 7pm 13-06-2019
     """
-    def plot_performance(self, PLST, title, totalruns):
+    def plot_performance(self, PLST, title, totalruns, extrainfo):
+        listnumber = ['b', 'g', 'r', 'c', 'm', 'k']
+        while len(extrainfo) < len(totalruns):
+            nicevalue = randint(0, len(listnumber)-1)
+            extrainfo.append((listnumber[nicevalue], '-'))
+        print(extrainfo)
+
         uniquelist = []
         for key in self.dictarray[0]:
             if key not in uniquelist:
@@ -39,6 +46,8 @@ class Plotter:
 
         totallist = np.array_split(self.frac_of_miss_array, len(totalruns))
         extratotallist = np.array_split(self.dictarray, len(totalruns))
+        color = [x[0] for x in extrainfo]
+        type = [y[1] for y in extrainfo]
         for value in uniquelist:
             dataframeus = pd.DataFrame(columns=['means', 'stdevs', 'methods', 'fractions'])
             for (i, firstfrac, firstdict) in zip(totalruns, totallist, extratotallist):
@@ -65,18 +74,23 @@ class Plotter:
                 l = True
             else:
                 l = False
-            dataframeus.pivot('fractions', 'methods', 'means').plot(yerr= dataframeus.pivot('fractions', 'methods', 'stdevs'),legend=l)
+
+            reformed = dataframeus.pivot('fractions','methods')
+            for number, valueas in enumerate(totalruns):
+                plt.errorbar(reformed.index,reformed['means'][valueas],yerr=reformed['stdevs'][valueas],
+                             color=color[number],fmt='',linestyle=type[number], capsize=5)
+
             plt.xticks(fractions)  # location, labels
             plt.xlim(fractions[0]-0.5, fractions[-1]+0.5)
-            word = ''
-            if PLST > 0:
-                word = 'PLST'
-            #plt.title(value + ' plotted ' + word)
             plt.title(title)
             plt.ylabel(value.replace("_", " "))
+            plt.xlabel('fractions of data')
             plt.gca().invert_xaxis()
             plt.grid(True)
-            extrastring = datetime.datetime.now().strftime("%Y%m%d%H%M%S")
-            writeout = value + extrastring
+            extrastring = datetime.datetime.now().strftime("%d%H%M%S")
+            strings = ''
+            if PLST:
+                strings = 'PLST'
+            writeout = value + extrastring + str(strings)
             plt.savefig(writeout)
-
+            plt.clf()
