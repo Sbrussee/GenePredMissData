@@ -37,8 +37,6 @@ class Plotter:
         while len(extrainfo) < len(totalruns):
             nicevalue = randint(0, len(listnumber)-1)
             extrainfo.append((listnumber[nicevalue], '-'))
-        print(extrainfo)
-
         uniquelist = []
         for key in self.dictarray[0]:
             if key not in uniquelist:
