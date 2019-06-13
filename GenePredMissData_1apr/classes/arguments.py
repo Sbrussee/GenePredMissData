@@ -289,7 +289,6 @@ def parse_args(argv, lnum = 0):
     for i in range(0, len(argv)):
         word = False
         arg = argv[i]
-        print(arg)
         if arg[0] != "-" or arg[len(arg)-1].isnumeric()\
            or arg in ("--", "-." , "-"):
             continue
