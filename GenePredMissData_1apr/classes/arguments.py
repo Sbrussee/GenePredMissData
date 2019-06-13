@@ -289,7 +289,9 @@ def parse_args(argv, lnum = 0):
     for i in range(0, len(argv)):
         word = False
         arg = argv[i]
-        if arg[0] != "-":
+        print(arg)
+        if arg[0] != "-" or arg[len(arg)-1].isnumeric()\
+           or arg in ("--", "-." , "-"):
             continue
         if arg[1] != "-":
             if arg[1:] in LETTERS:
@@ -300,6 +302,7 @@ def parse_args(argv, lnum = 0):
             if lnum != 0:
                 print("Line", lnum)
             print("Argument '%s' is not a valid argument."%arg)
+            exit()
         if arg in ARGS:
             if arg == "help":
                 show_help()
