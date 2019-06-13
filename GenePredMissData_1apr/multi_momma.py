@@ -42,21 +42,21 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         matrix, go_index_reverse, rat_index = train.convert(gaf_parse(sample))
         #t.print("AFTER TRAIN CONVERT")
         if plst > 0:
-            t.print("STARTING a.train")
+            #t.print("STARTING a.train")
             a = call_PLST()
             matrix = a.train(matrix, plst, PLST_class)
-            t.print("RAN a.train")
+            #t.print("RAN a.train")
         #t.print("STARTING PREDICTION")
         matrix, rat_index = predictor.get_predictions(testdata, matrix, rat_index)
         if plst > 0:
-            t.print("STARTING a.inverse")
+            #t.print("STARTING a.inverse")
             matrix = a.inverse(matrix)
             del a
-            t.print("RAN a.inverse")
+            #t.print("RAN a.inverse")
         #t.print("STARTING backconvert")
         predictions = train.back_convert(matrix, rat_index, go_index_reverse, predictor.get_train())
         del matrix, rat_index, go_index_reverse, train
-        t.print("STARTING GOFIX")
+        #t.print("STARTING GOFIX")
         if gofix:
             pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype(), t)
         else:
