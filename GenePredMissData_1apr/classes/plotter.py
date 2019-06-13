@@ -32,7 +32,7 @@ class Plotter:
     This plotter is able to combine results from multiple techniques.
     Implemented line-type and line coloring with config file 7pm 13-06-2019
     """
-    def plot_performance(self, PLST, title, totalruns, plotconfig, extrastring):
+    def plot_performance(self, PLST, title, totalruns, extrainfo, extrastring):
         listnumber = ['b', 'g', 'r', 'c', 'm', 'k']
         while len(extrainfo) < len(totalruns):
             nicevalue = randint(0, len(listnumber)-1)
@@ -86,7 +86,7 @@ class Plotter:
             plt.gca().invert_xaxis()
             plt.grid(True)
             writeout = title + extrastring
-            extrastring = datetime.datetime.now().strftime("%d%H%M%S")
+            #extrastring = datetime.datetime.now().strftime("%d%H%M%S")
             strings = ''
             if PLST:
                 strings = 'PLST'

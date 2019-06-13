@@ -3,6 +3,7 @@ import time
 import os
 import importlib
 import re
+import datetime
 from multiprocessing import Process, Queue
 from classes.arguments import *
 from classes.fix_go import Go_Fixer
@@ -176,7 +177,8 @@ def main():
             plotter.add_score(r[0], r[1])
         file.close()
 
-
-    plotter.plot_performance(args["plst"], title, methodlist, plotconfig)
+    extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    plotter.plot_performance(args["plst"], title, methodlist, plotconfig, extrastring)
+    os.rename("results.tsv", title + extrastring)
 
 main()
