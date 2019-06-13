@@ -35,7 +35,7 @@ class tprint:
 def step(requests, results, predictor, testdata, traindata, testclass_array,
          trainclass, arraymaker, gofixer, gofix, evaluators, t, plst):
     while requests.qsize() > 0:
-        t.print("START")
+        #t.print("START")
         fraction = requests.get()
         sample = split(trainclass, fraction)
         train = train_matrix()
