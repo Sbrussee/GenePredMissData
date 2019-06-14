@@ -251,7 +251,7 @@ def show_help():
 
 def finish_arg(argstore, lnum):
     for arg in ARGS:
-        print(arg)
+        #print(arg)
         if arg in argstore:
             content = argstore[arg]
             print(content)
@@ -288,7 +288,7 @@ def finish_arg(argstore, lnum):
 
 def parse_args(argv, lnum = 0):
     argstore = {}
-    print(argv)
+    #print(argv)
     for i in range(0, len(argv)):
         word = False
         arg = argv[i]
