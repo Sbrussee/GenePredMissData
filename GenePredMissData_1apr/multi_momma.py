@@ -79,9 +79,11 @@ def main():
     for legend in multargs:
         if len(multargs) > 1:
             print("\nRUN:", legend)
+            
         methodlist.append(legend)
         args = multargs[legend]
         plotconfig.append((args["color"], args["linetype"]))
+        #print(plotconfig)
         argname = re.split('/|\.', args["predictor"])[-2]
         modname = args["predictor"].split(".")[0].replace("/", ".")
         print("Using predictor:", modname)

@@ -254,7 +254,7 @@ def finish_arg(argstore, lnum):
         #print(arg)
         if arg in argstore:
             content = argstore[arg]
-            print(content)
+            #print(content)
             inf = ARGS[arg]
             text = ""
             if inf["check"] != False:
