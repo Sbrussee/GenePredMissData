@@ -32,7 +32,7 @@ class Plotter:
     This plotter is able to combine results from multiple techniques.
     Implemented line-type and line coloring with config file 7pm 13-06-2019
     """
-    def plot_performance(self, PLST, title, totalruns, extrainfo):
+    def plot_performance(self, title, totalruns, extrainfo,date):
         uniquelist = []
         for key in self.dictarray[0]:
             if key not in uniquelist:
@@ -78,10 +78,6 @@ class Plotter:
             plt.xlabel('fractions of data')
             plt.gca().invert_xaxis()
             plt.grid(True)
-            extrastring = datetime.datetime.now().strftime("%d%H%M%S")
-            strings = ''
-            if PLST:
-                strings = 'PLST'
-            writeout = value + extrastring + str(strings)
+            writeout = title + date
             plt.savefig(writeout)
             plt.clf()

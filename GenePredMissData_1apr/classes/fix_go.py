@@ -1,7 +1,7 @@
 import time
 
 class Go_Fixer:
-    def fix_go(self, termlist, t):
+    def fix_go(self, termlist):
         pos = 0
         fnum = type(termlist[0]) == tuple
         t0 = time.time()

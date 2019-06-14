@@ -59,10 +59,10 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         del matrix, rat_index, go_index_reverse, train
         #t.print("STARTING GOFIX")
         if gofix:
-            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype(), t)
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype())
         else:
             pred_array = arraymaker.make_array(predictions,
-                                               gofixer.replace_obsolete_terms, predictor.get_dtype(), t)
+                                               gofixer.replace_obsolete_terms, predictor.get_dtype())
         #t.print("STARTING EVAL")
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         
@@ -123,7 +123,7 @@ def main():
         for terms in list(gaf_parse(trainclass).values()) + \
             list(testclass.values()):
             if gofix:
-                terms = gofixer.fix_go(terms, tprint())
+                terms = gofixer.fix_go(terms)
             allterms.extend(terms)
         if "predargs" in args:
             predictor = Predictor(traindata, args["predargs"])
@@ -132,10 +132,10 @@ def main():
         arraymaker = Dict2Array(allterms, testclass)
         
         if gofix:
-            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool, t)
+            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool)
         else:
             testclass_array = arraymaker.make_array(testclass,
-                                                gofixer.replace_obsolete_terms, bool, t)
+                                                gofixer.replace_obsolete_terms, bool)
 
         print("\nSTARTING")
         requests = Queue()
@@ -180,7 +180,7 @@ def main():
         file.close()
 
     extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
-    plotter.plot_performance(args["plst"], title, methodlist, plotconfig, extrastring)
+    plotter.plot_performance(title, methodlist, plotconfig, extrastring)
     os.rename("results.tsv", title + extrastring)
 
 main()
