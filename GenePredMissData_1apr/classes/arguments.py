@@ -251,8 +251,10 @@ def show_help():
 
 def finish_arg(argstore, lnum):
     for arg in ARGS:
+        print(arg)
         if arg in argstore:
             content = argstore[arg]
+            print(content)
             inf = ARGS[arg]
             text = ""
             if inf["check"] != False:
@@ -286,6 +288,7 @@ def finish_arg(argstore, lnum):
 
 def parse_args(argv, lnum = 0):
     argstore = {}
+    print(argv)
     for i in range(0, len(argv)):
         word = False
         arg = argv[i]
@@ -341,7 +344,7 @@ def get_args():
                 lsplit = line.split(":")
                 if len(lsplit) > 1:
                     legend = lsplit[0]
-                    line = lsplit[1].strip().split()
+                    line = ":".join(lsplit[1:]).strip().split()
                     args[legend] = parse_args(line, lnum)
     else:
         args = {"Default":parse_args(argv[1:])}
