@@ -70,7 +70,9 @@ class Plotter:
                     plt.errorbar(reformed.index,reformed['means'][valueas],yerr=reformed['stdevs'][valueas],
                         color=color[number],fmt='',linestyle=type[number], capsize=4)
                 else:
-                    plt.errorbar(reformed.index, reformed['means'][valueas], yerr=reformed['stdevs'][valueas], capsize=4)
+                    plt.errorbar(reformed.index, reformed['means'][valueas], yerr=reformed['stdevs'][valueas],
+                                 capsize=4)
+            plt.legend(totalruns)
             plt.xticks(fractions)  # location, labels
             plt.xlim(fractions[0]-0.5, fractions[-1]+0.5)
             plt.title(title)
