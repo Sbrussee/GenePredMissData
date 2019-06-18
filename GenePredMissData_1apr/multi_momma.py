@@ -77,7 +77,7 @@ def main():
     plotconfig = []
     number = 0
     file = open("results.tsv","w")
-    file.write("title: \"" + title + "\"\n")
+    file.write("title: " + title + "\n")
     for legend in multargs:
         if len(multargs) > 1:
             print("\nRUN:", legend)
@@ -160,8 +160,8 @@ def main():
                                                args["evaluator"], t, args["plst"]))
             p.start()
             processes.append(p)
-        file.write("legend: \"" + legend + "\" linetype: \"" +
-                   args["linetype"] + "\" color: \"" + args["color"] + "\"\n" )
+        file.write("legend: " + legend + "\nlinetype: " +
+                   args["linetype"] + "\ncolor: " + args["color"] + "\n" )
         file.write("fraction\tmetric\tresult\n")
         reslist = []
         while total - done > 0:
@@ -177,9 +177,9 @@ def main():
             for metric, evaluation in r[1].items():
                 print("Fraction:", r[0], "Metric:", metric, "Evaluation:",
                       evaluation)
-                file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation)
-                           + "\n")
+                file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation) + ";\t")
             plotter.add_score(r[0], r[1])
+            file.write("\n")
     file.close()
     extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     plotter.plot_performance(title, methodlist, plotconfig, extrastring)
