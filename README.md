@@ -49,24 +49,24 @@ This file contains Gene Ontology annotations for the proteome of Mouse.
 
 ## Specifiable parameters in the framework
 The user is able to specify the following options as arguments in the command line interface of the framework:
-* -p or --predictor
-* -e or --evaluator
-* -l or --plotter
-* -s or --stepsize
-* -E or --evidence
-* -t or --traindata
-* -g or --testgaf
-* -d or --domains
-* -r or --repeats
-* -n or --threads
-* -f or --nogofix
-* -a or --predargs
-* -P or --plst
-* -h or --plotheader
-* -a or --argfile
-* -c or --color
-* -L or --linetype
-* -h or --help
+* -p or --predictor (Predictor script to use, default: blast)
+* -e or --evaluator (Evaluator metric to use, default: f-score)
+* -l or --plotter (Type of plotter to use, default: line)
+* -s or --stepsize (Missing data fraction step-size to use, default: 5)
+* -E or --evidence (Annotation evidence codes to use, default: tuple of all, these need to be comma-seperated)
+* -t or --traindata (Training data to use, must be specified)
+* -g or --testgaf (Test annotation to use, must be specified)
+* -d or --domains (Annotation domains to use, default: tuple of all, these need to be comma-seperated)
+* -r or --repeats (Amount of repeats for each missing data fraction, default: 1)
+* -n or --threads (Amount of threads to use, default: all threads available)
+* -f or --nogofix (Whether to not add parent GO-terms to the annotation, default: False)
+* -a or --predargs (Extra arguments to give to the Predictor, these need to be comma-seperated)
+* -P or --plst (The amount of PLST-dimensions to use, when using -1, PLST is disabled, default: -1)
+* -A or --argfile (A config file to give to the framework, default: None)
+* -h or --plotheader (A title for the prediction performance plot, default: Plot Title)
+* -c or --color (Color for the line in the performance plot, default: tuple of all)
+* -L or --linetype (Linetype to use in the performance plot, default: tuple of all)
+* -h or --help (Display help)
 
 ### Example of using different parameters
 
@@ -86,6 +86,8 @@ in the parameter example. If additional files are required by the predictor thes
 the argfile argument in the command line: _-a_. Files specified by the argfile argument will directly be given to the predictor class in the python-script.
 
 ## Usage of a config-file
+As an easy way to compare multiple different framework runs with each other, a config file can be used. In this file, the same arguments as in the regular command-line can be used. The top row of
+the file should containg the title of the plot which will contain all the framework runs. The rows below should contain the options for the runs itself, using the same arguments as in the command-line.
 
 ### Example of a config-file
 As an example, the following config file would result in a plot titled _Blastmethod comparison domain F_ which draws
@@ -105,3 +107,18 @@ An example is shown below:
 python3 protpred.py --argfile config.txt
 ```
 ### Example of a framework run resulting in a perfomance plot
+A run using the config file below will result in the plot shown further below:
+
+
+Config (go_fix_domain_c.txt):
+```
+Title: Tophit-BLAST with and without adding GO-parents (Domain C)
+topBLAST with gofix: --stepsize 5 --traindata ./files/blast_besthit_traindata_mouserat --traingaf ./files/goa_rat.gaf --testdata ./files/blast_besthit_testdata_mouse --testgaf ./files/goa_mouse.gaf --predictor predictors/blast.py --evaluator f-score --predargs 1,false --evidence EXP,IDA,IPI,IMP,IGI,IEP,HTP,HTP,HDA,HMP,HGI,HEP,IBA,IBD,IKR,IRD,ISS,ISO,ISA,ISM,IGC,RCA,TAS,NAS,IC,ND,IEA,IEA --domain C --repeats 10 --threads 1 
+topBLAST without gofix: --stepsize 5 --traindata ./files/blast_beshit_traindata_mouserat --traingaf ./files/goa_rat.gaf --testdata ./files/blast_beshit_testdata_mouse --testgaf ./files/goa_mouse.gaf --predictor predictors/blast.py --evaluator f-score --predargs 1,false --evidence EXP,IDA,IPI,IMP,IGI,IEP,HTP,HTP,HDA,HMP,HGI,HEP,IBA,IBD,IKR,IRD,ISS,ISO,ISA,ISM,IGC,RCA,TAS,NAS,IC,ND,IEA,IEA --domain C --repeats 10 --threads 1 --nogofix
+```
+Calling the framework using this config:
+```bash
+python3 protpred.py --argfile go_fix_domain_c.txt
+```
+Resulting plot:
+![alt text](https://github.com/Sbrussee/GenePredMissData/blob/master/sample_plot.png)
