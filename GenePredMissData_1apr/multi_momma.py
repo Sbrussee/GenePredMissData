@@ -76,7 +76,8 @@ def main():
     methodlist = []
     plotconfig = []
     number = 0
-    file = open("results.tsv","w")
+    extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    file = open(title + extrastring,"w")
     file.write("title: " + title + "\n")
     for legend in multargs:
         if len(multargs) > 1:
@@ -181,8 +182,7 @@ def main():
             plotter.add_score(r[0], r[1])
             file.write("\n")
     file.close()
-    extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    
     plotter.plot_performance(title, methodlist, plotconfig, extrastring)
-    os.rename("results.tsv", title + extrastring)
 
 main()
