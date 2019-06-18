@@ -116,7 +116,7 @@ LETTERS = {"p":"predictor",
            "a":"predargs",
            "P":"plst",
            "h":"plotheader",
-           "a":"argfile",
+           "A":"argfile",
            "c":"color",
            "L":"linetype",
            "h":"help"}
