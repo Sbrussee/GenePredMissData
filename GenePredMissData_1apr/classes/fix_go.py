@@ -3,29 +3,30 @@ import time
 class Go_Fixer:
     def fix_go(self, termlist):
         pos = 0
-        fnum = type(termlist[0]) == tuple
-        t0 = time.time()
-        uniqc = set([x[0] for x in termlist])
-        for term in termlist:
-            if fnum:
-                term, conf = term
-            try:
-                parents = self.go_tree[term]
-                while type(parents) == str:
-                    termlist[pos] = parents
-                    parents = self.go_tree[parents]
-            except KeyError:
-                continue
-            for pterm in parents:
-                if fnum:
-                    if not pterm in uniqc and pterm != '':
-                        termlist.append((pterm, conf))
-                        uniqc.add(pterm)
-                else:
-                    if not pterm in termlist and pterm != '':
-                        termlist.append(pterm)
-            pos += 1
+        if len(termlist[0]) > 0:
+            fnum = type(termlist[0]) == tuple
             t0 = time.time()
+            uniqc = set([x[0] for x in termlist])
+            for term in termlist:
+                if fnum:
+                    term, conf = term
+                try:
+                    parents = self.go_tree[term]
+                    while type(parents) == str:
+                        termlist[pos] = parents
+                        parents = self.go_tree[parents]
+                except KeyError:
+                    continue
+                for pterm in parents:
+                    if fnum:
+                        if not pterm in uniqc and pterm != '':
+                            termlist.append((pterm, conf))
+                            uniqc.add(pterm)
+                    else:
+                        if not pterm in termlist and pterm != '':
+                            termlist.append(pterm)
+                pos += 1
+                t0 = time.time()
         return termlist
 
     """

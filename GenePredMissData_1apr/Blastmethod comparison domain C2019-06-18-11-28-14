@@ -1,0 +1,5 @@
+fraction	metric	result
+25	average_precision	0.16617709990910287
+50	average_precision	0.2836126576277753
+75	average_precision	0.39548309802251785
+100	average_precision	0.48503347213182757
