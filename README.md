@@ -53,10 +53,10 @@ The user is able to specify the following options as arguments in the command li
 * -e or --evaluator (Evaluator metric to use, default: f-score)
 * -l or --plotter (Type of plotter to use, default: line)
 * -s or --stepsize (Missing data fraction step-size to use, default: 5)
-* -E or --evidence (Annotation evidence codes to use, default: tuple of all, these need to be comma-seperated)
+* -E or --evidence (Annotation evidence codes to use, default: all, these need to be comma-seperated)
 * -t or --traindata (Training data to use, must be specified)
 * -g or --testgaf (Test annotation to use, must be specified)
-* -d or --domains (Annotation domains to use, default: tuple of all, these need to be comma-seperated)
+* -d or --domains (Annotation domains to use, default: all, these need to be comma-seperated)
 * -r or --repeats (Amount of repeats for each missing data fraction, default: 1)
 * -n or --threads (Amount of threads to use, default: all threads available)
 * -f or --nogofix (Whether to not add parent GO-terms to the annotation, default: False)
@@ -64,8 +64,8 @@ The user is able to specify the following options as arguments in the command li
 * -P or --plst (The amount of PLST-dimensions to use, when using -1, PLST is disabled, default: -1)
 * -A or --argfile (A config file to give to the framework, default: None)
 * -h or --plotheader (A title for the prediction performance plot, default: Plot Title)
-* -c or --color (Color for the line in the performance plot, default: tuple of all)
-* -L or --linetype (Linetype to use in the performance plot, default: tuple of all)
+* -c or --color (Color for the line in the performance plot, default: all)
+* -L or --linetype (Linetype to use in the performance plot, default: all)
 * -h or --help (Display help)
 
 ### Example of using different parameters
