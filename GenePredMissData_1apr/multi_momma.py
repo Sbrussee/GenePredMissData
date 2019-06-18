@@ -59,10 +59,10 @@ def step(requests, results, predictor, testdata, traindata, testclass_array,
         del matrix, rat_index, go_index_reverse, train
         #t.print("STARTING GOFIX")
         if gofix:
-            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype())
+            pred_array = arraymaker.make_array(predictions, gofixer.fix_go, predictor.get_dtype(), t)
         else:
             pred_array = arraymaker.make_array(predictions,
-                                               gofixer.replace_obsolete_terms, predictor.get_dtype())
+                                               gofixer.replace_obsolete_terms, predictor.get_dtype(), t)
         #t.print("STARTING EVAL")
         evaluator = Evaluator(testclass_array, pred_array, evaluators)
         
@@ -76,6 +76,8 @@ def main():
     methodlist = []
     plotconfig = []
     number = 0
+    file = open("results.tsv","w")
+    file.write("title: \"" + title + "\"\n")
     for legend in multargs:
         if len(multargs) > 1:
             print("\nRUN:", legend)
@@ -123,7 +125,7 @@ def main():
         for terms in list(gaf_parse(trainclass).values()) + \
             list(testclass.values()):
             if gofix:
-                terms = gofixer.fix_go(terms)
+                terms = gofixer.fix_go(terms, t)
             allterms.extend(terms)
         if "predargs" in args:
             predictor = Predictor(traindata, args["predargs"])
@@ -132,10 +134,10 @@ def main():
         arraymaker = Dict2Array(allterms, testclass)
         
         if gofix:
-            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool)
+            testclass_array = arraymaker.make_array(testclass, gofixer.fix_go, bool, t)
         else:
             testclass_array = arraymaker.make_array(testclass,
-                                                gofixer.replace_obsolete_terms, bool)
+                                                gofixer.replace_obsolete_terms, bool, t)
 
         print("\nSTARTING")
         requests = Queue()
@@ -158,7 +160,8 @@ def main():
                                                args["evaluator"], t, args["plst"]))
             p.start()
             processes.append(p)
-        file = open("results.tsv","w")
+        file.write("legend: \"" + legend + "\" linetype: \"" +
+                   args["linetype"] + "\" color: \"" + args["color"] + "\"\n" )
         file.write("fraction\tmetric\tresult\n")
         reslist = []
         while total - done > 0:
@@ -177,8 +180,7 @@ def main():
                 file.write(str(r[0]) + "\t" + str(metric) + "\t" + str(evaluation)
                            + "\n")
             plotter.add_score(r[0], r[1])
-        file.close()
-
+    file.close()
     extrastring = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
     plotter.plot_performance(title, methodlist, plotconfig, extrastring)
     os.rename("results.tsv", title + extrastring)

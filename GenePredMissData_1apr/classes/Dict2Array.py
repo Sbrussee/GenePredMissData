@@ -29,11 +29,12 @@ class Dict2Array:
         #file.write("Print\n")
         #file.close()
 
-    def make_array(self, data, func, dtype):
+    def make_array(self, data, func, dtype, t):
         res = lil_matrix((self.y_size, self.x_size), dtype=dtype)
         for key in data:
+            #t.print("KEY:" + str(key))
             if func != None:
-                vals = func(data[key])
+                vals = func(data[key], t)
             else:
                 vals = data[key]
             #file = open("print", "a")

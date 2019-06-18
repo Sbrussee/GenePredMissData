@@ -42,9 +42,12 @@ class Plotter:
         extratotallist = np.array_split(self.dictarray, len(totalruns))
         color = [x[0] for x in extrainfo]
         type = [y[1] for y in extrainfo]
+        print("uniquelist:", uniquelist)
         for value in uniquelist:
+            print("Value:", value)
             dataframeus = pd.DataFrame(columns=['means', 'stdevs', 'methods', 'fractions'])
             for (i, firstfrac, firstdict) in zip(totalruns, totallist, extratotallist):
+                print(i, firstfrac, firstdict)
                 newarray = [d[value] for d in firstdict]
                 fractions = sorted(set(firstfrac))
                 listf = list(firstfrac)
@@ -80,6 +83,6 @@ class Plotter:
             plt.xlabel('fractions of data')
             plt.gca().invert_xaxis()
             plt.grid(True)
-            writeout = title + date
+            writeout = title + date + value 
             plt.savefig(writeout)
-            plt.clf()
+            plt.close()
