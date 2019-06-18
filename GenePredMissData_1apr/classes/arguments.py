@@ -318,10 +318,10 @@ def parse_args(argv, lnum = 0):
 
 def get_args():
     argv = sys.argv
-    if "-a" in argv or "--argfile" in argv:
+    if "-A" in argv or "--argfile" in argv:
         filename = ""
         for i in range(len(argv)):
-            if argv[i] in ["-a", "--argfile"]:
+            if argv[i] in ["-A", "--argfile"]:
                 if len(argv) > i+1:
                     filename = argv[i+1]
                 else:
