@@ -10,7 +10,7 @@ The ProtPred Framework has been built for the Gene Function Prediction with Miss
 bioinformatics students from Hogeschool Leiden.
 
 ## Implemented protein prediction methods
-A BLAST-based protein prediciton method which couples the annotation from the best BLAST-hit of a protein in one organism to the BLAST query protein
+A BLAST-based protein prediction method which couples the annotation from the best BLAST-hit of a protein in one organism to the BLAST query protein
 which has no annotation (BLAST-tophit). A similar method taking the annotation from the 20 best hits of a protein has also been implemented. (BLAST-top20)
 Thirdly, a variation on the BLAST-tophit method has been implemented which discards proteins for which there is no annotation.
 
@@ -80,7 +80,7 @@ python3 protpred.py -t files/blast_besthit_traindata_mouserat -g files/goa_rat.g
 ```
 
 ## User-specifiable prediction methods
-A user of the framework can add different prediciton methods to the framework, by adding a python-script containing a _Predictior_ class to the
+A user of the framework can add different prediction methods to the framework, by adding a python-script containing a _Predictor_ class to the
 _predictors_ directory in the framework. The prediction method can then by specified by using the _-p_ command line argument, as is shown
 in the parameter example. If additional files are required by the predictor these files can be given to the predictor script using
 the argfile argument in the command line: _-a_. Files specified by the argfile argument will directly be given to the predictor class in the python-script.
