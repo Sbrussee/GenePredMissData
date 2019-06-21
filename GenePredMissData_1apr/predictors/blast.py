@@ -79,7 +79,6 @@ class Predictor:
                             self.prediction_data[protein].append(prot)
                         elif prot not in rat_index and protein in self.prediction_data:
                             self.prediction_data[protein].append("not annotated")
-        del self.traindata, rat_index, testdata
         return matrix[index], rat
 
 
