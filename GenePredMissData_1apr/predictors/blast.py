@@ -58,8 +58,9 @@ class Predictor:
                 for prot in protein_class:
                     if prot not in rat:
                         rat[prot] = getal
-                        index.append(rat_index[prot])
-                        getal += 1
+                        if prot in rat_index:
+                            index.append(rat_index[prot])
+                            getal += 1
         return matrix[index], rat
 
 
