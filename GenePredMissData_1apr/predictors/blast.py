@@ -12,7 +12,8 @@ class Predictor:
     def __init__(self, traindata, args):
         self.traindata = {}
         self.besthits = int(args[0])
-        self.only_annotate = bool(args[1])
+        self.only_annotate = args[1]
+        self.only_annotate = self.only_annotate.lower() == 'true'
         for id in traindata:
             id = id.split("\t")
             input = id[0].strip()
