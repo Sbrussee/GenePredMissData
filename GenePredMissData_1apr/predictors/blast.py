@@ -6,9 +6,10 @@ import sys
     hits are checked if they are annotated"""
 class Predictor:
 
-    """ constructor: the blast results are going to be saved in a dictionaire.
-        traindata = blast results
-        self.traindata = dictionaire where the blast results will be saved"""
+    """ constructor: to save the blast results in a dictionaire.
+    self.traindata: dictionaire with the blast results.
+    self.besthits: Specifies how many blast hits are taken.
+    self.only_annotate: Specifies if only annotated proteins must be used for the prediction."""
     def __init__(self, traindata, args):
         self.traindata = {}
         self.besthits = int(args[0])
@@ -24,54 +25,79 @@ class Predictor:
                 self.traindata[input] = []
                 self.traindata[input].append(output)
 
-
+    """
+    Function: To get the right number of blast hits for each subject.
+    The results are saved in the traindata dictionaire. 
+    """
     def correct_traindata(self,  rat_index):
         traindata = {}
-        for keys in self.traindata:
-            traindata[keys] = []
-            getal = 0
-            for values in self.traindata[keys]:
-                if self.only_annotate:
+        if self.only_annotate:
+            for keys, val in self.traindata.items():
+                traindata[keys] = []
+                getal = 0
+                for values in val:
                     if values in rat_index and getal < self.besthits:
                         getal += 1
                         traindata[keys].append(values)
-                else:
+
+        else:
+            for keys, val in self.traindata.items():
+                traindata[keys] = []
+                getal = 0
+                for values in val:
                     if getal < self.besthits:
                         getal += 1
                         traindata[keys].append(values)
         return traindata
 
 
-    """This function determines the prediction if the PLST method is not used.
-    - predictions: All the predictions are stored in this variable.
-    - returns the predictions dictionaire
-    - self.besthits: specifies the hits used for the blast."""
+    """
+    Function: To get the matrix with the go terms of all predicted proteins.
+    1. At first, the traindata needs to be corrected for the number of hits for each subject.
+    index: To get the index of the predicted matrix according to the predictions.  
+    rat: To save the genes in the rat in a dictionaire. 
+    """
     def get_predictions(self, testdata, matrix, rat_index):
         self.traindata = self.correct_traindata(rat_index)
+        self.prediction_data = {}
         index = []
         rat = {}
         getal = 0
         for protein in testdata:
             protein = protein.strip()
             if protein in self.traindata:
-                protein_class = self.traindata[protein]
-                for prot in protein_class:
-                    if prot not in rat:
-                        rat[prot] = getal
+                if len(self.traindata[protein]) > 0:
+                    for prot in self.traindata[protein]:
+                        if prot not in rat:
+                            if prot in rat_index:
+                                index.append(rat_index[prot])
+                                rat[prot] = getal
+                                getal += 1
                         if prot in rat_index:
-                            index.append(rat_index[prot])
-                            getal += 1
+                            if protein not in self.prediction_data:
+                                self.prediction_data[protein] = []
+                            self.prediction_data[protein].append(prot)
+                        elif prot not in rat_index and protein in self.prediction_data:
+                            self.prediction_data[protein].append("not annotated")
+        del self.traindata, rat_index, testdata
         return matrix[index], rat
 
 
-    """Determine the bool for type of array(blast beshtit or top20 hits)"""
+    """
+    Function: Determine the type of prediction array needs to be made.
+    hits > 1 == float
+    anders == bool.
+    """
     def get_dtype(self):
         if self.besthits > 1:
             return float
         return bool
 
+    """
+    Function to get the traindata
+    """
     def get_train(self):
-        return self.traindata
+        return self.prediction_data
 
 
 
