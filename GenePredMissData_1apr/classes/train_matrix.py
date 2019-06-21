@@ -27,7 +27,7 @@ class train_matrix:
             go = []
             for protein in rat:
                 matrix_index = rat_index[protein]
-                i = np.where(matrix[matrix_index] > 0.3)[0]
+                i = np.where(matrix[matrix_index - 1] > 0.3)[0]
                 for go_terms in i:
                     go.append(go_index_reverse[go_terms])
             if len(rat) == 1:
