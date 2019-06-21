@@ -45,7 +45,6 @@ class train_matrix:
         predictions = {}
         for mouse, rat in traindata.items():
             go = []
-            print(rat)
             for protein in rat:
                 if protein in rat_index:
                     matrix_index = rat_index[protein]
