@@ -106,6 +106,27 @@ An example is shown below:
 ```bash
 python3 protpred.py --argfile config.txt
 ```
+
+## The results file
+When running the framework the resulting data will be saved into a results file. This file will have the same name as the plot image without the image file extention (png). Below an example of the file is shown. The file contains the configuration of the plot and the data generated for each line. If any mistakes have been made while configuring the plot in the main script this can be corrected in this file. The parameters title (plot title), legend (legend name per line), linetype (what type of matplotlib line to use per line ':', '-.' or '--') and color (the color per line). To replot the data the script plotdata.py can be called with as first argument the filename of the results. For example: 'plotdata.py \<result filename\>'.
+
+```
+title: Blastmethod comparison domain C
+legend: TopBlast
+linetype: :
+color: b
+fraction	metric	result
+50	average_precision	0.2901349170500518;	50	f-score	0.3858185665480277;	
+100	average_precision	0.48503347213182757;	100	f-score	0.5778911642896822;	
+legend: Annotated
+linetype: --
+color: g
+fraction	metric	result
+50	average_precision	0.36315102835979096;	50	f-score	0.4930496427412165;	
+100	average_precision	0.5545653869694926;	100	f-score	0.668769573566121;	
+
+```
+
 ### Example of a framework run resulting in a perfomance plot
 A run using the config file below will result in the plot shown further below:
 
