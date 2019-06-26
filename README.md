@@ -17,7 +17,7 @@ Thirdly, a variation on the BLAST-tophit method has been implemented which disca
 ## Python packages required by the framework
 The following packages are required in order to run the ProtPred Framework:
 * Numpy (v1.16.2)
-* Matplotlib (v2.2.4)
+* Matplotlib (v3.0.3)
 * Pandas (v0.24.2)
 * Scikit-learn (v0.20.3)
 * Scipy (v1.2.1)
