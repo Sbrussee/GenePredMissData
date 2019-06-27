@@ -124,7 +124,7 @@ ARGS = {"predictor":{
                     "required":False,
                     "default":"blast",
                     "check":check_file,
-                    "help":"What predictor to use. Can be one of: 'blast'. " 
+                    "help":"What predictor to use. Can be one of: 'predictors/blast' or a custom module in the blast directory. " 
                     },
         "predargs":{
                     "required":False,
